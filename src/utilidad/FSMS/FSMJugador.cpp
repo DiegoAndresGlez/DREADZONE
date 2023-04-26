@@ -25,8 +25,15 @@ FSMJugador* EstadoJugadorIDLE::input_handle(KeyOyente& input, MouseOyente& mouse
         return new EstadoJugadorMOVER({0,-1});
     if(input.estaPresionado(SDL_SCANCODE_S))
         return new EstadoJugadorMOVER({0,1});
-
-    printf("Coord x: %d, Coord y: %d\n", mouse.getX(), mouse.getY());
+    
+    if(mouse.get().getBotones()[SDL_BUTTON_LEFT-1] == true){
+        //shoot
+        while(SDL_GetTicks() >= timer + 500){
+            printf("shoot\n");
+            //return new EstadoJugadorSHOOT({0,0});
+            timer += 500;
+        }
+    }
 
     return NULL;
 };
@@ -48,6 +55,7 @@ void EstadoJugadorIDLE::update(Jugador& player,double dt)
     if(frame_dt > 7){ //dura cada 7 frames
         frame_dt = 0;
         frames_actual_ani++;
+        //Bala *bala = new Bala(25, 30, 30, SDL_Color{0,0,0});
     }
     frame_dt++;
 };
@@ -125,3 +133,49 @@ void EstadoJugadorMOVER::update(Jugador& player,double dt)
     }
     frame_dt++;
 };
+
+EstadoJugadorSHOOT::EstadoJugadorSHOOT(Coordenadas dir)
+{
+    strnombre = "SHOOT";
+    direccion = dir;
+    velocidad = 5;
+    frames_actual_ani = 0;
+    frames_maxim_ani = 1;
+};
+
+void EstadoJugadorSHOOT::entrar(Jugador& player)
+{
+   frames_actual_ani = 0;
+   frames_maxim_ani = 1;
+};
+
+void EstadoJugadorSHOOT::salir(Jugador& player){
+
+};
+
+void EstadoJugadorSHOOT::update(Jugador& player, double dt)
+{
+    Bala *bala = new Bala(25, 30, 30, SDL_Color{0,0,0});
+    Coordenadas p = player.get_posicion_mundo();
+    bala->set_posicion_mundo({p.x+50,p.y+50});
+    //balas.push_back(bala);
+
+    player.get_sprite()->play_frame(0, frames_actual_ani % frames_maxim_ani);
+    if(frame_dt > 8){ //dura cada 8 frames
+        frame_dt = 0;
+        frames_actual_ani++;
+    }
+    frame_dt++;
+};
+
+FSMJugador* EstadoJugadorSHOOT::input_handle(KeyOyente& input, MouseOyente& mouse){
+    if(input.estaPresionado(SDL_SCANCODE_S) & input.estaPresionado(SDL_SCANCODE_D))
+        return new EstadoJugadorMOVER({1,1});
+    if(input.estaPresionado(SDL_SCANCODE_S) & input.estaPresionado(SDL_SCANCODE_A))
+        return new EstadoJugadorMOVER({-1,1});
+    if(input.estaPresionado(SDL_SCANCODE_W) & input.estaPresionado(SDL_SCANCODE_D))
+        return new EstadoJugadorMOVER({1,-1});
+    if(input.estaPresionado(SDL_SCANCODE_W) & input.estaPresionado(SDL_SCANCODE_A))
+        return new EstadoJugadorMOVER({-1,-1});
+    return NULL;
+}

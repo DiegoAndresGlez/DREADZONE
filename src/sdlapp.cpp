@@ -84,8 +84,13 @@ bool SDLApp::on_init()
     player = new Jugador("assets/sprites/heroe/char1.png",
                 //      hp , x , y, sW,sH , vW,vH ,color
                         100,500,50,64,64,100,100,{255,0,255,255});
+
+    enemigo = new Enemigo("assets/sprites/enemigos/insecto.png",
+                //      hp , x , y, sW,sH , vW,vH ,color
+                        100, 600, 50, 32, 32, 100, 100, { 255,0,0,255 });
     //new Jugador(100,500,50,{255,0,255,255});
     get().ensamble->cargar_texturas(player->get_sprite());
+    get().ensamble->cargar_texturas(enemigo->get_sprite());
 
     
     plataformas.push_back(new Plataformas(550,550,300,20,{0,0,0,255}));
@@ -112,6 +117,8 @@ bool SDLApp::on_init()
 
     //objetos.push_back(player);
     objetos_ang.push_back(player);
+    enemigos_ang.push_back(enemigo);
+    //objetos_ang.push_back()
     
     printf("Se crearon los test exitosamente\n");
 
@@ -158,6 +165,7 @@ void SDLApp::on_fisicaupdate(double dt)
     if(KeyOyente::get().estaPresionado(SDL_SCANCODE_C))
     {
         player->render_colbox = (player->render_colbox)?false:true;
+        enemigo->render_colbox = (player->render_colbox)?false:true;
     }
     
 
@@ -169,11 +177,13 @@ void SDLApp::on_fisicaupdate(double dt)
     player->input_handle(KeyOyente::get(),MouseOyente::get());
     
     player->update(dt);
+    enemigo->update(dt);
 
 
     //MotorFisico2D::get().gravedad({player});
     //MotorFisico2D::get().aabb_colision(*player,plataformas);
     MotorFisico2D::get().sat_colision(*player,plataformas);
+    
     
     /*CAMARA al final para actualizar la proyeción de los objetos*/
     camara_principal->input_handle(KeyOyente::get(),MouseOyente::get());
@@ -210,6 +220,7 @@ void SDLApp::on_frameupdate(double dt)
     //Renderizar todo a través de la camara
     camara_principal->renderizar(objetos);
     camara_principal->renderizar_ang(objetos_ang, {MouseOyente::get().getX(), MouseOyente::get().getY()});
+    camara_principal->renderizar_ang(enemigos_ang, {player->get_posx(), player->get_posy()});
     camara_principal->render_cross();
     
     RenderTexto::get().render_texto(get().render,50,630,player->get_strEstado(),120,30,SDL_Color{0,0,0,255});

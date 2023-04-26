@@ -19,6 +19,7 @@ class MouseOyente
         static void evento_movimiento(SDL_Event* e);
         static void evento_presionado(SDL_Event* e);
         static void evento_scroll(SDL_Event* e);
+        static bool* getBotones(){return get().mouse_boton;};
 
         static int getX(){return get().xPos;};
         static int getY(){return get().yPos;};

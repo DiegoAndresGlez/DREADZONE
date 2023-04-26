@@ -38,12 +38,14 @@ class SDLApp
 
         //05_Colisiones
         Jugador* player;
+        Enemigo* enemigo;
         std::vector<ObjetoEstatico*> plataformas;
 
         //06_Camaras
         Camara* camara_principal;
         std::vector<Objeto*> objetos;
         std::vector<Objeto*> objetos_ang;
+        std::vector<Objeto*> enemigos_ang;
     
     public:
         SDL_Color bg_color;

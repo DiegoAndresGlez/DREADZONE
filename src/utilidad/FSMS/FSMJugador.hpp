@@ -3,12 +3,14 @@
 #include "../../motor/KeyOyente.hpp"
 #include "../../motor/MouseOyente.hpp"
 #include<string>
+#include<vector>
 
 class Jugador; //forward declaration
 class FSMJugador
 {
     protected:
         std::string strnombre;
+        int timer{0};
     
     public:
         virtual ~FSMJugador(){};
@@ -51,4 +53,23 @@ class EstadoJugadorMOVER : public FSMJugador
         int frames_actual_ani;
         int frames_maxim_ani;
         int frame_dt{0};  
+};
+
+class EstadoJugadorSHOOT : public FSMJugador
+{
+    public:
+        EstadoJugadorSHOOT(Coordenadas dir);
+        virtual ~EstadoJugadorSHOOT(){};
+        FSMJugador *input_handle(KeyOyente& input, MouseOyente& mouse);
+        void entrar(Jugador& player);
+        void salir(Jugador& player);
+        void update(Jugador& player, double dt);
+        //std::vector<Bala*> get_listaBalas(){return balas;};
+    private:
+        Coordenadas direccion;
+        //std::vector<Bala*> balas;
+        int velocidad;
+        int frames_actual_ani;
+        int frames_maxim_ani;
+        int frame_dt{0};
 };
