@@ -1,0 +1,294 @@
+nueva bala creada
+Se crearon los test exitosamente
+nueva bala creada
+Shoot
+personaje pos: 495
+cam pos: 512, bala pos: 495
+personaje pos: 495
+cam pos: 512, bala pos: 505
+personaje pos: 495
+cam pos: 512, bala pos: 515
+personaje pos: 495
+cam pos: 512, bala pos: 525
+personaje pos: 495
+cam pos: 512, bala pos: 535
+personaje pos: 495
+cam pos: 512, bala pos: 545
+personaje pos: 495
+cam pos: 512, bala pos: 555
+personaje pos: 495
+cam pos: 512, bala pos: 565
+personaje pos: 495
+cam pos: 512, bala pos: 575
+personaje pos: 495
+cam pos: 512, bala pos: 585
+personaje pos: 495
+cam pos: 512, bala pos: 595
+personaje pos: 495
+cam pos: 512, bala pos: 605
+personaje pos: 495
+cam pos: 512, bala pos: 615
+personaje pos: 495
+cam pos: 512, bala pos: 625
+personaje pos: 495
+cam pos: 512, bala pos: 635
+personaje pos: 495
+cam pos: 512, bala pos: 645
+personaje pos: 495
+cam pos: 512, bala pos: 655
+personaje pos: 495
+cam pos: 512, bala pos: 665
+personaje pos: 495
+cam pos: 512, bala pos: 675
+personaje pos: 495
+cam pos: 512, bala pos: 685
+personaje pos: 495
+cam pos: 512, bala pos: 695
+personaje pos: 495
+cam pos: 512, bala pos: 705
+personaje pos: 495
+cam pos: 512, bala pos: 715
+personaje pos: 495
+cam pos: 512, bala pos: 725
+personaje pos: 495
+cam pos: 512, bala pos: 735
+personaje pos: 495
+cam pos: 512, bala pos: 745
+personaje pos: 495
+cam pos: 512, bala pos: 755
+personaje pos: 495
+cam pos: 512, bala pos: 765
+personaje pos: 495
+cam pos: 512, bala pos: 775
+personaje pos: 495
+cam pos: 512, bala pos: 785
+personaje pos: 495
+cam pos: 512, bala pos: 795
+personaje pos: 495
+cam pos: 512, bala pos: 805
+personaje pos: 495
+cam pos: 512, bala pos: 815
+personaje pos: 495
+cam pos: 512, bala pos: 825
+personaje pos: 495
+cam pos: 512, bala pos: 835
+personaje pos: 495
+cam pos: 512, bala pos: 845
+personaje pos: 495
+cam pos: 512, bala pos: 855
+personaje pos: 495
+cam pos: 512, bala pos: 865
+personaje pos: 495
+cam pos: 512, bala pos: 875
+personaje pos: 495
+cam pos: 512, bala pos: 885
+personaje pos: 495
+cam pos: 512, bala pos: 895
+personaje pos: 495
+cam pos: 512, bala pos: 905
+personaje pos: 495
+cam pos: 512, bala pos: 915
+personaje pos: 495
+cam pos: 512, bala pos: 925
+personaje pos: 495
+cam pos: 512, bala pos: 935
+personaje pos: 495
+cam pos: 512, bala pos: 945
+personaje pos: 495
+cam pos: 512, bala pos: 955
+personaje pos: 495
+cam pos: 512, bala pos: 965
+personaje pos: 495
+cam pos: 512, bala pos: 975
+personaje pos: 495
+cam pos: 512, bala pos: 985
+personaje pos: 495
+cam pos: 512, bala pos: 995
+personaje pos: 495
+cam pos: 512, bala pos: 1005
+personaje pos: 495
+cam pos: 512, bala pos: 1015
+personaje pos: 495
+cam pos: 512, bala pos: 1025
+personaje pos: 495
+cam pos: 512, bala pos: 1035
+personaje pos: 495
+cam pos: 512, bala pos: 1045
+personaje pos: 495
+cam pos: 512, bala pos: 1055
+personaje pos: 495
+cam pos: 512, bala pos: 1065
+personaje pos: 495
+cam pos: 512, bala pos: 1075
+personaje pos: 495
+cam pos: 512, bala pos: 1085
+personaje pos: 495
+cam pos: 512, bala pos: 1095
+personaje pos: 495
+cam pos: 512, bala pos: 1105
+personaje pos: 495
+cam pos: 512, bala pos: 1115
+personaje pos: 495
+cam pos: 512, bala pos: 1125
+personaje pos: 495
+cam pos: 512, bala pos: 1135
+personaje pos: 495
+cam pos: 512, bala pos: 1145
+personaje pos: 495
+cam pos: 512, bala pos: 1155
+personaje pos: 495
+cam pos: 512, bala pos: 1165
+personaje pos: 495
+cam pos: 512, bala pos: 1175
+personaje pos: 495
+cam pos: 512, bala pos: 1185
+personaje pos: 495
+cam pos: 512, bala pos: 1195
+personaje pos: 495
+cam pos: 512, bala pos: 1205
+personaje pos: 495
+cam pos: 512, bala pos: 1215
+personaje pos: 495
+cam pos: 512, bala pos: 1225
+personaje pos: 495
+cam pos: 512, bala pos: 1235
+personaje pos: 495
+cam pos: 512, bala pos: 1245
+personaje pos: 495
+cam pos: 512, bala pos: 1255
+personaje pos: 495
+cam pos: 512, bala pos: 1265
+personaje pos: 495
+cam pos: 512, bala pos: 1275
+personaje pos: 495
+cam pos: 512, bala pos: 1285
+personaje pos: 495
+cam pos: 512, bala pos: 1295
+personaje pos: 495
+cam pos: 512, bala pos: 1305
+personaje pos: 495
+cam pos: 512, bala pos: 1315
+personaje pos: 495
+cam pos: 512, bala pos: 1325
+personaje pos: 495
+cam pos: 512, bala pos: 1335
+personaje pos: 495
+cam pos: 512, bala pos: 1345
+personaje pos: 495
+cam pos: 512, bala pos: 1355
+personaje pos: 495
+cam pos: 512, bala pos: 1365
+personaje pos: 495
+cam pos: 512, bala pos: 1375
+personaje pos: 495
+cam pos: 512, bala pos: 1385
+personaje pos: 495
+cam pos: 512, bala pos: 1395
+personaje pos: 495
+cam pos: 512, bala pos: 1405
+personaje pos: 495
+cam pos: 512, bala pos: 1415
+personaje pos: 495
+cam pos: 512, bala pos: 1425
+personaje pos: 495
+cam pos: 512, bala pos: 1435
+personaje pos: 495
+cam pos: 512, bala pos: 1445
+personaje pos: 495
+cam pos: 512, bala pos: 1455
+personaje pos: 495
+cam pos: 512, bala pos: 1465
+personaje pos: 495
+cam pos: 512, bala pos: 1475
+personaje pos: 495
+cam pos: 512, bala pos: 1485
+personaje pos: 495
+cam pos: 512, bala pos: 1495
+personaje pos: 495
+cam pos: 512, bala pos: 1505
+personaje pos: 495
+cam pos: 512, bala pos: 1515
+personaje pos: 495
+cam pos: 512, bala pos: 1525
+personaje pos: 495
+cam pos: 512, bala pos: 1535
+personaje pos: 495
+cam pos: 512, bala pos: 1545
+personaje pos: 495
+cam pos: 512, bala pos: 1555
+personaje pos: 495
+cam pos: 512, bala pos: 1565
+personaje pos: 495
+cam pos: 512, bala pos: 1575
+personaje pos: 495
+cam pos: 512, bala pos: 1585
+personaje pos: 495
+cam pos: 512, bala pos: 1595
+personaje pos: 495
+cam pos: 512, bala pos: 1605
+personaje pos: 495
+cam pos: 512, bala pos: 1615
+personaje pos: 495
+cam pos: 512, bala pos: 1625
+personaje pos: 495
+cam pos: 512, bala pos: 1635
+personaje pos: 495
+cam pos: 512, bala pos: 1645
+personaje pos: 495
+cam pos: 512, bala pos: 1655
+personaje pos: 495
+cam pos: 512, bala pos: 1665
+personaje pos: 495
+cam pos: 512, bala pos: 1675
+personaje pos: 495
+cam pos: 512, bala pos: 1685
+personaje pos: 495
+cam pos: 512, bala pos: 1695
+personaje pos: 495
+cam pos: 512, bala pos: 1705
+personaje pos: 495
+cam pos: 512, bala pos: 1715
+personaje pos: 495
+cam pos: 512, bala pos: 1725
+personaje pos: 495
+cam pos: 512, bala pos: 1735
+personaje pos: 495
+cam pos: 512, bala pos: 1745
+personaje pos: 495
+cam pos: 512, bala pos: 1755
+personaje pos: 495
+cam pos: 512, bala pos: 1765
+personaje pos: 495
+cam pos: 512, bala pos: 1775
+personaje pos: 495
+cam pos: 512, bala pos: 1785
+personaje pos: 495
+cam pos: 512, bala pos: 1795
+personaje pos: 495
+cam pos: 512, bala pos: 1805
+personaje pos: 495
+cam pos: 512, bala pos: 1815
+personaje pos: 495
+cam pos: 512, bala pos: 1825
+personaje pos: 495
+cam pos: 512, bala pos: 1835
+personaje pos: 495
+cam pos: 512, bala pos: 1845
+personaje pos: 495
+cam pos: 512, bala pos: 1855
+personaje pos: 495
+cam pos: 512, bala pos: 1865
+personaje pos: 495
+cam pos: 512, bala pos: 1875
+personaje pos: 495
+cam pos: 512, bala pos: 1885
+personaje pos: 495
+cam pos: 512, bala pos: 1895
+personaje pos: 495
+cam pos: 512, bala pos: 1905
+personaje pos: 495
+cam pos: 512, bala pos: 1915
+personaje pos: 495
+cam pos: 512, bala pos: 1925
+personaje pos: 495
+cam pos: 512, bala pos: 1935

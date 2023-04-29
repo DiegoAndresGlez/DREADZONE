@@ -88,10 +88,16 @@ bool SDLApp::on_init()
     enemigo = new Enemigo("assets/sprites/enemigos/insecto.png",
                 //      hp , x , y, sW,sH , vW,vH ,color
                         100, 600, 50, 32, 32, 100, 100, { 255,0,0,255 });
+    /*
+    bala = new Bala("assets/sprites/bala/bala.png",
+                //      hp , x , y, sW,sH , vW,vH ,color
+                        100, 600, 50, 32, 32, 100, 100, { 255,0,0,255 });
+    */
+    timer_shoot = Tiempo::get_tiempo();
     //new Jugador(100,500,50,{255,0,255,255});
     get().ensamble->cargar_texturas(player->get_sprite());
     get().ensamble->cargar_texturas(enemigo->get_sprite());
-
+    //get().ensamble->cargar_texturas(bala->get_sprite());
     
     plataformas.push_back(new Plataformas(550,550,300,20,{0,0,0,255}));
     plataformas.push_back(new Plataformas(300,350,100,20,{0,0,0,255}));
@@ -118,6 +124,7 @@ bool SDLApp::on_init()
     //objetos.push_back(player);
     objetos_ang.push_back(player);
     enemigos_ang.push_back(enemigo);
+    //objetos.push_back(bala);
     //objetos_ang.push_back()
     
     printf("Se crearon los test exitosamente\n");
@@ -167,7 +174,24 @@ void SDLApp::on_fisicaupdate(double dt)
         player->render_colbox = (player->render_colbox)?false:true;
         enemigo->render_colbox = (player->render_colbox)?false:true;
     }
-    
+
+    timer_shoot += Tiempo::get_tiempo() - timer_shoot;
+    if((int)timer_shoot%delay ==0 && (int)timer_shoot!=0 && (int)timer_shoot > past_time_shoot)
+    {
+        if(MouseOyente::get().getBotones()[SDL_BUTTON_LEFT-1] == true){
+            //Bala *bala = new Bala(25,player->get_posicion_mundo().x,player->get_posicion_mundo().y,{255,0,0,255});
+            Bala *bala = new Bala("assets/sprites/projectiles/shot.png",25,player->get_posicion_mundo().x,player->get_posicion_mundo().y,25,25,32,32,{255,0,0,255});
+            get().ensamble->cargar_texturas(bala->get_sprite());
+            //objetos.push_back(bala);
+            lista_balas.push_back(bala);
+            objetos.push_back(bala);
+            printf("Shoot\n");
+        }
+        contador_shoot++;
+        past_time_shoot = timer_shoot;
+
+        //printf("%d\n",contador);
+    }
 
     for(auto &p:plataformas)
     {  
@@ -179,16 +203,25 @@ void SDLApp::on_fisicaupdate(double dt)
     player->update(dt);
     enemigo->update(dt);
 
+    for(auto &b:lista_balas)
+    {
+        printf("personaje pos: %d\n", player->get_posicion_mundo().x);
+        b->input_handle(KeyOyente::get(),MouseOyente::get(),*camara_principal);
+        b->update(dt);
+    }
 
     //MotorFisico2D::get().gravedad({player});
     //MotorFisico2D::get().aabb_colision(*player,plataformas);
     MotorFisico2D::get().sat_colision(*player,plataformas);
+
     
     
     /*CAMARA al final para actualizar la proyeción de los objetos*/
     camara_principal->input_handle(KeyOyente::get(),MouseOyente::get());
     camara_principal->update();
     camara_principal->proyectar(objetos);
+    camara_principal->proyectar(objetos_ang);
+    camara_principal->proyectar(enemigos_ang);
     //printf("Update Fisica\n");
 
     
@@ -217,11 +250,27 @@ void SDLApp::on_frameupdate(double dt)
         std::to_string((int)(dt/get().msfrecuencia))+" fps",
         100,30,SDL_Color{0,135,62});
 
-    //Renderizar todo a través de la camara
+    for(int i = 0; i < lista_balas.size(); i++){
+        if(lista_balas[i]->get_eliminarme() == true){
+            lista_balas.erase(lista_balas.begin()+i);
+            i--;
+        }
+    }
+
+    for(int i = 0; i < objetos.size(); i++){
+        if(objetos[i]->get_eliminarme() == true){
+            printf("bala eliminada\n");
+            objetos.erase(objetos.begin()+i);
+            i--;
+        }
+    }
+
+    //camara_principal->renderizar(lista_balas);
     camara_principal->renderizar(objetos);
     camara_principal->renderizar_ang(objetos_ang, {MouseOyente::get().getX(), MouseOyente::get().getY()});
     camara_principal->renderizar_ang(enemigos_ang, {player->get_posx(), player->get_posy()});
     camara_principal->render_cross();
+    
     
     RenderTexto::get().render_texto(get().render,50,630,player->get_strEstado(),120,30,SDL_Color{0,0,0,255});
 

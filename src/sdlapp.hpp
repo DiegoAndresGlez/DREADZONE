@@ -20,6 +20,10 @@ class SDLApp
         bool esta_corriendo;
         int WIDTH;
         int HEIGHT;
+        int timer_shoot{0};
+        int past_time_shoot{0};
+        int contador_shoot{0};
+        int delay{1};
 
         SDL_Window* vnt;
         SDL_Surface* vntsurf;
@@ -40,9 +44,12 @@ class SDLApp
         Jugador* player;
         Enemigo* enemigo;
         std::vector<ObjetoEstatico*> plataformas;
+        Bala* bala;
 
         //06_Camaras
         Camara* camara_principal;
+        std::vector<Bala*> lista_balas;
+        std::vector<Objeto*> render_balas;
         std::vector<Objeto*> objetos;
         std::vector<Objeto*> objetos_ang;
         std::vector<Objeto*> enemigos_ang;

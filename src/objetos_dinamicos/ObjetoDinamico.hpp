@@ -2,12 +2,15 @@
 #include "../objetos/Objeto.hpp"
 #include "../motor/KeyOyente.hpp"
 #include "../motor/MouseOyente.hpp"
+#include "../motor/camaras/Camaras.hpp"
 #include "../utilidad/FSMS/FSMJugador.hpp"
 #include "../utilidad/FSMS/FSMEnemigo.hpp"
+#include "../utilidad/FSMS/FSMBala.hpp"
 #include<SDL.h>
 #include<string>
 class FSMJugador;//forward declaration
 class FSMEnemigo;
+class FSMBala;
 class ObjetoDinamico : public Objeto
 {
     public:
@@ -77,15 +80,16 @@ class Bala : public ObjetoDinamico
         Bala(int dano, int x, int y, SDL_Color c);
         Bala(std::string path_sprite, int dano, int x, int y, int w, int h, int sw, int sh, SDL_Color c);
         void update(double dt);
-        void input_handle(KeyOyente& input,MouseOyente& mouse);
-        //std::string get_strEstado();
+        void input_handle(KeyOyente& input,MouseOyente& mouse,Camara& camara);
+        std::string get_strEstado();
         Coordenadas get_piso()const{return piso;};
         void set_piso(Coordenadas p){piso = p;};
         void set_estado(void* estado); 
         void* get_estado();
+
     private:
-        //FSMBala
         int dmg;
+        FSMBala* estado_actual;
         Coordenadas piso;
 };
 

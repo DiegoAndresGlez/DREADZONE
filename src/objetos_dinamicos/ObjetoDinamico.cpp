@@ -1,6 +1,7 @@
 #include "ObjetoDinamico.hpp"
 #include "../objetos/Figuras.hpp"
 
+
 Jugador::Jugador(float vida, int x, int y , SDL_Color c)
 :ObjetoDinamico{}
 {
@@ -206,22 +207,27 @@ Bala::Bala(std::string path_sprite, int dano, int x, int y, int w, int h, int sw
     col_box->set_serellena(false);
     tiene_fisica = true;
     en_colision = false;
-    //estado_actual = new EstadoJugadorIDLE();
+    
+    estado_actual = new EstadoBalaIDLE();
     piso = {500,500}; // definir el piso en general
 
     sprite = new Sprite(path_sprite, posicion_mundo, w, h, sw, sh);
+    printf("nueva bala creada\n");
 }
 
 void Bala::update(double dt){
-    //if(!estado_actual) //nulo
-        //return;
-
+    if(!estado_actual) //nulo
+        return;
+    //printf("pos: %d", get_avatar()->get_posicion().x);
+    
     if(en_colision)
         avatar->set_rellenocolor({255,0,0,255});
     else
         avatar->set_rellenocolor(color);
+    
+    this->posicion_mundo.x += 10;
 
-    //estado_actual->update(*this,dt);
+    estado_actual->update(*this,dt);
     
     //reset
     en_colision=false;
@@ -234,21 +240,39 @@ void* Bala::get_estado()
 
 void Bala::set_estado(void* estado)
 {
-    //estado_actual->salir(*this);
-    //delete estado_actual;
-    //estado_actual = (FSMJugador*)estado;
-    //estado_actual->entrar(*this);
+    estado_actual->salir(*this);
+    delete estado_actual;
+    estado_actual = (FSMBala*)estado;
+    estado_actual->entrar(*this);
 };
 
-void Bala::input_handle(KeyOyente& input,MouseOyente& mouse)
+void Bala::input_handle(KeyOyente& input,MouseOyente& mouse,Camara& cam)
 {
-    //if(!estado_actual) //nulo
-        //return;
-    //FSMJugador* estado = estado_actual->input_handle(input,mouse);
-    //if(estado)
-    //{
-        //set_estado(estado);
-    //}
+    printf("cam pos: %d, bala pos: %d\n", cam.get_posicion_centro().x, posicion_mundo.x);
+    if(posicion_mundo.x > cam.get_posicion_centro().x + cam.get_posicion_centro().x)
+    {
+        //printf("Se elimina bala\n");
+        eliminarme = true;
+        //delete this;
+    }
+    if(!estado_actual){
+        
+        return;
+    } //nulo
+        
+    //obtener camara coordenadas, si se pasa de la camara, se destruye
+    //
+    
+    if(cam.get_posicion_centro().x > posicion_mundo.x + 1000)
+    {
+        printf("Se elimina bala\n");
+        delete this;
+    }
+    
+    FSMBala* estado = estado_actual->input_handle(input,mouse,cam);
+    if(estado){
+        set_estado(estado);
+    }
 };
 
 

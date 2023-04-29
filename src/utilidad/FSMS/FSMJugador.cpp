@@ -26,14 +26,6 @@ FSMJugador* EstadoJugadorIDLE::input_handle(KeyOyente& input, MouseOyente& mouse
     if(input.estaPresionado(SDL_SCANCODE_S))
         return new EstadoJugadorMOVER({0,1});
     
-    if(mouse.get().getBotones()[SDL_BUTTON_LEFT-1] == true){
-        //shoot
-        while(SDL_GetTicks() >= timer + 500){
-            printf("shoot\n");
-            //return new EstadoJugadorSHOOT({0,0});
-            timer += 500;
-        }
-    }
 
     return NULL;
 };
