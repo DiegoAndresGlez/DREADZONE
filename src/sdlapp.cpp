@@ -81,13 +81,13 @@ bool SDLApp::on_init()
     //03
     
     //07
-    player = new Jugador("assets/sprites/heroe/char1.png",
+    player = new Jugador("assets/sprites/heroe/soldado.png",
                 //      hp , x , y, sW,sH , vW,vH ,color
-                        100,500,50,64,64,100,100,{255,0,255,255});
+                        100,500,50,32,32,86,86,{255,0,255,255});
 
     enemigo = new Enemigo("assets/sprites/enemigos/insecto.png",
                 //      hp , x , y, sW,sH , vW,vH ,color
-                        100, 600, 50, 32, 32, 100, 100, { 255,0,0,255 });
+                        100, 600, 50, 32, 32, 120, 120, { 255,0,0,255 });
     /*
     bala = new Bala("assets/sprites/bala/bala.png",
                 //      hp , x , y, sW,sH , vW,vH ,color

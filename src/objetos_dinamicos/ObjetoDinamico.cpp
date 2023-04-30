@@ -251,9 +251,19 @@ void Bala::input_handle(KeyOyente& input,MouseOyente& mouse,Camara& cam)
     printf("cam pos: %d, bala pos: %d\n", cam.get_posicion_centro().x, posicion_mundo.x);
     if(posicion_mundo.x > cam.get_posicion_centro().x + cam.get_posicion_centro().x)
     {
-        //printf("Se elimina bala\n");
         eliminarme = true;
-        //delete this;
+    }
+    if(posicion_mundo.x < cam.get_posicion_centro().x - cam.get_posicion_centro().x)
+    {
+        eliminarme = true;
+    }
+    if(posicion_mundo.y > cam.get_posicion_centro().y + cam.get_posicion_centro().y)
+    {
+        eliminarme = true;
+    }
+    if(posicion_mundo.y < cam.get_posicion_centro().y - cam.get_posicion_centro().y)
+    {
+        eliminarme = true;
     }
     if(!estado_actual){
         

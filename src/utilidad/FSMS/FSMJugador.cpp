@@ -26,7 +26,10 @@ FSMJugador* EstadoJugadorIDLE::input_handle(KeyOyente& input, MouseOyente& mouse
     if(input.estaPresionado(SDL_SCANCODE_S))
         return new EstadoJugadorMOVER({0,1});
     
-
+    /*
+    if(mouse.getBotones()[SDL_BUTTON_LEFT-1])
+        return new EstadoJugadorSHOOT({0,0});
+    */
     return NULL;
 };
 
@@ -61,7 +64,7 @@ EstadoJugadorMOVER::EstadoJugadorMOVER(Coordenadas dir)
     direccion = dir;
     velocidad = 5;
     frames_actual_ani = 0;
-    frames_maxim_ani = 1;
+    frames_maxim_ani = 8;
 };
 
 FSMJugador* EstadoJugadorMOVER::input_handle(KeyOyente& input, MouseOyente& mouse)
@@ -96,7 +99,7 @@ FSMJugador* EstadoJugadorMOVER::input_handle(KeyOyente& input, MouseOyente& mous
 void EstadoJugadorMOVER::entrar(Jugador& player)
 {
    frames_actual_ani = 0;
-   frames_maxim_ani = 1;
+   frames_maxim_ani = 8;
 };
 void EstadoJugadorMOVER::salir(Jugador& player){};
 void EstadoJugadorMOVER::update(Jugador& player,double dt)
@@ -152,7 +155,7 @@ void EstadoJugadorSHOOT::update(Jugador& player, double dt)
     bala->set_posicion_mundo({p.x+50,p.y+50});
     //balas.push_back(bala);
 
-    player.get_sprite()->play_frame(0, frames_actual_ani % frames_maxim_ani);
+    player.get_sprite()->play_frame(1, frames_actual_ani % frames_maxim_ani);
     if(frame_dt > 8){ //dura cada 8 frames
         frame_dt = 0;
         frames_actual_ani++;
@@ -169,5 +172,6 @@ FSMJugador* EstadoJugadorSHOOT::input_handle(KeyOyente& input, MouseOyente& mous
         return new EstadoJugadorMOVER({1,-1});
     if(input.estaPresionado(SDL_SCANCODE_W) & input.estaPresionado(SDL_SCANCODE_A))
         return new EstadoJugadorMOVER({-1,-1});
+
     return NULL;
 }
