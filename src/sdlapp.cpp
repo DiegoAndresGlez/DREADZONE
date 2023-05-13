@@ -98,7 +98,7 @@ bool SDLApp::on_init()
     get().ensamble->cargar_texturas(player->get_sprite());
     get().ensamble->cargar_texturas(enemigo->get_sprite());
     //get().ensamble->cargar_texturas(bala->get_sprite());
-    
+    /*
     plataformas.push_back(new Plataformas(550,550,300,20,{0,0,0,255}));
     plataformas.push_back(new Plataformas(300,350,100,20,{0,0,0,255}));
     plataformas.push_back(new Plataformas(800,350,100,20,{0,0,0,255}));
@@ -110,7 +110,7 @@ bool SDLApp::on_init()
     plataformas.push_back(new Plataformas(550,-350,300,20,{0,0,0,255}));
     plataformas.push_back(new Plataformas(300,-550,100,20,{0,0,0,255}));
     plataformas.push_back(new Plataformas(800,-550,100,20,{0,0,0,255}));
-
+    */
     //06_Camaras
 
     get().camara_principal = new Camara(0,0,get().WIDTH,get().HEIGHT,*get().render);
@@ -121,8 +121,8 @@ bool SDLApp::on_init()
         objetos.push_back(plataformas[i]);
     }
 
-    //objetos.push_back(player);
-    objetos_ang.push_back(player);
+    objetos.push_back(player);
+    //objetos_ang.push_back(player);
     enemigos_ang.push_back(enemigo);
     //objetos.push_back(bala);
     //objetos_ang.push_back()
@@ -267,7 +267,7 @@ void SDLApp::on_frameupdate(double dt)
 
     //camara_principal->renderizar(lista_balas);
     camara_principal->renderizar(objetos);
-    camara_principal->renderizar_ang(objetos_ang, {MouseOyente::get().getX(), MouseOyente::get().getY()});
+    //camara_principal->renderizar_ang(objetos_ang, {MouseOyente::get().getX(), MouseOyente::get().getY()});
     camara_principal->renderizar_ang(enemigos_ang, {player->get_posx(), player->get_posy()});
     camara_principal->render_cross();
     

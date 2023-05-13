@@ -171,7 +171,7 @@ EstadoCamaraLock::EstadoCamaraLock(Objeto &objlock)
 
 FSMCamara* EstadoCamaraLock::input_handle(Camara &cam, KeyOyente &keys, MouseOyente& mouse)
 {   
-    
+
     if(!cam.lock)
     {
         return new EstadoCamaraMover({0,0});

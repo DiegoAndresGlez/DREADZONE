@@ -38,11 +38,45 @@ class EstadoJugadorIDLE : public FSMJugador
     
 };
 
-class EstadoJugadorMOVER : public FSMJugador
+class EstadoJugadorMOVERDER : public FSMJugador
 {
     public:
-        EstadoJugadorMOVER(Coordenadas dir);
-        virtual ~EstadoJugadorMOVER(){};
+        EstadoJugadorMOVERDER(Coordenadas dir);
+        virtual ~EstadoJugadorMOVERDER(){};
+        FSMJugador* input_handle(KeyOyente& input, MouseOyente& mouse);
+        void entrar(Jugador& player);
+        void salir(Jugador& player);
+        void update(Jugador& player,double dt);
+    private:
+        Coordenadas direccion;
+        int velocidad;
+        int frames_actual_ani;
+        int frames_maxim_ani;
+        int frame_dt{0};  
+};
+
+class EstadoJugadorIDLEIZQ : public FSMJugador
+{
+    public:
+        EstadoJugadorIDLEIZQ();
+        virtual ~EstadoJugadorIDLEIZQ(){};
+        FSMJugador* input_handle(KeyOyente& input, MouseOyente& mouse);
+        void entrar(Jugador& player);
+        void salir(Jugador& player);
+        void update(Jugador& player,double dt);
+    private:
+        int frames_actual_ani;
+        int frames_maxim_ani;
+        int frame_dt{0};
+    
+    
+};
+
+class EstadoJugadorMOVERIZQ : public FSMJugador
+{
+    public:
+        EstadoJugadorMOVERIZQ(Coordenadas dir);
+        virtual ~EstadoJugadorMOVERIZQ(){};
         FSMJugador* input_handle(KeyOyente& input, MouseOyente& mouse);
         void entrar(Jugador& player);
         void salir(Jugador& player);
