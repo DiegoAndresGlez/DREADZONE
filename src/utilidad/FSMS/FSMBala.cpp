@@ -9,7 +9,7 @@ EstadoBalaIDLE::EstadoBalaIDLE()
 
 FSMBala* EstadoBalaIDLE::input_handle(KeyOyente& input, MouseOyente& mouse, Camara& cam)
 {
-    return nullptr;
+    return new EstadoBalaMOVER({0,0});
 }
 
 void EstadoBalaIDLE::entrar(Bala& bala)
@@ -38,7 +38,7 @@ EstadoBalaMOVER::EstadoBalaMOVER(Coordenadas dir)
 {
     strnombre="MOVER";
     direccion=dir;
-    velocidad=2;
+    velocidad=5;
     frames_actual_ani=0;
     frames_maxim_ani=1;
 }
@@ -61,6 +61,18 @@ void EstadoBalaMOVER::salir(Bala& bala)
 
 void EstadoBalaMOVER::update(Bala& bala,double dt)
 {
+    double angulo = atan2(bala.get_direccion_bala().x - bala.get_player_pos().x, bala.get_direccion_bala().y - bala.get_player_pos().y);
+    int dir_x = velocidad * sin(angulo);
+    int dir_y = velocidad * cos(angulo);
+    Coordenadas b = bala.get_posicion_mundo();
+    if (!bala.en_colision)
+    {
+        b.x+=(velocidad*dir_x);
+        b.y+=(velocidad*dir_y);
+    }
+    bala.set_posicion_mundo(b);
+
+
     bala.get_sprite()->play_frame(0,frames_actual_ani%frames_maxim_ani);
     if(frame_dt>7)
     {

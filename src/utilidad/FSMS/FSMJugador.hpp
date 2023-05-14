@@ -89,6 +89,38 @@ class EstadoJugadorMOVERIZQ : public FSMJugador
         int frame_dt{0};  
 };
 
+class EstadoJugadorIDLEARR : public FSMJugador
+{
+    public:
+        EstadoJugadorIDLEARR();
+        virtual ~EstadoJugadorIDLEARR(){};
+        FSMJugador* input_handle(KeyOyente& input, MouseOyente& mouse);
+        void entrar(Jugador& player);
+        void salir(Jugador& player);
+        void update(Jugador& player,double dt);
+    private:
+        int frames_actual_ani;
+        int frames_maxim_ani;
+        int frame_dt{0};
+};
+
+class EstadoJugadorMOVERARR : public FSMJugador
+{
+    public:
+        EstadoJugadorMOVERARR(Coordenadas dir);
+        virtual ~EstadoJugadorMOVERARR(){};
+        FSMJugador* input_handle(KeyOyente& input, MouseOyente& mouse);
+        void entrar(Jugador& player);
+        void salir(Jugador& player);
+        void update(Jugador& player,double dt);
+    private:
+        Coordenadas direccion;
+        int velocidad;
+        int frames_actual_ani;
+        int frames_maxim_ani;
+        int frame_dt{0};
+};
+
 class EstadoJugadorSHOOT : public FSMJugador
 {
     public:

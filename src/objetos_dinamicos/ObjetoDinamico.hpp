@@ -8,6 +8,7 @@
 #include "../utilidad/FSMS/FSMBala.hpp"
 #include<SDL.h>
 #include<string>
+#include<cmath>
 class FSMJugador;//forward declaration
 class FSMEnemigo;
 class FSMBala;
@@ -78,7 +79,7 @@ class Bala : public ObjetoDinamico
     public:
         virtual ~Bala(){};
         Bala(int dano, int x, int y, SDL_Color c);
-        Bala(std::string path_sprite, int dano, int x, int y, int w, int h, int sw, int sh, SDL_Color c);
+        Bala(std::string path_sprite, int dano, int x, int y, int w, int h, int sw, int sh, Coordenadas player, Coordenadas mouse_dir, SDL_Color c);
         void update(double dt);
         void input_handle(KeyOyente& input,MouseOyente& mouse,Camara& camara);
         std::string get_strEstado();
@@ -86,9 +87,15 @@ class Bala : public ObjetoDinamico
         void set_piso(Coordenadas p){piso = p;};
         void set_estado(void* estado); 
         void* get_estado();
+        Coordenadas get_player_pos()const{return player_pos;};
+        Coordenadas get_direccion_bala()const{return direccion_bala;};
 
     private:
         int dmg;
+        int velocidad_x;
+        int velocidad_y;
+        Coordenadas player_pos;
+        Coordenadas direccion_bala;
         FSMBala* estado_actual;
         Coordenadas piso;
 };

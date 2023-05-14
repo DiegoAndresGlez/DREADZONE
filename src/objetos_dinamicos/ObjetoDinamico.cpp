@@ -192,21 +192,23 @@ Bala::Bala(int dano, int x, int y, SDL_Color c){
     piso = {500,500}; // definir el piso en general
 }
 
-Bala::Bala(std::string path_sprite, int dano, int x, int y, int w, int h, int sw, int sh, SDL_Color c)
+Bala::Bala(std::string path_sprite, int dano, int x, int y, int w, int h, int sw, int sh, Coordenadas player, Coordenadas mouse_dir, SDL_Color c)
 {
     hp = 0;
     dmg = dano;
     posicion_mundo.x=x;
     posicion_mundo.y=y;
-    avatar = new Rectangulo(x,y,40,65,c);
+    avatar = new Rectangulo(x,y,40,40,c);
     c.a=150;
     color = c;
     avatar->set_rellenocolor(c);
     avatar->set_serellena(true);
-    col_box = new Rectangulo(x,y,40+10,65+10,c);
+    col_box = new Rectangulo(x,y,40+10,40+10,c);
     col_box->set_serellena(false);
     tiene_fisica = true;
     en_colision = false;
+    player_pos = player;
+    direccion_bala = mouse_dir;
     
     estado_actual = new EstadoBalaIDLE();
     piso = {500,500}; // definir el piso en general
@@ -225,7 +227,8 @@ void Bala::update(double dt){
     else
         avatar->set_rellenocolor(color);
     
-    this->posicion_mundo.x += 10;
+    
+
 
     estado_actual->update(*this,dt);
     
@@ -249,6 +252,7 @@ void Bala::set_estado(void* estado)
 void Bala::input_handle(KeyOyente& input,MouseOyente& mouse,Camara& cam)
 {
     printf("cam pos: %d, bala pos: %d\n", cam.get_posicion_centro().x, posicion_mundo.x);
+    
     if(posicion_mundo.x > cam.get_posicion_centro().x + cam.get_posicion_centro().x)
     {
         eliminarme = true;

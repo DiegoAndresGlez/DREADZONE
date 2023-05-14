@@ -121,8 +121,8 @@ bool SDLApp::on_init()
         objetos.push_back(plataformas[i]);
     }
 
-    objetos.push_back(player);
-    //objetos_ang.push_back(player);
+    //objetos.push_back(player);
+    objetos_ang.push_back(player);
     enemigos_ang.push_back(enemigo);
     //objetos.push_back(bala);
     //objetos_ang.push_back()
@@ -159,14 +159,16 @@ void SDLApp::on_fisicaupdate(double dt)
 {
     
     //Camara Lock UnLock
+    camara_principal->lock_objeto(*player);
+    /*
     if(KeyOyente::get().estaPresionado(SDL_SCANCODE_L))
     {
-        camara_principal->lock_objeto(*player);
     }
     else if(KeyOyente::get().estaPresionado(SDL_SCANCODE_U) && !camara_principal->en_transicion)
     {
         camara_principal->unluck_objeto();
     }
+    */
 
     //render cuadro colisión player
     if(KeyOyente::get().estaPresionado(SDL_SCANCODE_C))
@@ -180,7 +182,11 @@ void SDLApp::on_fisicaupdate(double dt)
     {
         if(MouseOyente::get().getBotones()[SDL_BUTTON_LEFT-1] == true){
             //Bala *bala = new Bala(25,player->get_posicion_mundo().x,player->get_posicion_mundo().y,{255,0,0,255});
-            Bala *bala = new Bala("assets/sprites/projectiles/shot.png",25,player->get_posicion_mundo().x,player->get_posicion_mundo().y,25,25,32,32,{255,0,0,255});
+            int mouse_x = MouseOyente::get().getX();
+            int mouse_y = MouseOyente::get().getY();
+            
+
+            Bala *bala = new Bala("assets/sprites/projectiles/shot.png",25,player->get_posicion_mundo().x,player->get_posicion_mundo().y,25,25,32,32,player->get_posicion_mundo(),{mouse_x, mouse_y},{255,0,0,255});
             get().ensamble->cargar_texturas(bala->get_sprite());
             //objetos.push_back(bala);
             lista_balas.push_back(bala);
@@ -267,7 +273,7 @@ void SDLApp::on_frameupdate(double dt)
 
     //camara_principal->renderizar(lista_balas);
     camara_principal->renderizar(objetos);
-    //camara_principal->renderizar_ang(objetos_ang, {MouseOyente::get().getX(), MouseOyente::get().getY()});
+    camara_principal->renderizar_ang(objetos_ang, {MouseOyente::get().getX(), MouseOyente::get().getY()});
     camara_principal->renderizar_ang(enemigos_ang, {player->get_posx(), player->get_posy()});
     camara_principal->render_cross();
     
