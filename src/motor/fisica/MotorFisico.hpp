@@ -8,8 +8,9 @@ class MotorFisico2D
 {
     public:
         static MotorFisico2D& get();
-        static void aabb_colision(ObjetoDinamico& p, std::vector<ObjetoEstatico*> obj); 
+        static void aabb_colision(ObjetoDinamico& p, std::vector<ObjetoEstatico*> obj);
         static void sat_colision(ObjetoDinamico&p, std::vector<ObjetoEstatico*> obj);
+        static void sat_colision_enemigo(ObjetoDinamico&obj1, std::vector<Objeto*> obj2);
         static void sortandsweep_colision(std::vector<ObjetoDinamico*> objs);
 
         static void gravedad(std::vector<ObjetoDinamico*> objs);

@@ -25,6 +25,7 @@ void MotorFisico2D::aabb_colision(ObjetoDinamico& p, std::vector<ObjetoEstatico*
     
 };
 
+
 bool MotorFisico2D::aabb(Objeto &A, Objeto &B)
 {
     //    A.-----.D
@@ -33,6 +34,9 @@ bool MotorFisico2D::aabb(Objeto &A, Objeto &B)
 
     std::vector<Coordenadas> vA = A.get_colbox()->get_vertices();
     std::vector<Coordenadas> vB = B.get_colbox()->get_vertices();
+    if((vA[0].x < vB[2].x && vA[2].x > vB[0].x) &&
+            (vA[0].y < vB[2].y && vA[2].y > vB[0].y))
+            printf("COLISION\n");
 
     return  (vA[0].x < vB[2].x && vA[2].x > vB[0].x) &&
             (vA[0].y < vB[2].y && vA[2].y > vB[0].y);
@@ -59,6 +63,28 @@ void MotorFisico2D::sat_colision(ObjetoDinamico& p, std::vector<ObjetoEstatico*>
         }
     }
 };
+
+void MotorFisico2D::sat_colision_enemigo(ObjetoDinamico& obj1, std::vector<Objeto*>obj2)
+{
+    for(auto& o:obj2)
+    {
+        obj1.en_colision |= get().sat(obj1,*o);
+
+        if(obj1.en_colision)
+        {
+            Coordenadas dc = {
+                obj1.get_colbox()->get_vertices()[3].x-obj1.get_colbox()->get_vertices()[0].x,
+                obj1.get_colbox()->get_vertices()[1].y-obj1.get_colbox()->get_vertices()[0].y};
+            
+            Coordenadas oc = {
+                o->get_colbox()->get_vertices()[3].x-o->get_colbox()->get_vertices()[0].x,
+                o->get_colbox()->get_vertices()[1].y-o->get_colbox()->get_vertices()[0].y};
+
+            obj1.offsetoverlap = {-(dc.x-oc.x),dc.y-oc.y };
+            
+        }
+    }
+}
 
 bool MotorFisico2D::sat(Objeto &A, Objeto& B)
 {

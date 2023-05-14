@@ -1,0 +1,10 @@
+assets/sprites/mundo/atlas/mars.png
+5 5
+64 64
+10 1
+640 64
+1 1 1 1 1
+1 1 1 1 1
+1 1 1 1 1
+1 1 1 1 1
+1 1 1 1 1

@@ -6,6 +6,7 @@
 #include "objetos_dinamicos/ObjetoDinamico.hpp"
 #include "objetos_estaticos/ObjetoEstatico.hpp"
 #include "motor/camaras/Camaras.hpp"
+#include "motor/imagen/atlas.hpp"
 
 class SDLApp
 {
@@ -53,6 +54,9 @@ class SDLApp
         std::vector<Objeto*> objetos;
         std::vector<Objeto*> objetos_ang;
         std::vector<Objeto*> enemigos_ang;
+
+        //08 tiles
+        Atlas *mapa;
     
     public:
         SDL_Color bg_color;

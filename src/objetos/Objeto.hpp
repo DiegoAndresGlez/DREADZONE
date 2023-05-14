@@ -2,6 +2,7 @@
 #include "Figuras.hpp"
 #include "../utilidad/Estructuras.hpp"
 #include "../motor/imagen/sprites.hpp"
+#include "../motor/imagen/tiles.hpp"
 #include "../motor/MouseOyente.hpp"
 #include <SDL.h>
 
@@ -11,6 +12,7 @@ class Objeto
     protected:
         Figura* avatar;
         Sprite* sprite;
+        Tile *tile;
         Figura* col_box;
         float hp;
         Coordenadas posicion_mundo;

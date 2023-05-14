@@ -40,6 +40,7 @@ Jugador::Jugador(std::string path_sprite,float vida, int x, int y, int w, int h,
     piso = {500,500}; // definir el piso en general
 
     sprite = new Sprite(path_sprite, posicion_mundo, w, h, sw, sh);
+    tile = nullptr;
 };
 
 std::string Jugador::get_strEstado()
@@ -126,6 +127,7 @@ Enemigo::Enemigo(std::string path_sprite, float vida, int x, int y, int w, int h
     piso = {500,500}; // definir el piso en general
 
     sprite = new Sprite(path_sprite, posicion_mundo, w, h, sw, sh);
+    tile = nullptr;
 }
 
 std::string Enemigo::get_strEstado()
@@ -214,6 +216,7 @@ Bala::Bala(std::string path_sprite, int dano, int x, int y, int w, int h, int sw
     piso = {500,500}; // definir el piso en general
 
     sprite = new Sprite(path_sprite, posicion_mundo, w, h, sw, sh);
+    tile = nullptr;
     printf("nueva bala creada\n");
 }
 
@@ -276,13 +279,6 @@ void Bala::input_handle(KeyOyente& input,MouseOyente& mouse,Camara& cam)
         
     //obtener camara coordenadas, si se pasa de la camara, se destruye
     //
-    
-    if(cam.get_posicion_centro().x > posicion_mundo.x + 1000)
-    {
-        printf("Se elimina bala\n");
-        delete this;
-    }
-    
     FSMBala* estado = estado_actual->input_handle(input,mouse,cam);
     if(estado){
         set_estado(estado);
