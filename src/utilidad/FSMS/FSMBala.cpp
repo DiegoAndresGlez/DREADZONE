@@ -40,7 +40,7 @@ EstadoBalaMOVER::EstadoBalaMOVER(Coordenadas dir)
     direccion=dir;
     velocidad=5;
     frames_actual_ani=0;
-    frames_maxim_ani=1;
+    frames_maxim_ani=3;
 }
 
 FSMBala* EstadoBalaMOVER::input_handle(KeyOyente& input, MouseOyente& mouse, Camara& cam)
@@ -51,7 +51,7 @@ FSMBala* EstadoBalaMOVER::input_handle(KeyOyente& input, MouseOyente& mouse, Cam
 void EstadoBalaMOVER::entrar(Bala& bala)
 {
     frames_actual_ani=0;
-    frames_maxim_ani=1;
+    frames_maxim_ani=3;
 }
 
 void EstadoBalaMOVER::salir(Bala& bala)

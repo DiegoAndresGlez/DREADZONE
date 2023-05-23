@@ -114,7 +114,9 @@ void Jugador::shoot()
     {
         int mouse_x = MouseOyente::get().getX();
         int mouse_y = MouseOyente::get().getY();
-        temp_bala = new Bala("assets/sprites/projectiles/shot.png",25,get_posicion_mundo().x,get_posicion_mundo().y,25,25,32,32,get_posicion_mundo(),{mouse_x, mouse_y},{255,0,0,255});
+        int offset_y = 5, offset_x = 5;
+        
+        temp_bala = new Bala("assets/sprites/projectiles/ball.png",25,get_posicion_mundo().x+offset_x,get_posicion_mundo().y+offset_y,32,32,32,32,get_posicion_mundo(),{mouse_x, mouse_y},{255,0,0,255});
         lista_balas.push_back(temp_bala);
         printf("shoot\n");
     }
@@ -299,8 +301,6 @@ void Bala::set_estado(void* estado)
 
 void Bala::input_handle(KeyOyente& input,MouseOyente& mouse,Camara& cam)
 {
-    printf("cam pos: %d, bala pos: %d\n", cam.get_posicion_centro().x, posicion_mundo.x);
-    
     if(posicion_mundo.x > cam.get_posicion_centro().x + cam.get_posicion_centro().x)
     {
         eliminarme = true;
