@@ -86,14 +86,14 @@ bool SDLApp::on_init()
     //objetos.push_back(fondo);
     // objetos.push_back(new Fondo(0,0,get().WIDTH,get().HEIGHT,{255,0,0,255}));
     //08 tiles
-    mapa = new Atlas("assets/sprites/mundo/ids/mundo_ids.txt");
+    mapa = new Atlas("assets/sprites/mundo/ids/mars_ids.txt");
     mapa->generar_mapa(get().render,2,0);
     //05
     player = new Jugador("assets/sprites/heroe/soldado.png",
                 //      hp , x , y, sW,sH , vW,vH ,color
-                        100,500,300,32,32,86,86,{255,0,255,255});
+                        100,1500,1500,32,32,86,86,{255,0,255,255});
     enemigo = new Enemigo("assets/sprites/enemigos/insecto.png",
-                        100,600,50,32,32,120,120,{255,0,0,255});
+                        100,1500,1400,32,32,120,120,{255,0,0,255});
     
     //new Jugador(100,500,50,{255,0,255,255});
     get().ensamble->cargar_texturas(player->get_sprite());
@@ -211,7 +211,8 @@ void SDLApp::on_frameupdate(double dt)
 {
     // limpiar frame
     SDL_RenderClear(get().render);
-
+    
+    printf("x: %d - y: %d\n", player->get_posicion_mundo().x,player->get_posicion_mundo().y);
     //Renderizar todo a través de la camara
     //camara_principal->renderizar(objetos);
     ManejadorCamaras::get().renderizar(objetos);
