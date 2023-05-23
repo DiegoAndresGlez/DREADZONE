@@ -3,14 +3,12 @@
 #include "../../motor/KeyOyente.hpp"
 #include "../../motor/MouseOyente.hpp"
 #include<string>
-#include<vector>
 
 class Jugador; //forward declaration
 class FSMJugador
 {
     protected:
         std::string strnombre;
-        int timer{0};
     
     public:
         virtual ~FSMJugador(){};
@@ -30,110 +28,25 @@ class EstadoJugadorIDLE : public FSMJugador
         void entrar(Jugador& player);
         void salir(Jugador& player);
         void update(Jugador& player,double dt);
+
     private:
         int frames_actual_ani;
         int frames_maxim_ani;
         int frame_dt{0};
     
-    
 };
 
-class EstadoJugadorMOVERDER : public FSMJugador
+class EstadoJugadorMOVER : public FSMJugador
 {
     public:
-        EstadoJugadorMOVERDER(Coordenadas dir);
-        virtual ~EstadoJugadorMOVERDER(){};
+        EstadoJugadorMOVER(Coordenadas dir);
+        virtual ~EstadoJugadorMOVER(){};
         FSMJugador* input_handle(KeyOyente& input, MouseOyente& mouse);
         void entrar(Jugador& player);
         void salir(Jugador& player);
         void update(Jugador& player,double dt);
     private:
         Coordenadas direccion;
-        int velocidad;
-        int frames_actual_ani;
-        int frames_maxim_ani;
-        int frame_dt{0};  
-};
-
-class EstadoJugadorIDLEIZQ : public FSMJugador
-{
-    public:
-        EstadoJugadorIDLEIZQ();
-        virtual ~EstadoJugadorIDLEIZQ(){};
-        FSMJugador* input_handle(KeyOyente& input, MouseOyente& mouse);
-        void entrar(Jugador& player);
-        void salir(Jugador& player);
-        void update(Jugador& player,double dt);
-    private:
-        int frames_actual_ani;
-        int frames_maxim_ani;
-        int frame_dt{0};
-    
-    
-};
-
-class EstadoJugadorMOVERIZQ : public FSMJugador
-{
-    public:
-        EstadoJugadorMOVERIZQ(Coordenadas dir);
-        virtual ~EstadoJugadorMOVERIZQ(){};
-        FSMJugador* input_handle(KeyOyente& input, MouseOyente& mouse);
-        void entrar(Jugador& player);
-        void salir(Jugador& player);
-        void update(Jugador& player,double dt);
-    private:
-        Coordenadas direccion;
-        int velocidad;
-        int frames_actual_ani;
-        int frames_maxim_ani;
-        int frame_dt{0};  
-};
-
-class EstadoJugadorIDLEARR : public FSMJugador
-{
-    public:
-        EstadoJugadorIDLEARR();
-        virtual ~EstadoJugadorIDLEARR(){};
-        FSMJugador* input_handle(KeyOyente& input, MouseOyente& mouse);
-        void entrar(Jugador& player);
-        void salir(Jugador& player);
-        void update(Jugador& player,double dt);
-    private:
-        int frames_actual_ani;
-        int frames_maxim_ani;
-        int frame_dt{0};
-};
-
-class EstadoJugadorMOVERARR : public FSMJugador
-{
-    public:
-        EstadoJugadorMOVERARR(Coordenadas dir);
-        virtual ~EstadoJugadorMOVERARR(){};
-        FSMJugador* input_handle(KeyOyente& input, MouseOyente& mouse);
-        void entrar(Jugador& player);
-        void salir(Jugador& player);
-        void update(Jugador& player,double dt);
-    private:
-        Coordenadas direccion;
-        int velocidad;
-        int frames_actual_ani;
-        int frames_maxim_ani;
-        int frame_dt{0};
-};
-
-class EstadoJugadorSHOOT : public FSMJugador
-{
-    public:
-        EstadoJugadorSHOOT(Coordenadas dir);
-        virtual ~EstadoJugadorSHOOT(){};
-        FSMJugador *input_handle(KeyOyente& input, MouseOyente& mouse);
-        void entrar(Jugador& player);
-        void salir(Jugador& player);
-        void update(Jugador& player, double dt);
-        //std::vector<Bala*> get_listaBalas(){return balas;};
-    private:
-        Coordenadas direccion;
-        //std::vector<Bala*> balas;
         int velocidad;
         int frames_actual_ani;
         int frames_maxim_ani;

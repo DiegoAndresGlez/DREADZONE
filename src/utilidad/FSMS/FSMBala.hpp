@@ -5,6 +5,7 @@
 #include "../../motor/camaras/Camaras.hpp"
 #include<string>
 #include<vector>
+#include<cmath>
 
 class Bala; //forward declaration
 class Camara;

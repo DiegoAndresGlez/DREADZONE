@@ -17,7 +17,7 @@ class Camara
         Camara(int x, int y, int w, int h, SDL_Renderer &view);
         ~Camara();
         void renderizar(std::vector<Objeto*> objetos);
-        void renderizar_ang(std::vector<Objeto*>objetos, Coordenadas target);
+        void renderizar_ang(std::vector<Objeto*>objetos, Coordenadas target); 
         void proyectar(std::vector<Objeto*> objetos);
         void render_cross();
 
@@ -33,6 +33,8 @@ class Camara
         /*FSM métodos*/
         void input_handle(KeyOyente &input, MouseOyente &mouse);
         void update();
+        void set_estado(void* nuevo);
+        void* get_estado()const {return estado_actual;};
     
     public:
         int lock{0};

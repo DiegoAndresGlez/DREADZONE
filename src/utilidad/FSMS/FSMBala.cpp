@@ -70,7 +70,7 @@ void EstadoBalaMOVER::update(Bala& bala,double dt)
         b.x+=(velocidad*dir_x);
         b.y+=(velocidad*dir_y);
     }
-    bala.set_posicion_mundo(b);
+    bala.set_posicion_camara(b);
 
 
     bala.get_sprite()->play_frame(0,frames_actual_ani%frames_maxim_ani);

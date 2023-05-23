@@ -3,9 +3,7 @@
 #include "../utilidad/Estructuras.hpp"
 #include "../motor/imagen/sprites.hpp"
 #include "../motor/imagen/tiles.hpp"
-#include "../motor/MouseOyente.hpp"
 #include <SDL.h>
-
 
 class Objeto
 {
@@ -23,6 +21,7 @@ class Objeto
     public:
         bool en_colision;
         bool render_colbox;
+        int velocidad_camara{1};
         bool eliminarme{false};
 
     public:
@@ -44,9 +43,11 @@ class Objeto
         void set_posy(int y);
         SDL_Color get_color()const{return color;};
         void set_color(SDL_Color c){color=c;};
+        bool get_tiene_fisica()const{return tiene_fisica;};
         void set_eliminarme(bool b){eliminarme=b;};
         bool get_eliminarme()const{return eliminarme;};
 
         Sprite * get_sprite()const{return sprite;};
+        Tile * get_tile()const{return tile;};
 
 };
