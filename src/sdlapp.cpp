@@ -94,10 +94,16 @@ bool SDLApp::on_init()
                         100,1500,1500,32,32,86,86,{255,0,255,255});
     enemigo = new Enemigo("assets/sprites/enemigos/insecto.png",
                         100,1500,1400,32,32,120,120,player,{255,0,0,255});
-    
+    enemigo->set_ref_player(player);
+    enemigo2 = new Enemigo("assets/sprites/enemigos/insecto.png",
+                        100,2500,2400,32,32,120,120,player,{255,0,0,255});
+    enemigo2->set_ref_player(player);
+
+
     //new Jugador(100,500,50,{255,0,255,255});
     get().ensamble->cargar_texturas(player->get_sprite());
     get().ensamble->cargar_texturas(enemigo->get_sprite());
+    get().ensamble->cargar_texturas(enemigo2->get_sprite());
     //get().ensamble->cargar_texturas(new Sprite("assets/sprites/mundo/atlas/fondoprueba2.jpg",{0,0},get().WIDTH,get().HEIGHT,get().WIDTH,get().HEIGHT));
     printf("Se creo el player\n");
     
@@ -106,6 +112,7 @@ bool SDLApp::on_init()
 
     get().camara_principal = new Camara(0,0,get().WIDTH,get().HEIGHT,*get().render);
     ManejadorCamaras::get().set_camara(*get().camara_principal);
+    camara_principal->lock_objeto(*player);
 
     
 
@@ -118,6 +125,7 @@ bool SDLApp::on_init()
     //objetos.push_back(player);
     objetos_ang.push_back(player);
     enemigos_ang.push_back(enemigo);
+    enemigos_ang.push_back(enemigo2);
     
     printf("\nSe crearon los objetos exitosamente\n");
 
@@ -149,11 +157,11 @@ void SDLApp::on_evento(SDL_Event* evento)
 
 void SDLApp::on_fisicaupdate(double dt)
 {
-    enemigo->set_ref_player(player);
-    camara_principal->lock_objeto(*player);
+    
+    //camara_principal->lock_objeto(*player);
     
     //Camara Lock UnLock
-    /*
+    
     if(KeyOyente::get().estaPresionado(SDL_SCANCODE_L))
     {
         camara_principal->lock_objeto(*player);
@@ -162,7 +170,7 @@ void SDLApp::on_fisicaupdate(double dt)
     {
         camara_principal->unluck_objeto();
     }
-    */
+    
 
     if (KeyOyente::get().estaPresionado(SDL_SCANCODE_SPACE))
     {
@@ -189,7 +197,8 @@ void SDLApp::on_fisicaupdate(double dt)
     enemigo->input_handle(KeyOyente::get(),MouseOyente::get());
     enemigo->update(dt);
     //fondo->update(dt);
-
+    enemigo2->input_handle(KeyOyente::get(),MouseOyente::get());
+    enemigo2->update(dt);
 
     for(auto &b:player->getListaBalas()){
         get().ensamble->cargar_texturas(b->get_sprite());

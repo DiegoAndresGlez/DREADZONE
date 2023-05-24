@@ -40,6 +40,7 @@ class SDLApp
         //05_Colisiones
         Jugador* player;
         Enemigo* enemigo;
+        Enemigo* enemigo2;
         std::vector<ObjetoEstatico*> plataformas;
 
         //06_Camaras

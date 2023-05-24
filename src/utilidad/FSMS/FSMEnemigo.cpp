@@ -40,7 +40,7 @@ EstadoEnemigoMOVER::EstadoEnemigoMOVER(Coordenadas dir)
 {
     strnombre = "MOVER";
     direccion = dir;
-    velocidad = 4;
+    velocidad = 2;
     frames_actual_ani = 0;
     frames_maxim_ani = 5;
 }
@@ -64,14 +64,43 @@ void EstadoEnemigoMOVER::salir(Enemigo& enemigo)
 
 void EstadoEnemigoMOVER::update(Enemigo& enemigo,double dt)
 {
-    //normalizar
+    
     direccion = enemigo.get_ref_player()->get_posicion_mundo();
     
     Coordenadas e = enemigo.get_posicion_mundo();
+
+    if(direccion.x - e.x > 40)
+    {
+        direccion.x = 1;
+    }
+    else if(direccion.x - e.x < 40)
+    {
+        direccion.x = -1;
+    }
+    else
+    {
+        direccion.x = 0;
+    }
+
+    if(direccion.y - e.y > 40)
+    {
+        direccion.y = 1;
+    }
+    else if(direccion.y - e.y < 40)
+    {
+        direccion.y = -1;
+    }
+    else
+    {
+        direccion.y = 0;
+    }
+
     e.x += velocidad * direccion.x;
     e.y += velocidad * direccion.y;
 
-    enemigo.set_posicion_mundo(e);
+    printf("x: %d - y: %d\n", e.x, e.y);
+
+    enemigo.set_posicion_camara(e);
 
 
     enemigo.get_sprite()->play_frame(0, frames_actual_ani % frames_maxim_ani);
