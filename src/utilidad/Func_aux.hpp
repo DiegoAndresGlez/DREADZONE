@@ -3,6 +3,7 @@
 #include "Estructuras.hpp"
 #include<vector>
 #include<string>
+#include<cmath>
 #include<SDL.h>
 
 #define DEBUG

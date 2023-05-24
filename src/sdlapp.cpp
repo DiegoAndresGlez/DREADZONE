@@ -93,7 +93,7 @@ bool SDLApp::on_init()
                 //      hp , x , y, sW,sH , vW,vH ,color
                         100,1500,1500,32,32,86,86,{255,0,255,255});
     enemigo = new Enemigo("assets/sprites/enemigos/insecto.png",
-                        100,1500,1400,32,32,120,120,{255,0,0,255});
+                        100,1500,1400,32,32,120,120,player,{255,0,0,255});
     
     //new Jugador(100,500,50,{255,0,255,255});
     get().ensamble->cargar_texturas(player->get_sprite());
@@ -106,6 +106,8 @@ bool SDLApp::on_init()
 
     get().camara_principal = new Camara(0,0,get().WIDTH,get().HEIGHT,*get().render);
     ManejadorCamaras::get().set_camara(*get().camara_principal);
+
+    
 
     for(int i=0;i<plataformas.size();i++)
     {
@@ -147,8 +149,11 @@ void SDLApp::on_evento(SDL_Event* evento)
 
 void SDLApp::on_fisicaupdate(double dt)
 {
+    enemigo->set_ref_player(player);
+    camara_principal->lock_objeto(*player);
     
     //Camara Lock UnLock
+    /*
     if(KeyOyente::get().estaPresionado(SDL_SCANCODE_L))
     {
         camara_principal->lock_objeto(*player);
@@ -157,6 +162,7 @@ void SDLApp::on_fisicaupdate(double dt)
     {
         camara_principal->unluck_objeto();
     }
+    */
 
     if (KeyOyente::get().estaPresionado(SDL_SCANCODE_SPACE))
     {
@@ -211,8 +217,6 @@ void SDLApp::on_frameupdate(double dt)
 {
     // limpiar frame
     SDL_RenderClear(get().render);
-    
-    printf("x: %d - y: %d\n", player->get_posicion_mundo().x,player->get_posicion_mundo().y);
     //Renderizar todo a través de la camara
     //camara_principal->renderizar(objetos);
     ManejadorCamaras::get().renderizar(objetos);

@@ -2,6 +2,7 @@
 #include "../../objetos_dinamicos/ObjetoDinamico.hpp"
 #include "../../motor/KeyOyente.hpp"
 #include "../../motor/MouseOyente.hpp"
+#include "../../utilidad/Func_aux.hpp"
 #include<string>
 #include<vector>
 

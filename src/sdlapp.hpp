@@ -50,7 +50,7 @@ class SDLApp
         std::vector<Objeto*> lista_balas;
         //08 tiles
         Atlas *mapa;
-
+        
         //09_Fondo
         Fondo *fondo;
     

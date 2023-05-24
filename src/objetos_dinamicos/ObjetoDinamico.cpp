@@ -152,13 +152,14 @@ Enemigo::Enemigo(float vida, int x, int y, SDL_Color c){
     piso = {500,500}; // definir el piso en general
 }
 
-Enemigo::Enemigo(std::string path_sprite, float vida, int x, int y, int w, int h, int sw, int sh, SDL_Color c)
+Enemigo::Enemigo(std::string path_sprite, float vida, int x, int y, int w, int h, int sw, int sh, Jugador* player, SDL_Color c)
 {
     hp = vida;
     posicion_mundo.x=x;
     posicion_mundo.y=y;
     posicion_camara.x=x;
     posicion_camara.y=y;
+    ref_player = player;
     avatar = new Rectangulo(x,y,75,75,c);
     c.a=150;
     color = c;
@@ -168,7 +169,7 @@ Enemigo::Enemigo(std::string path_sprite, float vida, int x, int y, int w, int h
     col_box->set_serellena(false);
     tiene_fisica = true;
     en_colision = false;
-    estado_actual = new EstadoEnemigoIDLE();
+    estado_actual = new EstadoEnemigoMOVER({0,0});
     piso = {500,500}; // definir el piso en general
 
     sprite = new Sprite(path_sprite, posicion_mundo, w, h, sw, sh);
@@ -247,6 +248,8 @@ Bala::Bala(std::string path_sprite, int dano, int x, int y, int w, int h, int sw
     dmg = dano;
     posicion_mundo.x=x;
     posicion_mundo.y=y;
+    posicion_camara.x=x;
+    posicion_camara.y=y;
     avatar = new Rectangulo(x,y,40,40,c);
     c.a=150;
     color = c;

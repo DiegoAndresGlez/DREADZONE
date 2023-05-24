@@ -13,6 +13,8 @@
 class FSMJugador;//forward declaration
 class FSMEnemigo;
 class FSMBala;
+class Jugador;
+class Enemigo;
 class ObjetoDinamico : public Objeto
 {
     public:
@@ -37,7 +39,7 @@ class Enemigo : public ObjetoDinamico
     public:
         virtual ~Enemigo(){};
         Enemigo(float vida, int x, int y,SDL_Color c);
-        Enemigo(std::string path_sprite,float vida, int x, int y, int w, int h,int sw,int sh, SDL_Color c);
+        Enemigo(std::string path_sprite,float vida, int x, int y, int w, int h,int sw,int sh, Jugador* player, SDL_Color c);
         void update(double dt);
         void input_handle(KeyOyente& input,MouseOyente& mouse);
         std::string get_strEstado();
@@ -46,8 +48,12 @@ class Enemigo : public ObjetoDinamico
         
         void set_estado(void* estado);
         void* get_estado();
+
+        void set_ref_player(Jugador* player){ref_player = player;};
+        Jugador* get_ref_player()const{return ref_player;};
     private:
         FSMEnemigo* estado_actual;
+        Jugador* ref_player;
         Coordenadas piso;
 };
 
