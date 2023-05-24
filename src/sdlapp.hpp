@@ -5,7 +5,7 @@
 #include "motor/Pipeline.hpp"
 #include "objetos_dinamicos/ObjetoDinamico.hpp"
 #include "objetos_estaticos/ObjetoEstatico.hpp"
-#include "motor/camaras/Camaras.hpp"
+#include "motor/camaras/ManejadorCamara.hpp"
 #include "motor/imagen/atlas.hpp"
 
 class SDLApp
@@ -21,10 +21,6 @@ class SDLApp
         bool esta_corriendo;
         int WIDTH;
         int HEIGHT;
-        int timer_shoot{0};
-        int past_time_shoot{0};
-        int contador_shoot{0};
-        int delay{1};
 
         SDL_Window* vnt;
         SDL_Surface* vntsurf;
@@ -45,18 +41,18 @@ class SDLApp
         Jugador* player;
         Enemigo* enemigo;
         std::vector<ObjetoEstatico*> plataformas;
-        Bala* bala;
 
         //06_Camaras
         Camara* camara_principal;
-        std::vector<Bala*> lista_balas;
-        std::vector<Objeto*> render_balas;
         std::vector<Objeto*> objetos;
         std::vector<Objeto*> objetos_ang;
         std::vector<Objeto*> enemigos_ang;
-
+        std::vector<Objeto*> lista_balas;
         //08 tiles
         Atlas *mapa;
+        
+        //09_Fondo
+        Fondo *fondo;
     
     public:
         SDL_Color bg_color;

@@ -1,7 +1,6 @@
 #include "Camaras.hpp"
 #include "../../utilidad/Func_aux.hpp"
 #include <iostream>
-#include "../MouseOyente.hpp"
 
 Camara::Camara(int x, int y, int w, int h, SDL_Renderer &view)
 {
@@ -56,10 +55,14 @@ void Camara::proyectar(std::vector<Objeto*> objetos)
     //Alumnos implementarla 
     for(auto &o:objetos)
     {
-        Coordenadas posM = o->get_posicion_mundo();
-        posM.x -=pos_mundo.x;
-        posM.y -=pos_mundo.y;
-        o->set_posicion_mundo(posM);
+        if (o->proyectable)
+        {    
+            Coordenadas posM = o->get_posicion_mundo();
+            posM.x -=(int)(pos_mundo.x / o->velocidad_camara);
+            posM.y -=(int)(pos_mundo.y / o->velocidad_camara);
+            o->set_posicion_camara(posM);
+        }
+        
         //DEBUGCOOR(posM)
     }
     //DEBUGPRINT("_____")
@@ -109,4 +112,12 @@ void Camara::update()
 {
     if(estado_actual)
         estado_actual->on_update(*this);
+};
+
+void Camara::set_estado(void* nuevo)
+{
+    estado_actual->on_salir(*this);
+    delete estado_actual;
+    estado_actual = (FSMCamara*)nuevo;
+    estado_actual->on_entrar(*this);
 };

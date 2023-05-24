@@ -1,7 +1,7 @@
 #pragma once
-#include<SDL.h>
 #include<string>
 #include<vector>
+#include<SDL.h>
 
 struct Coordenadas
 {

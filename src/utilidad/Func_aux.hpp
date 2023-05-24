@@ -3,10 +3,11 @@
 #include "Estructuras.hpp"
 #include<vector>
 #include<string>
+#include<cmath>
 #include<SDL.h>
 
 #define DEBUG
-#define PI 3.14159265
+#define PI 3.1416
 
 #ifdef DEBUG
     #define DEBUGPRINT(X) std::cout<<"\x1B[34m " << X <<"\x1B[0m"<<std::endl;

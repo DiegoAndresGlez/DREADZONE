@@ -3,8 +3,8 @@
 #include<vector>
 #include "../utilidad/Estructuras.hpp"
 #include "../objetos/Figuras.hpp"
-#include "../motor/MouseOyente.hpp"
 #include "imagen/sprites.hpp"
+#include "imagen/tiles.hpp"
 
 class Pipeline
 {
@@ -21,6 +21,7 @@ class Pipeline
         void figuras(Figura* f);
         void pintar_texturas(Sprite* obj);
         void pintar_texturas_ang(Sprite* obj, Coordenadas target);
+        void pintar_texturas(Tile* obj);
         bool cargar_texturas(Sprite* obj);
 
     private:

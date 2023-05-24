@@ -1,13 +1,14 @@
 #include "ObjetoDinamico.hpp"
 #include "../objetos/Figuras.hpp"
 
-
 Jugador::Jugador(float vida, int x, int y , SDL_Color c)
 :ObjetoDinamico{}
 {
     hp = vida;
     posicion_mundo.x=x;
     posicion_mundo.y=y;
+    posicion_camara.x=x;
+    posicion_camara.y=y;
     avatar = new Rectangulo(x,y,75,75,c);
     c.a=150;
     color = c;
@@ -27,19 +28,21 @@ Jugador::Jugador(std::string path_sprite,float vida, int x, int y, int w, int h,
     hp = vida;
     posicion_mundo.x=x;
     posicion_mundo.y=y;
-    avatar = new Rectangulo(x,y,75,75,c);
+    posicion_camara.x=x;
+    posicion_camara.y=y;
+    avatar = new Rectangulo(x,y,sw,sh,c);
     c.a=150;
     color = c;
     avatar->set_rellenocolor(c);
     avatar->set_serellena(true);
-    col_box = new Rectangulo(x,y,75+10,75+10,c);
+    col_box = new Rectangulo(x,y,sw+10,sh+10,c);
     col_box->set_serellena(false);
     tiene_fisica = true;
     en_colision = false;
     estado_actual = new EstadoJugadorIDLE();
     piso = {500,500}; // definir el piso en general
 
-    sprite = new Sprite(path_sprite, posicion_mundo, w, h, sw, sh);
+    sprite = new Sprite(path_sprite,posicion_mundo,w,h,sw,sh);
     tile = nullptr;
 };
 
@@ -91,11 +94,51 @@ void Jugador::input_handle(KeyOyente& input,MouseOyente& mouse)
     }
 };
 
+bool Jugador::canShoot()
+{
+    std::chrono::steady_clock::time_point tiempo_actual = std::chrono::steady_clock::now();
+    std::chrono::duration<double> tiempoDesdeUltimoDisparo = tiempo_actual - tiempoUltimoDisparo;
+    double segundosPorDisparo = 1.0 / fire_rate;
+
+    if (tiempoDesdeUltimoDisparo.count() >= segundosPorDisparo) {
+        tiempoUltimoDisparo = tiempo_actual;
+        return true;
+    }
+
+    return false;
+}
+
+void Jugador::shoot()
+{
+    if(canShoot())
+    {
+        int mouse_x = MouseOyente::get().getX();
+        int mouse_y = MouseOyente::get().getY();
+        int offset_y = 5, offset_x = 5;
+        
+        temp_bala = new Bala("assets/sprites/projectiles/ball.png",25,get_posicion_mundo().x+offset_x,get_posicion_mundo().y+offset_y,32,32,32,32,get_posicion_mundo(),{mouse_x, mouse_y},{255,0,0,255});
+        lista_balas.push_back(temp_bala);
+        printf("shoot\n");
+    }
+}
+
+void Jugador::eliminarBalas()
+{
+    for(int i = 0; i < lista_balas.size(); i++){
+        if(lista_balas[i]->get_eliminarme() == true){
+            //delete lista_balas[i];
+            lista_balas.erase(lista_balas.begin() + i);
+        }
+    }
+}
+
 /*ENEMIGO*/
 Enemigo::Enemigo(float vida, int x, int y, SDL_Color c){
     hp = vida;
     posicion_mundo.x=x;
     posicion_mundo.y=y;
+    posicion_camara.x=x;
+    posicion_camara.y=y;
     avatar = new Rectangulo(x,y,75,75,c);
     c.a=150;
     color = c;
@@ -109,11 +152,14 @@ Enemigo::Enemigo(float vida, int x, int y, SDL_Color c){
     piso = {500,500}; // definir el piso en general
 }
 
-Enemigo::Enemigo(std::string path_sprite, float vida, int x, int y, int w, int h, int sw, int sh, SDL_Color c)
+Enemigo::Enemigo(std::string path_sprite, float vida, int x, int y, int w, int h, int sw, int sh, Jugador* player, SDL_Color c)
 {
     hp = vida;
     posicion_mundo.x=x;
     posicion_mundo.y=y;
+    posicion_camara.x=x;
+    posicion_camara.y=y;
+    ref_player = player;
     avatar = new Rectangulo(x,y,75,75,c);
     c.a=150;
     color = c;
@@ -123,7 +169,7 @@ Enemigo::Enemigo(std::string path_sprite, float vida, int x, int y, int w, int h
     col_box->set_serellena(false);
     tiene_fisica = true;
     en_colision = false;
-    estado_actual = new EstadoEnemigoIDLE();
+    estado_actual = new EstadoEnemigoMOVER({0,0});
     piso = {500,500}; // definir el piso en general
 
     sprite = new Sprite(path_sprite, posicion_mundo, w, h, sw, sh);
@@ -181,6 +227,8 @@ Bala::Bala(int dano, int x, int y, SDL_Color c){
     dmg = dano;
     posicion_mundo.x=x;
     posicion_mundo.y=y;
+    posicion_camara.x=x;
+    posicion_camara.y=y;
     avatar = new Rectangulo(x,y,75,75,c);
     c.a=150;
     color = c;
@@ -190,6 +238,7 @@ Bala::Bala(int dano, int x, int y, SDL_Color c){
     col_box->set_serellena(false);
     tiene_fisica = true;
     en_colision = false;
+    proyectable = false;
     //estado_actual = new EstadoJugadorIDLE();
     piso = {500,500}; // definir el piso en general
 }
@@ -200,6 +249,8 @@ Bala::Bala(std::string path_sprite, int dano, int x, int y, int w, int h, int sw
     dmg = dano;
     posicion_mundo.x=x;
     posicion_mundo.y=y;
+    posicion_camara.x=x;
+    posicion_camara.y=y;
     avatar = new Rectangulo(x,y,40,40,c);
     c.a=150;
     color = c;
@@ -211,8 +262,9 @@ Bala::Bala(std::string path_sprite, int dano, int x, int y, int w, int h, int sw
     en_colision = false;
     player_pos = player;
     direccion_bala = mouse_dir;
+    proyectable = false;
     
-    estado_actual = new EstadoBalaIDLE();
+    estado_actual = new EstadoBalaMOVER({0,0});
     piso = {500,500}; // definir el piso en general
 
     sprite = new Sprite(path_sprite, posicion_mundo, w, h, sw, sh);
@@ -254,8 +306,6 @@ void Bala::set_estado(void* estado)
 
 void Bala::input_handle(KeyOyente& input,MouseOyente& mouse,Camara& cam)
 {
-    printf("cam pos: %d, bala pos: %d\n", cam.get_posicion_centro().x, posicion_mundo.x);
-    
     if(posicion_mundo.x > cam.get_posicion_centro().x + cam.get_posicion_centro().x)
     {
         eliminarme = true;
@@ -284,5 +334,3 @@ void Bala::input_handle(KeyOyente& input,MouseOyente& mouse,Camara& cam)
         set_estado(estado);
     }
 };
-
-

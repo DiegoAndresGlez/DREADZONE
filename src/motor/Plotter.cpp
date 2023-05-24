@@ -1,7 +1,6 @@
 #include "Plotter.hpp"
 #include "../utilidad/Func_aux.hpp"
 #include<iostream>
-#include<cmath>
 
 //#define MOSTRARDEBUG
 #define LINEASBRESSENHAM
@@ -119,15 +118,13 @@ void Plotter::rellenoscandline(SDL_Renderer *r,Figura* fig)
 void Plotter::pintar_textura(SDL_Renderer *r,SDL_Texture *textura,SDL_Rect &src , SDL_Rect &dest, Coordenadas size)
 {
     //copia la imagen en una textura
-    //NULL en el W y H grarantiza el tamano al construirlo
+    // NULL en el W y H garantiza el tamaño al construirlo
     // pero provoca escalamiento sin antialias
     SDL_QueryTexture(textura,NULL,NULL,NULL,NULL);
     //escalamiento y pintamos en pantalla
-    dest.w = size.x;
-    dest.h = size.y;
+    dest.w=size.x;
+    dest.h=size.y;
     SDL_RenderCopy(r,textura,&src,&dest);
-    //SDL_RenderCopyEx(r,textura,&src,&dest,90,NULL,SDL_FLIP_NONE);
-    //RenderCopyEx para voltear o hacer flip un sprite
 };
 
 void Plotter::pintar_textura_ang(SDL_Renderer *r,SDL_Texture *textura,SDL_Rect &src , SDL_Rect &dest, Coordenadas size, Coordenadas target)

@@ -8,10 +8,13 @@
 #include "../utilidad/FSMS/FSMBala.hpp"
 #include<SDL.h>
 #include<string>
-#include<cmath>
+#include<chrono>
+#include<thread>
 class FSMJugador;//forward declaration
 class FSMEnemigo;
 class FSMBala;
+class Jugador;
+class Enemigo;
 class ObjetoDinamico : public Objeto
 {
     public:
@@ -30,34 +33,13 @@ class ObjetoDinamico : public Objeto
         
 };
 
-
-class Jugador : public ObjetoDinamico
-{
-    public:
-        virtual ~Jugador(){};
-        Jugador(float vida, int x, int y,SDL_Color c );
-        Jugador(std::string path_sprite,float vida, int x, int y, int w, int h,int sw,int sh, SDL_Color c);
-        void update(double dt);
-        void input_handle(KeyOyente& input,MouseOyente& mouse);
-        std::string get_strEstado();
-        Coordenadas get_piso()const{return piso;};
-        void set_piso(Coordenadas p){piso = p;};
-
-        void set_estado(void* estado);
-        void* get_estado();
-    private:
-        FSMJugador* estado_actual;
-        Coordenadas piso;
-        
-};
-
 /*ENEMIGO*/
 class Enemigo : public ObjetoDinamico
 {
     public:
         virtual ~Enemigo(){};
         Enemigo(float vida, int x, int y,SDL_Color c);
-        Enemigo(std::string path_sprite,float vida, int x, int y, int w, int h,int sw,int sh, SDL_Color c);
+        Enemigo(std::string path_sprite,float vida, int x, int y, int w, int h,int sw,int sh, Jugador* player, SDL_Color c);
         void update(double dt);
         void input_handle(KeyOyente& input,MouseOyente& mouse);
         std::string get_strEstado();
@@ -66,14 +48,16 @@ class Enemigo : public ObjetoDinamico
         
         void set_estado(void* estado);
         void* get_estado();
+
+        void set_ref_player(Jugador* player){ref_player = player;};
+        Jugador* get_ref_player()const{return ref_player;};
     private:
         FSMEnemigo* estado_actual;
+        Jugador* ref_player;
         Coordenadas piso;
 };
 
-
 /*BALA*/
-
 class Bala : public ObjetoDinamico
 {
     public:
@@ -100,3 +84,33 @@ class Bala : public ObjetoDinamico
         Coordenadas piso;
 };
 
+/*JUGADOR*/
+class Jugador : public ObjetoDinamico
+{
+    public:
+        virtual ~Jugador(){};
+        Jugador(float vida, int x, int y,SDL_Color c );
+        Jugador(std::string path_sprite,float vida, int x, int y, int w, int h,int sw,int sh, SDL_Color c );
+        void update(double dt);
+        void input_handle(KeyOyente& input,MouseOyente& mouse);
+        std::string get_strEstado();
+        Coordenadas get_piso()const{return piso;};
+        void set_piso(Coordenadas p){piso = p;};
+
+        void set_estado(void* estado);
+        void* get_estado();
+
+        std::vector<Bala*> getListaBalas()const{return lista_balas;};
+        void shoot(); //disparar
+        bool canShoot(); //checar si puede disparar, si no ha pasado el tiempo de fire_rate
+        void eliminarBalas();
+    private:
+        FSMJugador* estado_actual;
+        Coordenadas piso;
+
+        Bala* temp_bala;
+        std::vector<Bala*> lista_balas;
+        int fire_rate{3}; //disparos por segundo
+        std::chrono::steady_clock::time_point tiempoUltimoDisparo;
+        
+};

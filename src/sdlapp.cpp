@@ -6,6 +6,7 @@
 #include "utilidad/RenderTexto.hpp"
 #include "motor/fisica/MotorFisico.hpp"
 #include <cmath>
+#include <iostream>
 
 //#define RECTANGULOS
 //#define TRIANGULOS
@@ -77,61 +78,48 @@ bool SDLApp::on_init()
     }
     // si se creo correcto lo agregamos al Pipeline
     get().ensamble = new Pipeline(*get().render);
-    
-    //
-    mapa = new Atlas("assets/sprites/mundo/ids/mars_ids.txt");
-    //mapa->generar_mapa(get().render,2,0);
 
-    //07
+    // get().camara_principal = new Camara(0,0,get().WIDTH,get().HEIGHT,*get().render);
+    // fondo
+    //fondo = new Fondo((int)(get().WIDTH/2), (int)(get().HEIGHT/2),2400*2,480*2,"assets/sprites/mundo/atlas/fondoprueba2.jpg");
+    //fondo->cargar_textura(get().render);
+    //objetos.push_back(fondo);
+    // objetos.push_back(new Fondo(0,0,get().WIDTH,get().HEIGHT,{255,0,0,255}));
+    //08 tiles
+    mapa = new Atlas("assets/sprites/mundo/ids/mars_ids.txt");
+    mapa->generar_mapa(get().render,2,0);
+    //05
     player = new Jugador("assets/sprites/heroe/soldado.png",
                 //      hp , x , y, sW,sH , vW,vH ,color
-                        100,500,50,32,32,86,86,{255,0,255,255});
-
+                        100,1500,1500,32,32,86,86,{255,0,255,255});
     enemigo = new Enemigo("assets/sprites/enemigos/insecto.png",
-                //      hp , x , y, sW,sH , vW,vH ,color
-                        100, 600, 50, 32, 32, 120, 120, { 255,0,0,255 });
-    /*
-    bala = new Bala("assets/sprites/bala/bala.png",
-                //      hp , x , y, sW,sH , vW,vH ,color
-                        100, 600, 50, 32, 32, 100, 100, { 255,0,0,255 });
-    */
-    timer_shoot = Tiempo::get_tiempo();
+                        100,1500,1400,32,32,120,120,player,{255,0,0,255});
+    
     //new Jugador(100,500,50,{255,0,255,255});
     get().ensamble->cargar_texturas(player->get_sprite());
     get().ensamble->cargar_texturas(enemigo->get_sprite());
-    //get().ensamble->cargar_texturas(bala->get_sprite());
+    //get().ensamble->cargar_texturas(new Sprite("assets/sprites/mundo/atlas/fondoprueba2.jpg",{0,0},get().WIDTH,get().HEIGHT,get().WIDTH,get().HEIGHT));
+    printf("Se creo el player\n");
+    
     plataformas = mapa->get_objetos_fisicos();
-    
-    plataformas.push_back(new Plataformas(550,550,300,20,{0,0,0,255}));
-    plataformas.push_back(new Plataformas(300,350,100,20,{0,0,0,255}));
-    plataformas.push_back(new Plataformas(800,350,100,20,{0,0,0,255}));
-
-    plataformas.push_back(new Plataformas(550,200,300,20,{0,0,0,255}));
-    plataformas.push_back(new Plataformas(300,0,100,20,{0,0,0,255}));
-    plataformas.push_back(new Plataformas(800,0,100,20,{0,0,0,255}));
-
-    plataformas.push_back(new Plataformas(550,-350,300,20,{0,0,0,255}));
-    plataformas.push_back(new Plataformas(300,-550,100,20,{0,0,0,255}));
-    plataformas.push_back(new Plataformas(800,-550,100,20,{0,0,0,255}));
-    
     //06_Camaras
 
     get().camara_principal = new Camara(0,0,get().WIDTH,get().HEIGHT,*get().render);
+    ManejadorCamaras::get().set_camara(*get().camara_principal);
+
+    
 
     for(int i=0;i<plataformas.size();i++)
     {
         //agregar todos los objetos en una lista para la camara
         objetos.push_back(plataformas[i]);
     }
-    
 
     //objetos.push_back(player);
     objetos_ang.push_back(player);
     enemigos_ang.push_back(enemigo);
-    //objetos.push_back(bala);
-    //objetos_ang.push_back()
     
-    printf("Se crearon los test exitosamente\n");
+    printf("\nSe crearon los objetos exitosamente\n");
 
     //agregamos el color del background del frame
     SDL_SetRenderDrawColor(
@@ -161,12 +149,14 @@ void SDLApp::on_evento(SDL_Event* evento)
 
 void SDLApp::on_fisicaupdate(double dt)
 {
+    enemigo->set_ref_player(player);
+    camara_principal->lock_objeto(*player);
     
     //Camara Lock UnLock
-    camara_principal->lock_objeto(*player);
     /*
     if(KeyOyente::get().estaPresionado(SDL_SCANCODE_L))
     {
+        camara_principal->lock_objeto(*player);
     }
     else if(KeyOyente::get().estaPresionado(SDL_SCANCODE_U) && !camara_principal->en_transicion)
     {
@@ -174,78 +164,67 @@ void SDLApp::on_fisicaupdate(double dt)
     }
     */
 
+    if (KeyOyente::get().estaPresionado(SDL_SCANCODE_SPACE))
+    {
+        std::cout << player->get_posicion_mundo().y << std::endl;
+    }
+
     //render cuadro colisión player
     if(KeyOyente::get().estaPresionado(SDL_SCANCODE_C))
     {
         player->render_colbox = (player->render_colbox)?false:true;
         enemigo->render_colbox = (player->render_colbox)?false:true;
     }
-
-    timer_shoot += Tiempo::get_tiempo() - timer_shoot;
-    if((int)timer_shoot%delay ==0 && (int)timer_shoot!=0 && (int)timer_shoot > past_time_shoot)
-    {
-        if(MouseOyente::get().getBotones()[SDL_BUTTON_LEFT-1] == true){
-            //Bala *bala = new Bala(25,player->get_posicion_mundo().x,player->get_posicion_mundo().y,{255,0,0,255});
-            int mouse_x = MouseOyente::get().getX();
-            int mouse_y = MouseOyente::get().getY();
-            
-
-            Bala *bala = new Bala("assets/sprites/projectiles/shot.png",25,player->get_posicion_mundo().x,player->get_posicion_mundo().y,25,25,32,32,player->get_posicion_mundo(),{mouse_x, mouse_y},{255,0,0,255});
-            get().ensamble->cargar_texturas(bala->get_sprite());
-            //objetos.push_back(bala);
-            lista_balas.push_back(bala);
-            objetos.push_back(bala);
-            printf("Shoot\n");
-        }
-        contador_shoot++;
-        past_time_shoot = timer_shoot;
-
-        //printf("%d\n",contador);
-    }
+    
 
     for(auto &p:plataformas)
     {  
         p->update(dt);
+        //p->render_colbox = true;
     }
     
     player->input_handle(KeyOyente::get(),MouseOyente::get());
     player->update(dt);
 
+    enemigo->input_handle(KeyOyente::get(),MouseOyente::get());
     enemigo->update(dt);
+    //fondo->update(dt);
 
-    for(auto &b:lista_balas)
-    {
-        printf("personaje pos: %d\n", player->get_posicion_mundo().x);
+
+    for(auto &b:player->getListaBalas()){
+        get().ensamble->cargar_texturas(b->get_sprite());
         b->input_handle(KeyOyente::get(),MouseOyente::get(),*camara_principal);
         b->update(dt);
+        objetos.push_back(b); //agregamos las balas a la lista de objetos para que puedan ser renderizados
     }
-
-    //MotorFisico2D::get().gravedad({player});
-    //MotorFisico2D::get().aabb_colision(*player,plataformas);
-    MotorFisico2D::get().sat_colision(*player,plataformas);
-    //MotorFisico2D::get().sat_colision_enemigo(*player,enemigos_ang);
-    //printf("coord: %d - %d\n",player->get_posicion_mundo().x,player->get_posicion_mundo().y);
-
-    
+    // MotorFisico2D::get().gravedad({player});
+    // MotorFisico2D::get().aabb_colision(*player,plataformas);
+    // MotorFisico2D::get().sat_colision(*player,plataformas);
     
     /*CAMARA al final para actualizar la proyeción de los objetos*/
-    camara_principal->input_handle(KeyOyente::get(),MouseOyente::get());
-    camara_principal->update();
-    //printf("crash\n");
-    camara_principal->proyectar(objetos);
-    camara_principal->proyectar(objetos_ang);
-    camara_principal->proyectar(enemigos_ang);
-    //printf("Update Fisica\n");
+    // camara_principal->input_handle(KeyOyente::get(),MouseOyente::get());
+    // camara_principal->update();
+    // camara_principal->proyectar(objetos);
 
-    
-    
+    ManejadorCamaras::get().input_handle(KeyOyente::get(),MouseOyente::get());
+    ManejadorCamaras::get().update(objetos); //tambien hace proyectar objetos
+    camara_principal->proyectar(objetos_ang); //si se comenta la camara nunca podra lockear a jugador
+    camara_principal->proyectar(enemigos_ang); //si se comenta los enemigos nunca saldran de camara
+    //printf("Update Fisica\n");
 };
 
 void SDLApp::on_frameupdate(double dt)
 {
     // limpiar frame
     SDL_RenderClear(get().render);
-    
+    //Renderizar todo a través de la camara
+    //camara_principal->renderizar(objetos);
+    ManejadorCamaras::get().renderizar(objetos);
+    //ManejadorCamaras::get().renderizar(lista_balas);
+    ManejadorCamaras::get().renderizar_ang(objetos_ang, {MouseOyente::get().getX(), MouseOyente::get().getY()});
+    ManejadorCamaras::get().renderizar_ang(enemigos_ang, {player->get_posx(), player->get_posy()});
+    camara_principal->render_cross();
+
     //posicion del mouse
     int mx = MouseOyente::get().getX();
     int my = MouseOyente::get().getY();
@@ -262,30 +241,31 @@ void SDLApp::on_frameupdate(double dt)
     RenderTexto::get().render_texto(get().render,get().WIDTH-200,30,
         std::to_string((int)(dt/get().msfrecuencia))+" fps",
         100,30,SDL_Color{0,135,62});
+    
+    RenderTexto::get().render_texto(get().render,50,630,player->get_strEstado(),120,30,SDL_Color{0,0,0,255});
 
-    for(int i = 0; i < lista_balas.size(); i++){
-        if(lista_balas[i]->get_eliminarme() == true){
-            lista_balas.erase(lista_balas.begin()+i);
+    //Eliminar objetos
+    /*
+    for(int i = 0; i < player->getListaBalas().size(); i++){
+        if(player->getListaBalas()[i]->get_eliminarme() == true){
+            delete player->getListaBalas()[i];
+            player->getListaBalas().erase(player->getListaBalas().begin()+i);
             i--;
         }
     }
-
+    */
+    player->eliminarBalas();
+    
     for(int i = 0; i < objetos.size(); i++){
         if(objetos[i]->get_eliminarme() == true){
             printf("bala eliminada\n");
+            //delete objetos[i];
             objetos.erase(objetos.begin()+i);
             i--;
         }
     }
     
-    //camara_principal->renderizar(lista_balas);
-    camara_principal->renderizar(objetos);
-    camara_principal->renderizar_ang(objetos_ang, {MouseOyente::get().getX(), MouseOyente::get().getY()});
-    camara_principal->renderizar_ang(enemigos_ang, {player->get_posx(), player->get_posy()});
-    camara_principal->render_cross();
     
-    
-    RenderTexto::get().render_texto(get().render,50,630,player->get_strEstado(),120,30,SDL_Color{0,0,0,255});
 
     //Actualizar
     SDL_RenderPresent(get().render);
@@ -357,6 +337,3 @@ int SDLApp::on_correr()
     get().on_limpiar();
     return 0;
 };
-
-
-

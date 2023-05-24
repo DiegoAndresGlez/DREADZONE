@@ -66,7 +66,6 @@ void Atlas::generar_mapa(SDL_Renderer *r,int idflip,int notidobjfisicos)
         }
         info.mapa_ids.push_back(temp);
     }
-    
     //llenar matriz_ids
     for(int i=0;i<columna;++i)
     {
@@ -84,24 +83,24 @@ void Atlas::generar_mapa(SDL_Renderer *r,int idflip,int notidobjfisicos)
                 (info.mapa_ids[i][j]/info.num_tiles_ancho)*info.tile_height,info.tile_width,info.tile_height},//srcRect
                 {j*info.tile_width,i*info.tile_height,info.tile_width,info.tile_height},//dstRect
                 atlas_sheet,//source
-                {j*info.tile_width,i*info.tile_height},//pos
+                {(j*info.tile_width),432+(i*info.tile_height)},//pos
                 info.tile_width,//width
                 info.tile_height//height
             };
             //objetos_fisicos.push_back(new Plataformas(j*t_width,i*t_height,t_width,t_height,{0,0,0,255}));
-            bool tiene_colision = false;//(info.mapa_ids[i][j]==notidobjfisicos) ? false : true;
+            bool tiene_colision = true;//(info.mapa_ids[i][j]==notidobjfisicos) ? false : true;
             objetos_fisicos.push_back(new Plataformas(tile,tiene_colision));
         }
         printf("]\n");
     }
-    /*
-    constexpr int x=2,y=194;
+
+    /*constexpr int x=31,y=8;
     constexpr int id=26;
-    constexpr int an=90, ren=90;
+    constexpr int an=32, ren=12;
 
     constexpr int px= (id%an)*64;
-    constexpr int py= ((id/an))*64;
-    */
+    constexpr int py= ((id/an))*64;*/
+
     printf("Objetos -> %d\n",(int)objetos_fisicos.size());
     //cerrar archivo
     archivo.close();

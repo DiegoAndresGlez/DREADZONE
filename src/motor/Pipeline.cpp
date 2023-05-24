@@ -72,7 +72,13 @@ void Pipeline::pintar_texturas_ang(Sprite *obj, Coordenadas target){
     Plotter::get().pintar_textura_ang(ptrren, obj->get_textura(),*obj->get_sprite_src(),*obj->get_sprite_frame(),obj->get_sprite_sizes(), target);
 }
 
+void Pipeline::pintar_texturas(Tile *obj)
+{
+    Plotter::get().pintar_textura(ptrren,obj->get_textura(),*obj->get_src(),*obj->get_dst(),obj->get_sizes());
+};
+
 bool Pipeline::cargar_texturas(Sprite *obj)
 {
+    
     return obj->cargar_textura(ptrren);
 };
