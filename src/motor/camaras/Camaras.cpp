@@ -55,10 +55,14 @@ void Camara::proyectar(std::vector<Objeto*> objetos)
     //Alumnos implementarla 
     for(auto &o:objetos)
     {
-        Coordenadas posM = o->get_posicion_mundo();
-        posM.x -=(int)(pos_mundo.x / o->velocidad_camara);
-        posM.y -=(int)(pos_mundo.y / o->velocidad_camara);
-        o->set_posicion_camara(posM);
+        if (o->proyectable)
+        {    
+            Coordenadas posM = o->get_posicion_mundo();
+            posM.x -=(int)(pos_mundo.x / o->velocidad_camara);
+            posM.y -=(int)(pos_mundo.y / o->velocidad_camara);
+            o->set_posicion_camara(posM);
+        }
+        
         //DEBUGCOOR(posM)
     }
     //DEBUGPRINT("_____")

@@ -18,6 +18,14 @@ EstadoJugadorIDLE::EstadoJugadorIDLE()
 
 FSMJugador* EstadoJugadorIDLE::input_handle(KeyOyente& input, MouseOyente& mouse)
 {
+    if(input.estaPresionado(SDL_SCANCODE_D) && input.estaPresionado(SDL_SCANCODE_W))
+        return new EstadoJugadorMOVER({1,-1});
+    if(input.estaPresionado(SDL_SCANCODE_D) && input.estaPresionado(SDL_SCANCODE_S))
+        return new EstadoJugadorMOVER({1,1});
+    if(input.estaPresionado(SDL_SCANCODE_A) && input.estaPresionado(SDL_SCANCODE_W))
+        return new EstadoJugadorMOVER({-1,-1});
+    if(input.estaPresionado(SDL_SCANCODE_A) && input.estaPresionado(SDL_SCANCODE_S))
+        return new EstadoJugadorMOVER({-1,1});
     if(input.estaPresionado(SDL_SCANCODE_D))
         return new EstadoJugadorMOVER({1,0});
     if(input.estaPresionado(SDL_SCANCODE_A))
@@ -69,6 +77,14 @@ EstadoJugadorMOVER::EstadoJugadorMOVER(Coordenadas dir)
 
 FSMJugador* EstadoJugadorMOVER::input_handle(KeyOyente& input, MouseOyente& mouse)
 {
+    if(input.estaPresionado(SDL_SCANCODE_D) && input.estaPresionado(SDL_SCANCODE_W))
+        return new EstadoJugadorMOVER({1,-1});
+    if(input.estaPresionado(SDL_SCANCODE_D) && input.estaPresionado(SDL_SCANCODE_S))
+        return new EstadoJugadorMOVER({1,1});
+    if(input.estaPresionado(SDL_SCANCODE_A) && input.estaPresionado(SDL_SCANCODE_W))
+        return new EstadoJugadorMOVER({-1,-1});
+    if(input.estaPresionado(SDL_SCANCODE_A) && input.estaPresionado(SDL_SCANCODE_S))
+        return new EstadoJugadorMOVER({-1,1});
     if(input.estaPresionado(SDL_SCANCODE_S) & input.estaPresionado(SDL_SCANCODE_D))
         return new EstadoJugadorMOVER({1,1});
     if(input.estaPresionado(SDL_SCANCODE_S) & input.estaPresionado(SDL_SCANCODE_A))

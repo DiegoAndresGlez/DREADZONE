@@ -238,6 +238,7 @@ Bala::Bala(int dano, int x, int y, SDL_Color c){
     col_box->set_serellena(false);
     tiene_fisica = true;
     en_colision = false;
+    proyectable = false;
     //estado_actual = new EstadoJugadorIDLE();
     piso = {500,500}; // definir el piso en general
 }
@@ -261,6 +262,7 @@ Bala::Bala(std::string path_sprite, int dano, int x, int y, int w, int h, int sw
     en_colision = false;
     player_pos = player;
     direccion_bala = mouse_dir;
+    proyectable = false;
     
     estado_actual = new EstadoBalaMOVER({0,0});
     piso = {500,500}; // definir el piso en general

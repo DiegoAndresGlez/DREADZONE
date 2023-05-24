@@ -23,6 +23,7 @@ class Objeto
         bool render_colbox;
         int velocidad_camara{1};
         bool eliminarme{false};
+        bool proyectable{true};
 
     public:
         virtual ~Objeto(){};
