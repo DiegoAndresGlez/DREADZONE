@@ -98,7 +98,7 @@ void EstadoEnemigoMOVER::update(Enemigo& enemigo,double dt)
     e.x += velocidad * direccion.x;
     e.y += velocidad * direccion.y;
 
-    printf("x: %d - y: %d\n", e.x, e.y);
+    //printf("x: %d - y: %d\n", e.x, e.y);
 
     enemigo.set_posicion_camara(e);
 

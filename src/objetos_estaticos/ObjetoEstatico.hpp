@@ -31,3 +31,12 @@ class Fondo : public ObjetoEstatico
         void update(double dt);
     
 };
+
+class Nave : public ObjetoEstatico
+{
+    public:
+        virtual ~Nave(){};
+        Nave(int x, int y, int w, int h, std::string path_sprite);
+        void cargar_textura(SDL_Renderer *r);
+        void update(double dt);
+};

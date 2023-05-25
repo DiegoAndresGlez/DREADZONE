@@ -73,3 +73,26 @@ void Fondo::update(double dt)
         std::cout << "CAMBIO DE POSICION" << std::endl;
     }
 };
+
+Nave::Nave(int x, int y, int w, int h, std::string path_sprite)
+{
+    posicion_mundo.x=x;
+    posicion_mundo.y=y;
+    avatar = new Rectangulo(x,y,w,h,color);
+    avatar->set_rellenocolor(color);
+    avatar->set_serellena(true);
+    col_box = new Rectangulo(x,y,w+5,h+5,{0,255,0,255});
+    tiene_fisica=false;
+    en_colision=false;
+    sprite = new Sprite(path_sprite,posicion_mundo,w,h,w,h);
+}
+
+void Nave::cargar_textura(SDL_Renderer *r)
+{
+    sprite->cargar_textura(r);
+};
+
+void Nave::update(double dt)
+{
+    this->set_posicion_camara({posicion_mundo.x, posicion_mundo.y});
+};

@@ -99,13 +99,15 @@ bool SDLApp::on_init()
                         100,2500,2400,32,32,120,120,player,{255,0,0,255});
     enemigo2->set_ref_player(player);
 
-
+    nave = new Nave(1500,1300,128,128,"assets/sprites/mundo/nave.png");
     //new Jugador(100,500,50,{255,0,255,255});
     get().ensamble->cargar_texturas(player->get_sprite());
     get().ensamble->cargar_texturas(enemigo->get_sprite());
     get().ensamble->cargar_texturas(enemigo2->get_sprite());
+    get().ensamble->cargar_texturas(nave->get_sprite());
     //get().ensamble->cargar_texturas(new Sprite("assets/sprites/mundo/atlas/fondoprueba2.jpg",{0,0},get().WIDTH,get().HEIGHT,get().WIDTH,get().HEIGHT));
     printf("Se creo el player\n");
+    
     
     plataformas = mapa->get_objetos_fisicos();
     //06_Camaras
@@ -114,15 +116,14 @@ bool SDLApp::on_init()
     ManejadorCamaras::get().set_camara(*get().camara_principal);
     camara_principal->lock_objeto(*player);
 
+ 
     
-
     for(int i=0;i<plataformas.size();i++)
     {
         //agregar todos los objetos en una lista para la camara
         objetos.push_back(plataformas[i]);
     }
-
-    //objetos.push_back(player);
+    plataformas.push_back(nave);
     objetos_ang.push_back(player);
     enemigos_ang.push_back(enemigo);
     enemigos_ang.push_back(enemigo2);
@@ -181,7 +182,7 @@ void SDLApp::on_fisicaupdate(double dt)
     if(KeyOyente::get().estaPresionado(SDL_SCANCODE_C))
     {
         player->render_colbox = (player->render_colbox)?false:true;
-        enemigo->render_colbox = (player->render_colbox)?false:true;
+        enemigo->render_colbox = (enemigo->render_colbox)?false:true;
     }
     
 

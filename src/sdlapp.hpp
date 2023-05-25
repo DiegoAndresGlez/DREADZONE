@@ -41,6 +41,7 @@ class SDLApp
         Jugador* player;
         Enemigo* enemigo;
         Enemigo* enemigo2;
+        ObjetoEstatico* nave;
         std::vector<ObjetoEstatico*> plataformas;
 
         //06_Camaras
