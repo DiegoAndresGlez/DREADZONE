@@ -53,6 +53,11 @@ void EstadoJugadorIDLE::update(Jugador& player,double dt)
         //printf("x: %d - y: %d\n", MouseOyente::getX(), MouseOyente::getY());
     }
 
+    if(player.en_colision){
+        printf("EN COLISION\n");
+    }
+
+
     player.get_sprite()->play_frame(0,frames_actual_ani%frames_maxim_ani);
     if(frame_dt>7)
     {
@@ -123,12 +128,9 @@ void EstadoJugadorMOVER::update(Jugador& player,double dt)
     
     if (player.en_colision)
     {
-        float mag = std::sqrt(player.offsetoverlap.x*player.offsetoverlap.x +player.offsetoverlap.y*player.offsetoverlap.y);
-        float rx = player.offsetoverlap.x/mag;
-        float ry = player.offsetoverlap.y/mag;
-
-        p.x =(p.x+rx*(-direccion.x)*velocidad) ;
-        p.y =(p.y+ry*(-direccion.y)*velocidad) ;
+        printf("EN COLISION (MOVER)\n");
+        p.x+=(velocidad*direccion.x);
+        p.y+=(velocidad*direccion.y);
     }
     else
     {

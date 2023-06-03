@@ -69,6 +69,16 @@ void EstadoEnemigoMOVER::update(Enemigo& enemigo,double dt)
     
     Coordenadas e = enemigo.get_posicion_mundo();
 
+    /*
+    int dx = direccion.x - e.x;
+    int dy = direccion.y - e.y;
+    float angle = atan2(dy, dx);
+
+    e.x += velocidad * cos(angle);
+    e.y += velocidad * sin(angle);
+    */
+
+    
     if(direccion.x - e.x > 40)
     {
         direccion.x = 1;

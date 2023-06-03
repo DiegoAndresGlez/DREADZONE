@@ -16,14 +16,17 @@ MotorFisico2D& MotorFisico2D::get()
     return *instancia;
 };
 
-void MotorFisico2D::aabb_colision(ObjetoDinamico& p, std::vector<ObjetoEstatico*>obj)
+bool MotorFisico2D::aabb_colision(Figura& A, Figura& B)
 {
-    for(auto &o: obj)
-    {
-        if(o->get_tiene_fisica())
-            p.en_colision|=get().aabb(p,*o);
-    }
-    
+    //    A.-----.D
+    //     |     |
+    //    B.-----.C
+
+    std::vector<Coordenadas> vA = A.get_vertices();
+    std::vector<Coordenadas> vB = B.get_vertices();
+
+    return  (vA[0].x < vB[2].x && vA[2].x > vB[0].x) &&
+            (vA[0].y < vB[2].y && vA[2].y > vB[0].y);
 };
 
 bool MotorFisico2D::aabb(Objeto &A, Objeto &B)
@@ -39,7 +42,7 @@ bool MotorFisico2D::aabb(Objeto &A, Objeto &B)
             (vA[0].y < vB[2].y && vA[2].y > vB[0].y);
 };
 
-bool diag_colision(Figura& A, Figura& B){
+bool MotorFisico2D::diag_colision(Figura& A, Figura& B){
     //revisar ambas figuras en un solo ciclo
     Figura* TA=&A;
     Figura* TB=&B;
@@ -93,7 +96,7 @@ bool diag_colision(Figura& A, Figura& B){
     return false;
 };
 
-bool diag_overlap(Objeto& A, Objeto& B){
+bool MotorFisico2D::diag_overlap(Objeto& A, Objeto& B){
     //revisar ambas figuras en un solo ciclo
     Objeto* TA=&A;
     Objeto* TB=&B;

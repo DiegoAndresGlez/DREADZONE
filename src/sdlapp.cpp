@@ -93,7 +93,7 @@ bool SDLApp::on_init()
                 //      hp , x , y, sW,sH , vW,vH ,color
                         100,1500,1500,32,32,86,86,{255,0,255,255});
     enemigo = new Enemigo("assets/sprites/enemigos/insecto.png",
-                        100,1500,1400,32,32,120,120,player,{255,0,0,255});
+                        100,1500,1100,32,32,120,120,player,{255,0,0,255});
     enemigo->set_ref_player(player);
     enemigo2 = new Enemigo("assets/sprites/enemigos/insecto.png",
                         100,2500,2400,32,32,120,120,player,{255,0,0,255});
@@ -207,6 +207,12 @@ void SDLApp::on_fisicaupdate(double dt)
         b->update(dt);
         objetos.push_back(b); //agregamos las balas a la lista de objetos para que puedan ser renderizados
     }
+    
+    
+    colision_enemigos_player(enemigos_ang, player); //hacer colision por segundo y lastimar player
+
+
+
     // MotorFisico2D::get().gravedad({player});
     // MotorFisico2D::get().aabb_colision(*player,plataformas);
     // MotorFisico2D::get().sat_colision(*player,plataformas);
@@ -347,3 +353,19 @@ int SDLApp::on_correr()
     get().on_limpiar();
     return 0;
 };
+
+void SDLApp::colision_enemigos_player(std::vector<Objeto*> enemigos_ang, Jugador* player)
+{
+    for(auto &e:enemigos_ang){
+        if(!e->render_colbox && e->get_colbox())
+            e->render_colbox=true;
+
+        if(e->get_colbox())
+        {
+            MotorFisico2D::get().diag_overlap(*player,*e);
+            bool pc = MotorFisico2D::get().aabb_colision(*player->get_colbox(),*e->get_colbox());
+            player->en_colision |= pc;
+        }
+    }
+}
+
