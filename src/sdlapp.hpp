@@ -65,4 +65,5 @@ class SDLApp
         static bool estaCorriendo() {return get().esta_corriendo;};
         void colision_enemigos_player(std::vector<Objeto*> enemigos_ang, Jugador* player);
         void colision_enemigos_a_enemigos(std::vector<Objeto*> enemigos_ang);
+        void colision_bala_a_enemigos(std::vector<Objeto*> enemigos, Jugador* player);
 };

@@ -71,7 +71,7 @@ void EstadoBalaMOVER::update(Bala& bala,double dt)
 
     if(bala.en_colision){
         bala.set_eliminarme(true);
-        printf("BALA EN COLISION\n");
+        //printf("BALA EN COLISION\n");
     }
     bala.set_posicion_camara(b);
 

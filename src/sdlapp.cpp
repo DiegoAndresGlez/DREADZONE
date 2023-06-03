@@ -224,19 +224,8 @@ void SDLApp::on_fisicaupdate(double dt)
     //ya hay colision de enemigo con enemigo
     colision_enemigos_a_enemigos(enemigos_ang);
 
-    for(auto &b : player->getListaBalas()){
-        if(!b->render_colbox && b->get_colbox())
-            b->render_colbox=true;
-
-        if(b->get_colbox())
-        {
-            for(auto &e : enemigos_ang){
-                bool colision = MotorFisico2D::get().aabb_colision(*b->get_colbox(),*e->get_colbox());
-                b->en_colision |= colision;
-            }
-        }
-    }
-
+    //IMPLEMENTAR: lastimar enemigo
+    colision_bala_a_enemigos(enemigos_ang, player);
 
 
 
@@ -297,8 +286,9 @@ void SDLApp::on_frameupdate(double dt)
         }
     }
     */
+
+    //Elimina las balas tanto de la lista de objetos como de la lista de balas del player
     player->eliminarBalas();
-    
     for(int i = 0; i < objetos.size(); i++){
         if(objetos[i]->get_eliminarme() == true){
             //printf("bala eliminada\n");
@@ -307,8 +297,6 @@ void SDLApp::on_frameupdate(double dt)
             i--;
         }
     }
-    
-    
 
     //Actualizar
     SDL_RenderPresent(get().render);
@@ -398,7 +386,6 @@ void SDLApp::colision_enemigos_player(std::vector<Objeto*> enemigos_ang, Jugador
 
 void SDLApp::colision_enemigos_a_enemigos(std::vector<Objeto*> enemigos_ang)
 {
-    bool colision = false;
     for(int i = 0; i < enemigos_ang.size(); i++){
         int x = enemigos_ang[i]->get_posicion_mundo().x;
         int y = enemigos_ang[i]->get_posicion_mundo().y;
@@ -406,8 +393,23 @@ void SDLApp::colision_enemigos_a_enemigos(std::vector<Objeto*> enemigos_ang)
             int x2 = enemigos_ang[j]->get_posicion_mundo().x;
             int y2 = enemigos_ang[j]->get_posicion_mundo().y;
 
-            colision = MotorFisico2D::get().diag_overlap(*enemigos_ang[i], *enemigos_ang[j]);
+            MotorFisico2D::get().diag_overlap(*enemigos_ang[i], *enemigos_ang[j]);
+        }
+    }
+}
 
+void SDLApp::colision_bala_a_enemigos(std::vector<Objeto*> enemigos, Jugador* player)
+{
+    for(auto &b : player->getListaBalas()){
+        if(!b->render_colbox && b->get_colbox())
+            b->render_colbox=true;
+
+        if(b->get_colbox())
+        {
+            for(auto &e : enemigos_ang){
+                bool colision = MotorFisico2D::get().aabb_colision(*b->get_colbox(),*e->get_colbox());
+                b->en_colision |= colision;
+            }
         }
     }
 }
