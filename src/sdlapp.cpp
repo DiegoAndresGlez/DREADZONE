@@ -224,6 +224,19 @@ void SDLApp::on_fisicaupdate(double dt)
     //ya hay colision de enemigo con enemigo
     colision_enemigos_a_enemigos(enemigos_ang);
 
+    for(auto &b : player->getListaBalas()){
+        if(!b->render_colbox && b->get_colbox())
+            b->render_colbox=true;
+
+        if(b->get_colbox())
+        {
+            for(auto &e : enemigos_ang){
+                bool colision = MotorFisico2D::get().aabb_colision(*b->get_colbox(),*e->get_colbox());
+                b->en_colision |= colision;
+            }
+        }
+    }
+
 
 
 
@@ -288,7 +301,7 @@ void SDLApp::on_frameupdate(double dt)
     
     for(int i = 0; i < objetos.size(); i++){
         if(objetos[i]->get_eliminarme() == true){
-            printf("bala eliminada\n");
+            //printf("bala eliminada\n");
             //delete objetos[i];
             objetos.erase(objetos.begin()+i);
             i--;

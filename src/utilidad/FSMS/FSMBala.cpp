@@ -65,10 +65,13 @@ void EstadoBalaMOVER::update(Bala& bala,double dt)
     int dir_x = velocidad * sin(angulo);
     int dir_y = velocidad * cos(angulo);
     Coordenadas b = bala.get_posicion_mundo();
-    if (!bala.en_colision)
-    {
-        b.x+=(velocidad*dir_x);
-        b.y+=(velocidad*dir_y);
+    
+    b.x+=(velocidad*dir_x);
+    b.y+=(velocidad*dir_y);  
+
+    if(bala.en_colision){
+        bala.set_eliminarme(true);
+        printf("BALA EN COLISION\n");
     }
     bala.set_posicion_camara(b);
 
