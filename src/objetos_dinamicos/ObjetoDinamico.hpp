@@ -28,6 +28,7 @@ class ObjetoDinamico : public Objeto
         virtual void* get_estado()=0;
 
         Coordenadas offsetoverlap;
+
     protected:
         float dtgravedad{0};
         

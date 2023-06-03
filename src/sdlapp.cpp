@@ -103,6 +103,8 @@ bool SDLApp::on_init()
                         100,1000,2400,32,32,120,120,player,{255,0,0,255});
     enemigo3->set_ref_player(player);
 
+    
+
 
     nave = new Nave(1500,1300,128,128,"assets/sprites/mundo/nave.png");
     //new Jugador(100,500,50,{255,0,255,255});
@@ -136,6 +138,7 @@ bool SDLApp::on_init()
     enemigos_ang.push_back(enemigo3);
     
     printf("\nSe crearon los objetos exitosamente\n");
+    printf("vida player: %d\n", player->get_hp());
 
     //agregamos el color del background del frame
     SDL_SetRenderDrawColor(
@@ -228,7 +231,6 @@ void SDLApp::on_fisicaupdate(double dt)
     colision_bala_a_enemigos(enemigos_ang, player);
 
 
-
     // MotorFisico2D::get().gravedad({player});
     // MotorFisico2D::get().aabb_colision(*player,plataformas);
     // MotorFisico2D::get().sat_colision(*player,plataformas);
@@ -294,6 +296,14 @@ void SDLApp::on_frameupdate(double dt)
             //printf("bala eliminada\n");
             //delete objetos[i];
             objetos.erase(objetos.begin()+i);
+            i--;
+        }
+    }
+
+    for(int i = 0; i < enemigos_ang.size(); i++){
+        if(enemigos_ang[i]->get_eliminarme() == true){
+            printf("enemigo eliminado\n");
+            enemigos_ang.erase(enemigos_ang.begin()+i);
             i--;
         }
     }
@@ -409,6 +419,7 @@ void SDLApp::colision_bala_a_enemigos(std::vector<Objeto*> enemigos, Jugador* pl
             for(auto &e : enemigos_ang){
                 bool colision = MotorFisico2D::get().aabb_colision(*b->get_colbox(),*e->get_colbox());
                 b->en_colision |= colision;
+                e->en_colision_bala_enemigo |= colision;
             }
         }
     }

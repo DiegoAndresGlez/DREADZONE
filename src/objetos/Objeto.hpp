@@ -12,14 +12,15 @@ class Objeto
         Sprite* sprite;
         Tile *tile;
         Figura* col_box;
-        float hp;
         Coordenadas posicion_mundo;
         Coordenadas posicion_camara;
         bool tiene_fisica;
         SDL_Color color;
+        int hp{100};
         
     public:
         bool en_colision;
+        bool en_colision_bala_enemigo;
         bool render_colbox;
         int velocidad_camara{1};
         bool eliminarme{false};
@@ -32,8 +33,6 @@ class Objeto
         void render_ang(SDL_Renderer *r, Coordenadas target);
         Figura* get_avatar()const{return avatar;};
         Figura* get_colbox()const{return col_box;};
-        float get_hp()const{return hp;};
-        void set_hp(float v){hp=v;};
         Coordenadas get_posicion_mundo()const{return posicion_mundo;};
         Coordenadas get_posicion_camara()const{return posicion_camara;};
         int get_posx()const{return posicion_mundo.x;};
@@ -42,6 +41,8 @@ class Objeto
         void set_posicion_camara(Coordenadas p);
         void set_posx(int x);
         void set_posy(int y);
+        int get_hp()const{return hp;};
+        void set_hp(float v){hp=v;};
         SDL_Color get_color()const{return color;};
         void set_color(SDL_Color c){color=c;};
         bool get_tiene_fisica()const{return tiene_fisica;};

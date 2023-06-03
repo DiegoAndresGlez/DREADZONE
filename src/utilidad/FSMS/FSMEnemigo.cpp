@@ -40,7 +40,7 @@ EstadoEnemigoMOVER::EstadoEnemigoMOVER(Coordenadas dir)
 {
     strnombre = "MOVER";
     direccion = dir;
-    velocidad = 2;
+    velocidad = 3;
     frames_actual_ani = 0;
     frames_maxim_ani = 5;
 }
@@ -77,8 +77,16 @@ void EstadoEnemigoMOVER::update(Enemigo& enemigo,double dt)
     e.x += velocidad * cos(angle);
     e.y += velocidad * sin(angle);
     */
-    if(enemigo.en_colision){
-        printf("en colision con enemigo\n");
+    if(enemigo.en_colision_bala_enemigo){
+        int dmg = 10;
+        int hp = enemigo.get_hp();
+        enemigo.set_hp(hp - dmg);
+        enemigo.en_colision_bala_enemigo = false;
+        printf("VIDA ENEMIGO: %d\n", enemigo.get_hp());
+    }
+
+    if(enemigo.get_hp() <= 0){
+        enemigo.set_eliminarme(true);
     }
     
     if(direccion.x - e.x > 40)

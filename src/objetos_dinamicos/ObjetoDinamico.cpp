@@ -39,6 +39,7 @@ Jugador::Jugador(std::string path_sprite,float vida, int x, int y, int w, int h,
     col_box->set_serellena(false);
     tiene_fisica = true;
     en_colision = false;
+    en_colision_bala_enemigo = false;
     estado_actual = new EstadoJugadorIDLE();
     piso = {500,500}; // definir el piso en general
 
@@ -133,7 +134,7 @@ void Jugador::eliminarBalas()
 }
 
 /*ENEMIGO*/
-Enemigo::Enemigo(float vida, int x, int y, SDL_Color c){
+Enemigo::Enemigo(float vida, int x, int y, SDL_Color c) : ObjetoDinamico{}{
     hp = vida;
     posicion_mundo.x=x;
     posicion_mundo.y=y;
@@ -152,7 +153,7 @@ Enemigo::Enemigo(float vida, int x, int y, SDL_Color c){
     piso = {500,500}; // definir el piso en general
 }
 
-Enemigo::Enemigo(std::string path_sprite, float vida, int x, int y, int w, int h, int sw, int sh, Jugador* player, SDL_Color c)
+Enemigo::Enemigo(std::string path_sprite, float vida, int x, int y, int w, int h, int sw, int sh, Jugador* player, SDL_Color c) :ObjetoDinamico{}
 {
     hp = vida;
     posicion_mundo.x=x;
@@ -168,6 +169,7 @@ Enemigo::Enemigo(std::string path_sprite, float vida, int x, int y, int w, int h
     col_box = new Rectangulo(x,y,75+10,75+10,c);
     col_box->set_serellena(false);
     tiene_fisica = true;
+    en_colision_bala_enemigo = false;
     en_colision = false;
     estado_actual = new EstadoEnemigoMOVER({0,0});
     piso = {500,500}; // definir el piso en general
@@ -222,7 +224,7 @@ void Enemigo::input_handle(KeyOyente& input,MouseOyente& mouse)
 }
 
 /*BALA*/
-Bala::Bala(int dano, int x, int y, SDL_Color c){
+Bala::Bala(int dano, int x, int y, SDL_Color c) :ObjetoDinamico{}{
     hp = 0;
     dmg = dano;
     posicion_mundo.x=x;
@@ -243,7 +245,7 @@ Bala::Bala(int dano, int x, int y, SDL_Color c){
     piso = {500,500}; // definir el piso en general
 }
 
-Bala::Bala(std::string path_sprite, int dano, int x, int y, int w, int h, int sw, int sh, Coordenadas player, Coordenadas mouse_dir, SDL_Color c)
+Bala::Bala(std::string path_sprite, int dano, int x, int y, int w, int h, int sw, int sh, Coordenadas player, Coordenadas mouse_dir, SDL_Color c) :ObjetoDinamico{}
 {
     hp = 0;
     dmg = dano;
@@ -260,6 +262,7 @@ Bala::Bala(std::string path_sprite, int dano, int x, int y, int w, int h, int sw
     col_box->set_serellena(false);
     tiene_fisica = true;
     en_colision = false;
+    en_colision_bala_enemigo = false;
     player_pos = player;
     direccion_bala = mouse_dir;
     proyectable = false;
