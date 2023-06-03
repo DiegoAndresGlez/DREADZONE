@@ -41,6 +41,7 @@ class SDLApp
         Jugador* player;
         Enemigo* enemigo;
         Enemigo* enemigo2;
+        Enemigo* enemigo3;
         ObjetoEstatico* nave;
         std::vector<ObjetoEstatico*> plataformas;
 
@@ -63,4 +64,5 @@ class SDLApp
         static SDLApp& get();
         static bool estaCorriendo() {return get().esta_corriendo;};
         void colision_enemigos_player(std::vector<Objeto*> enemigos_ang, Jugador* player);
+        void colision_enemigos_a_enemigos(std::vector<Objeto*> enemigos_ang);
 };

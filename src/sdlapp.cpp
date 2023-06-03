@@ -99,11 +99,17 @@ bool SDLApp::on_init()
                         100,2500,2400,32,32,120,120,player,{255,0,0,255});
     enemigo2->set_ref_player(player);
 
+    enemigo3 = new Enemigo("assets/sprites/enemigos/insecto.png",
+                        100,1000,2400,32,32,120,120,player,{255,0,0,255});
+    enemigo3->set_ref_player(player);
+
+
     nave = new Nave(1500,1300,128,128,"assets/sprites/mundo/nave.png");
     //new Jugador(100,500,50,{255,0,255,255});
     get().ensamble->cargar_texturas(player->get_sprite());
     get().ensamble->cargar_texturas(enemigo->get_sprite());
     get().ensamble->cargar_texturas(enemigo2->get_sprite());
+    get().ensamble->cargar_texturas(enemigo3->get_sprite());
     get().ensamble->cargar_texturas(nave->get_sprite());
     //get().ensamble->cargar_texturas(new Sprite("assets/sprites/mundo/atlas/fondoprueba2.jpg",{0,0},get().WIDTH,get().HEIGHT,get().WIDTH,get().HEIGHT));
     printf("Se creo el player\n");
@@ -127,6 +133,7 @@ bool SDLApp::on_init()
     objetos_ang.push_back(player);
     enemigos_ang.push_back(enemigo);
     enemigos_ang.push_back(enemigo2);
+    enemigos_ang.push_back(enemigo3);
     
     printf("\nSe crearon los objetos exitosamente\n");
 
@@ -201,6 +208,9 @@ void SDLApp::on_fisicaupdate(double dt)
     enemigo2->input_handle(KeyOyente::get(),MouseOyente::get());
     enemigo2->update(dt);
 
+    enemigo3->input_handle(KeyOyente::get(),MouseOyente::get());
+    enemigo3->update(dt);
+
     for(auto &b:player->getListaBalas()){
         get().ensamble->cargar_texturas(b->get_sprite());
         b->input_handle(KeyOyente::get(),MouseOyente::get(),*camara_principal);
@@ -208,23 +218,11 @@ void SDLApp::on_fisicaupdate(double dt)
         objetos.push_back(b); //agregamos las balas a la lista de objetos para que puedan ser renderizados
     }
     
-    
-    colision_enemigos_player(enemigos_ang, player); //hacer colision por segundo y lastimar player
-
+    //IMPLEMENTAR: colision por segundo y lastimar player
+    colision_enemigos_player(enemigos_ang, player); 
 
     //ya hay colision de enemigo con enemigo
-    bool colision = false;
-    for(int i = 0; i < enemigos_ang.size(); i++){
-        int x = enemigos_ang[i]->get_posicion_mundo().x;
-        int y = enemigos_ang[i]->get_posicion_mundo().y;
-        for(int j = i + 1; j < enemigos_ang.size(); j++){
-            int x2 = enemigos_ang[j]->get_posicion_mundo().x;
-            int y2 = enemigos_ang[j]->get_posicion_mundo().y;
-
-            colision = MotorFisico2D::get().diag_overlap(*enemigos_ang[i], *enemigos_ang[j]);
-            
-        }
-    }
+    colision_enemigos_a_enemigos(enemigos_ang);
 
 
 
@@ -385,3 +383,18 @@ void SDLApp::colision_enemigos_player(std::vector<Objeto*> enemigos_ang, Jugador
     }
 }
 
+void SDLApp::colision_enemigos_a_enemigos(std::vector<Objeto*> enemigos_ang)
+{
+    bool colision = false;
+    for(int i = 0; i < enemigos_ang.size(); i++){
+        int x = enemigos_ang[i]->get_posicion_mundo().x;
+        int y = enemigos_ang[i]->get_posicion_mundo().y;
+        for(int j = i + 1; j < enemigos_ang.size(); j++){
+            int x2 = enemigos_ang[j]->get_posicion_mundo().x;
+            int y2 = enemigos_ang[j]->get_posicion_mundo().y;
+
+            colision = MotorFisico2D::get().diag_overlap(*enemigos_ang[i], *enemigos_ang[j]);
+
+        }
+    }
+}
