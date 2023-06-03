@@ -52,6 +52,7 @@ class Enemigo : public ObjetoDinamico
 
         void set_ref_player(Jugador* player){ref_player = player;};
         Jugador* get_ref_player()const{return ref_player;};
+
     private:
         FSMEnemigo* estado_actual;
         Jugador* ref_player;

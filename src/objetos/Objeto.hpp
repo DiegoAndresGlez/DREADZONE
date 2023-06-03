@@ -25,6 +25,7 @@ class Objeto
         int velocidad_camara{1};
         bool eliminarme{false};
         bool proyectable{true};
+        bool estaMuerto{false};
 
     public:
         virtual ~Objeto(){};
@@ -41,6 +42,8 @@ class Objeto
         void set_posicion_camara(Coordenadas p);
         void set_posx(int x);
         void set_posy(int y);
+        void set_muerto(bool v){estaMuerto=v;};
+        bool get_muerto()const{return estaMuerto;};
         int get_hp()const{return hp;};
         void set_hp(float v){hp=v;};
         SDL_Color get_color()const{return color;};

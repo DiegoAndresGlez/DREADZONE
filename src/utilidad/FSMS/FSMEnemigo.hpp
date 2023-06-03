@@ -3,6 +3,7 @@
 #include "../../motor/KeyOyente.hpp"
 #include "../../motor/MouseOyente.hpp"
 #include "../../utilidad/Func_aux.hpp"
+#include "../Tiempo.hpp"
 #include<string>
 #include<vector>
 
@@ -51,5 +52,27 @@ class EstadoEnemigoMOVER : public FSMEnemigo
         int velocidad;
         int frames_actual_ani;
         int frames_maxim_ani;
-        int frame_dt{0};  
+        int frame_dt{0};
+        bool estaMuerto{false};  
+};
+
+class EstadoEnemigoMORIR: public FSMEnemigo
+{
+    public:
+        EstadoEnemigoMORIR();
+        virtual ~EstadoEnemigoMORIR(){};
+        FSMEnemigo* input_handle(KeyOyente& input, MouseOyente& mouse);
+        void entrar(Enemigo& enemigo);
+        void salir(Enemigo& enemigo);
+        void update(Enemigo& enemigo,double dt);
+    private:
+        int frames_actual_ani;
+        int frames_maxim_ani;
+        int frame_dt{0};
+
+        double timer{0};
+        double past_time{0};
+        int contador{0};
+        int delay{1};
+
 };

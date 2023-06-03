@@ -302,7 +302,7 @@ void SDLApp::on_frameupdate(double dt)
 
     for(int i = 0; i < enemigos_ang.size(); i++){
         if(enemigos_ang[i]->get_eliminarme() == true){
-            printf("enemigo eliminado\n");
+            //printf("enemigo eliminado\n");
             enemigos_ang.erase(enemigos_ang.begin()+i);
             i--;
         }
@@ -402,8 +402,9 @@ void SDLApp::colision_enemigos_a_enemigos(std::vector<Objeto*> enemigos_ang)
         for(int j = i + 1; j < enemigos_ang.size(); j++){
             int x2 = enemigos_ang[j]->get_posicion_mundo().x;
             int y2 = enemigos_ang[j]->get_posicion_mundo().y;
-
-            MotorFisico2D::get().diag_overlap(*enemigos_ang[i], *enemigos_ang[j]);
+            if(enemigos_ang[i]->estaMuerto == false && enemigos_ang[j]->estaMuerto == false){
+                MotorFisico2D::get().diag_overlap(*enemigos_ang[i], *enemigos_ang[j]);
+            } 
         }
     }
 }

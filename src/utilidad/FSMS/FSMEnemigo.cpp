@@ -40,6 +40,7 @@ EstadoEnemigoMOVER::EstadoEnemigoMOVER(Coordenadas dir)
 {
     strnombre = "MOVER";
     direccion = dir;
+    estaMuerto = false;
     velocidad = 3;
     frames_actual_ani = 0;
     frames_maxim_ani = 5;
@@ -47,6 +48,8 @@ EstadoEnemigoMOVER::EstadoEnemigoMOVER(Coordenadas dir)
 
 FSMEnemigo* EstadoEnemigoMOVER::input_handle(KeyOyente& input, MouseOyente& mouse)
 {
+    if(estaMuerto)
+        return new EstadoEnemigoMORIR();
     return nullptr;
 }
 
@@ -86,7 +89,10 @@ void EstadoEnemigoMOVER::update(Enemigo& enemigo,double dt)
     }
 
     if(enemigo.get_hp() <= 0){
-        enemigo.set_eliminarme(true);
+        //enemigo.set_eliminarme(true);
+        enemigo.en_colision = false;
+        estaMuerto = true; //esta muerto FSM
+        enemigo.estaMuerto = true; //esta muerto enemigo (se usa para la colision diag)
     }
     
     if(direccion.x - e.x > 40)
@@ -132,3 +138,61 @@ void EstadoEnemigoMOVER::update(Enemigo& enemigo,double dt)
     }
     frame_dt++;
 }
+
+/*MORIR*/
+EstadoEnemigoMORIR::EstadoEnemigoMORIR()
+{
+    strnombre = "MORIR";
+    frames_actual_ani = 0;
+    frames_maxim_ani = 5;
+    timer = 0;
+    past_time = 0;
+    contador = 0;
+    delay = 1;
+}
+
+FSMEnemigo* EstadoEnemigoMORIR::input_handle(KeyOyente& input, MouseOyente& mouse)
+{
+    return nullptr;
+}
+
+void EstadoEnemigoMORIR::entrar(Enemigo& enemigo)
+{
+    frames_actual_ani = 0;
+    frames_maxim_ani = 5;
+    timer = Tiempo::get_tiempo();
+}
+
+void EstadoEnemigoMORIR::update(Enemigo& enemigo, double dt)
+{
+    if(contador >= 5)
+        enemigo.set_eliminarme(true);
+    
+    if(frames_actual_ani == frames_maxim_ani){
+        enemigo.get_sprite()->play_frame(1, 4);
+    }else{
+        enemigo.get_sprite()->play_frame(1, frames_actual_ani % frames_maxim_ani);
+
+        if(frame_dt > 7){ 
+            frame_dt = 0;
+            frames_actual_ani++;
+            //Bala *bala = new Bala(25, 30, 30, SDL_Color{0,0,0});
+        }
+        frame_dt++;
+    }
+
+    if((int)timer%delay ==0 && (int)timer!=0 && (int)timer > past_time){
+        printf("contador: %d\n", contador);
+        contador++;
+        past_time = timer;
+    }
+}
+
+void EstadoEnemigoMORIR::salir(Enemigo& enemigo)
+{
+    frames_actual_ani = 0;
+    frames_maxim_ani = 5;
+    //timer = 0;
+}
+
+

@@ -54,7 +54,7 @@ void EstadoJugadorIDLE::update(Jugador& player,double dt)
     }
 
     if(player.en_colision){
-        printf("EN COLISION\n");
+        //printf("EN COLISION\n");
     }
 
 
@@ -128,7 +128,7 @@ void EstadoJugadorMOVER::update(Jugador& player,double dt)
     
     if (player.en_colision)
     {
-        printf("EN COLISION (MOVER)\n");
+        //printf("EN COLISION (MOVER)\n");
         p.x+=(velocidad*direccion.x);
         p.y+=(velocidad*direccion.y);
     }
