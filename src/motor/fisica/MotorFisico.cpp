@@ -147,7 +147,7 @@ bool MotorFisico2D::diag_overlap(Objeto& A, Objeto& B){
             Coordenadas pos = A.get_posicion_mundo();
             pos.x+=offset.x*(i==0 ?-1:1);
             pos.y+=offset.y*(i==0 ?-1:1);
-            A.set_posicion_mundo(pos);
+            A.set_posicion_camara(pos);
         }
     }
     return false;

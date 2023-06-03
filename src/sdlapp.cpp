@@ -212,6 +212,22 @@ void SDLApp::on_fisicaupdate(double dt)
     colision_enemigos_player(enemigos_ang, player); //hacer colision por segundo y lastimar player
 
 
+    //ya hay colision de enemigo con enemigo
+    bool colision = false;
+    for(int i = 0; i < enemigos_ang.size(); i++){
+        int x = enemigos_ang[i]->get_posicion_mundo().x;
+        int y = enemigos_ang[i]->get_posicion_mundo().y;
+        for(int j = i + 1; j < enemigos_ang.size(); j++){
+            int x2 = enemigos_ang[j]->get_posicion_mundo().x;
+            int y2 = enemigos_ang[j]->get_posicion_mundo().y;
+
+            colision = MotorFisico2D::get().diag_overlap(*enemigos_ang[i], *enemigos_ang[j]);
+            
+        }
+    }
+
+
+
 
     // MotorFisico2D::get().gravedad({player});
     // MotorFisico2D::get().aabb_colision(*player,plataformas);

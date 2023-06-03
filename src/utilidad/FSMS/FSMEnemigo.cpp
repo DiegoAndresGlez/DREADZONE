@@ -77,7 +77,9 @@ void EstadoEnemigoMOVER::update(Enemigo& enemigo,double dt)
     e.x += velocidad * cos(angle);
     e.y += velocidad * sin(angle);
     */
-
+    if(enemigo.en_colision){
+        printf("en colision con enemigo\n");
+    }
     
     if(direccion.x - e.x > 40)
     {
