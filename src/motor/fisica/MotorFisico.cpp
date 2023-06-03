@@ -39,6 +39,117 @@ bool MotorFisico2D::aabb(Objeto &A, Objeto &B)
             (vA[0].y < vB[2].y && vA[2].y > vB[0].y);
 };
 
+bool diag_colision(Figura& A, Figura& B){
+    //revisar ambas figuras en un solo ciclo
+    Figura* TA=&A;
+    Figura* TB=&B;
+
+    for(int i=0;i<2;i++)
+    {
+        if(i==1)
+        {
+            TA=&B;
+            TB=&A;
+        }
+        /*
+        (A) .--------. (D)
+            |\       |
+            |   .(t) |
+            |     \  | 
+        (B) .--------. (C)
+        */
+
+        std::vector<Coordenadas> vA = TA->get_vertices();
+        Coordenadas Ac = {(vA[0].x+vA[3].x)/2,(vA[0].y+vA[1].y)/2};
+        std::vector<Coordenadas> vB = TB->get_vertices();
+        Coordenadas Bc = {(vB[0].x+vB[3].x)/2,(vB[0].y+vB[1].y)/2};
+
+        //revisar las diagonales con AABB?
+        for(int n = 0;n<vA.size();n++)
+        {
+            Coordenadas lineaA_inicio = Ac;
+            Coordenadas lineaA_fin = vA[n];
+            for(int m=0;m<vB.size();m++)
+            {
+                Coordenadas lineaB_inicio = Bc;
+                Coordenadas lineaB_fin = vB[(m+1)%vB.size()];
+
+                //intersección de las lineas
+                //(x4-x3)*(y1-y2)-(x1-x2)*(y4-y3)
+                float h = (lineaB_fin.x - lineaB_inicio.x) * (lineaA_inicio.y - lineaA_fin.y) -(lineaA_inicio.x-lineaA_fin.x)*(lineaB_fin.y-lineaB_inicio.y);
+                //[(y3-y4)*(x1-x3)+(x4-x3)*(y1-y3)]/[(x4-x3)*(y1-y2)-(x1-x2)*(y4-y3)]
+                float t1 = ((lineaB_inicio.y - lineaB_fin.y) *(lineaA_inicio.x-lineaB_inicio.x)+(lineaB_fin.x-lineaB_inicio.x)*(lineaA_inicio.y-lineaB_inicio.y))/h;
+                //[(y1-y2)*(x1-x3)+(x2-x1)*(y1-y3)]/[(x4-x3)*(y1-y2)-(x1-x2)*(y4-y3)]
+                float t2 = ((lineaA_inicio.y-lineaA_fin.y)*(lineaA_inicio.x-lineaB_inicio.x)+(lineaA_fin.x-lineaA_inicio.x)*(lineaA_inicio.y-lineaB_inicio.y))/h;
+
+                //verificamos la intersección
+                if(t1>=0.0f && t1<1.0f && t2>=0.0f && t2<1.0f)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+};
+
+bool diag_overlap(Objeto& A, Objeto& B){
+    //revisar ambas figuras en un solo ciclo
+    Objeto* TA=&A;
+    Objeto* TB=&B;
+
+    for(int i=0;i<2;i++)
+    {
+        if(i==1)
+        {
+            TA=&B;
+            TB=&A;
+        }
+        std::vector<Coordenadas> vA = TA->get_colbox()->get_vertices();
+        Coordenadas Ac = {(vA[0].x+vA[3].x)/2,(vA[0].y+vA[1].y)/2};
+        std::vector<Coordenadas> vB = TB->get_colbox()->get_vertices();
+        Coordenadas Bc = {(vB[0].x+vB[3].x)/2,(vB[0].y+vB[1].y)/2};
+
+        //revisar las diagonales con AABB?
+        for(int n = 0;n<vA.size();n++)
+        {
+            Coordenadas lineaA_inicio = Ac;
+            Coordenadas lineaA_fin = vA[n];
+
+            Coordenadas offset ={0,0};
+            for(int m=0;m<vB.size();m++)
+            {
+                Coordenadas lineaB_inicio = Bc;
+                Coordenadas lineaB_fin = vB[(m+1)%vB.size()];
+
+                //intersección de las lineas
+                //(x4-x3)*(y1-y2)-(x1-x2)*(y4-y3)
+                float h = (lineaB_fin.x - lineaB_inicio.x) * (lineaA_inicio.y - lineaA_fin.y) -(lineaA_inicio.x-lineaA_fin.x)*(lineaB_fin.y-lineaB_inicio.y);
+
+                //[(y3-y4)*(x1-x3)+(x4-x3)*(y1-y3)]/[(x4-x3)*(y1-y2)-(x1-x2)*(y4-y3)]
+                float t1 = ((lineaB_inicio.y - lineaB_fin.y) *(lineaA_inicio.x-lineaB_inicio.x)+(lineaB_fin.x-lineaB_inicio.x)*(lineaA_inicio.y-lineaB_inicio.y))/h;
+                
+                //[(y1-y2)*(x1-x3)+(x2-x1)*(y1-y3)]/[(x4-x3)*(y1-y2)-(x1-x2)*(y4-y3)]
+                float t2 = ((lineaA_inicio.y-lineaA_fin.y)*(lineaA_inicio.x-lineaB_inicio.x)+(lineaA_fin.x-lineaA_inicio.x)*(lineaA_inicio.y-lineaB_inicio.y))/h;
+
+                //verificamos la intersección
+                if(t1>=0.0f && t1<1.0f && t2>=0.0f && t2<1.0f)
+                {
+                    //cuanto se sobrelapo
+                    offset.x += (1.0f-t1)*(lineaA_fin.x-lineaA_inicio.x);
+                    offset.y += (1.0f-t1)*(lineaA_fin.y-lineaA_inicio.y);
+                }
+            }
+            //mover el objeto
+            Coordenadas pos = A.get_posicion_mundo();
+            pos.x+=offset.x*(i==0 ?-1:1);
+            pos.y+=offset.y*(i==0 ?-1:1);
+            A.set_posicion_mundo(pos);
+        }
+    }
+    return false;
+};
+
 void MotorFisico2D::sat_colision(ObjetoDinamico& p, std::vector<ObjetoEstatico*>obj)
 {
     for(auto& o:obj)

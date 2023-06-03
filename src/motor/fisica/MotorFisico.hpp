@@ -9,6 +9,8 @@ class MotorFisico2D
     public:
         static MotorFisico2D& get();
         static void aabb_colision(ObjetoDinamico& p, std::vector<ObjetoEstatico*> obj); 
+        static bool diag_colision(Figura& A, Figura& B);
+        static bool diag_overlap(Objeto& A, Objeto& B);
         static void sat_colision(ObjetoDinamico&p, std::vector<ObjetoEstatico*> obj);
         static void sortandsweep_colision(std::vector<ObjetoDinamico*> objs);
 
