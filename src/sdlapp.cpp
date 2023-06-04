@@ -92,6 +92,7 @@ bool SDLApp::on_init()
     player = new Jugador("assets/sprites/heroe/soldado.png",
                 //      hp , x , y, sW,sH , vW,vH ,color
                         100,1500,1500,32,32,86,86,{255,0,255,255});
+
     enemigo = new Enemigo("assets/sprites/enemigos/insecto.png",
                         100,1500,1100,32,32,120,120,player,{255,0,0,255});
     enemigo->set_ref_player(player);
@@ -407,7 +408,7 @@ void SDLApp::colision_enemigos_player(std::vector<Objeto*> enemigos_ang, Jugador
         {
             if(e->estaMuerto == false){
                 MotorFisico2D::get().diag_overlap(*player,*e);
-                bool colision = MotorFisico2D::get().aabb_colision(*player->get_colbox(),*e->get_colbox());
+                bool colision = MotorFisico2D::get().aabb_colision(*e->get_colbox(),*player->get_colbox());
                 player->en_colision |= colision;
                 player->en_colision_enemigo_jugador |= colision;
             }
