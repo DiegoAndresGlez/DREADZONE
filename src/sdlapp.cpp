@@ -87,7 +87,7 @@ bool SDLApp::on_init()
     // objetos.push_back(new Fondo(0,0,get().WIDTH,get().HEIGHT,{255,0,0,255}));
     //08 tiles
     mapa = new Atlas("assets/sprites/mundo/ids/mars_ids.txt");
-    mapa->generar_mapa(get().render,2,0);
+    mapa->generar_mapa(get().render,2,11);
     //05
     player = new Jugador("assets/sprites/heroe/soldado.png",
                 //      hp , x , y, sW,sH , vW,vH ,color
@@ -230,9 +230,12 @@ void SDLApp::on_fisicaupdate(double dt)
     //IMPLEMENTAR: lastimar enemigo
     colision_bala_a_enemigos(enemigos_ang, player);
 
+    // IMPLEMENTAR: COlision mapa
+    colision_plataformas_player(plataformas, player);
+
 
     // MotorFisico2D::get().gravedad({player});
-    // MotorFisico2D::get().aabb_colision(*player,plataformas);
+    // MotorFisico2D::get().aabb_colision(player,plataformas);
     // MotorFisico2D::get().sat_colision(*player,plataformas);
     
     /*CAMARA al final para actualizar la proyeción de los objetos*/
@@ -422,6 +425,25 @@ void SDLApp::colision_bala_a_enemigos(std::vector<Objeto*> enemigos, Jugador* pl
                 b->en_colision |= colision;
                 e->en_colision_bala_enemigo |= colision;
             }
+        }
+    }
+}
+
+void SDLApp::colision_plataformas_player(std::vector<ObjetoEstatico*> plataformas, Jugador* player)
+{
+    for(auto &p:plataformas)
+    {
+        // if(p->get_tiene_fisica())
+        //   printf("tiene fisica\n");
+            // printf("colision\n");
+        // if(!p->render_colbox && p->get_colbox())
+            // p->render_colbox=true;
+
+        if(p->get_tiene_fisica())
+        {
+            MotorFisico2D::get().diag_overlap(*player,*p);
+            bool pc = MotorFisico2D::get().aabb_colision(*player->get_colbox(),*p->get_colbox());
+            player->en_colision |= pc;
         }
     }
 }
