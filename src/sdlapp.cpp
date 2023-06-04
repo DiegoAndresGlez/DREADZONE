@@ -111,7 +111,7 @@ bool SDLApp::on_init()
     // get().ensamble->cargar_texturas(enemigo->get_sprite());
     // get().ensamble->cargar_texturas(enemigo2->get_sprite());
     // get().ensamble->cargar_texturas(enemigo3->get_sprite());
-    get().ensamble->cargar_texturas(nave->get_sprite());
+    // get().ensamble->cargar_texturas(nave->get_sprite());
     //get().ensamble->cargar_texturas(new Sprite("assets/sprites/mundo/atlas/fondoprueba2.jpg",{0,0},get().WIDTH,get().HEIGHT,get().WIDTH,get().HEIGHT));
     printf("Se creo el player\n");
     
@@ -134,7 +134,7 @@ bool SDLApp::on_init()
         //agregar todos los objetos en una lista para la camara
         objetos.push_back(plataformas[i]);
     }
-    plataformas.push_back(nave);
+    // plataformas.push_back(nave);
     objetos_ang.push_back(player);
     
     
