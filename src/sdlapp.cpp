@@ -93,25 +93,25 @@ bool SDLApp::on_init()
                 //      hp , x , y, sW,sH , vW,vH ,color
                         100,1500,1500,32,32,86,86,{255,0,255,255});
 
-    enemigo = new Enemigo("assets/sprites/enemigos/insecto.png",
-                        100,1500,1100,32,32,120,120,player,{255,0,0,255});
-    enemigo->set_ref_player(player);
-    enemigo2 = new Enemigo("assets/sprites/enemigos/insecto.png",
-                        100,2500,2400,32,32,120,120,player,{255,0,0,255});
-    enemigo2->set_ref_player(player);
+    // enemigo = new Enemigo("assets/sprites/enemigos/insecto.png",
+    //                     100,1500,1100,32,32,120,120,player,{255,0,0,255});
+    // enemigo->set_ref_player(player);
+    // enemigo2 = new Enemigo("assets/sprites/enemigos/insecto.png",
+    //                     100,2500,2400,32,32,120,120,player,{255,0,0,255});
+    // enemigo2->set_ref_player(player);
 
-    enemigo3 = new Enemigo("assets/sprites/enemigos/insecto.png",
-                        100,1000,2400,32,32,120,120,player,{255,0,0,255});
-    enemigo3->set_ref_player(player);
+    // enemigo3 = new Enemigo("assets/sprites/enemigos/insecto.png",
+    //                     100,1000,2400,32,32,120,120,player,{255,0,0,255});
+    // enemigo3->set_ref_player(player);
 
     hud = new HUD(player, get().render);
 
     nave = new Nave(1500,1300,128,128,"assets/sprites/mundo/nave.png");
     //new Jugador(100,500,50,{255,0,255,255});
     get().ensamble->cargar_texturas(player->get_sprite());
-    get().ensamble->cargar_texturas(enemigo->get_sprite());
-    get().ensamble->cargar_texturas(enemigo2->get_sprite());
-    get().ensamble->cargar_texturas(enemigo3->get_sprite());
+    // get().ensamble->cargar_texturas(enemigo->get_sprite());
+    // get().ensamble->cargar_texturas(enemigo2->get_sprite());
+    // get().ensamble->cargar_texturas(enemigo3->get_sprite());
     get().ensamble->cargar_texturas(nave->get_sprite());
     //get().ensamble->cargar_texturas(new Sprite("assets/sprites/mundo/atlas/fondoprueba2.jpg",{0,0},get().WIDTH,get().HEIGHT,get().WIDTH,get().HEIGHT));
     printf("Se creo el player\n");
@@ -124,6 +124,10 @@ bool SDLApp::on_init()
     ManejadorCamaras::get().set_camara(*get().camara_principal);
     camara_principal->lock_objeto(*player);
 
+    enespawner = new EnemigosSpawner("assets/sprites/enemigos/insecto.png",
+                        100,1500,1100,32,32,120,120,player,{255,0,0,255}, *get().ensamble);
+    enespawner->set_velocidad(5);
+
  
     
     for(int i=0;i<plataformas.size();i++)
@@ -132,9 +136,9 @@ bool SDLApp::on_init()
         objetos.push_back(plataformas[i]);
     }
     plataformas.push_back(nave);
-    enemigos_ang.push_back(enemigo);
-    enemigos_ang.push_back(enemigo2);
-    enemigos_ang.push_back(enemigo3);
+    // enemigos_ang.push_back(enemigo);
+    // enemigos_ang.push_back(enemigo2);
+    // enemigos_ang.push_back(enemigo3);
     objetos_ang.push_back(player);
     
     
@@ -207,6 +211,7 @@ void SDLApp::on_fisicaupdate(double dt)
     
     player->input_handle(KeyOyente::get(),MouseOyente::get());
     player->update(dt);
+    enespawner->update(&enemigos_ang);
 
     for(auto &e:enemigos_ang)
     {
@@ -345,6 +350,7 @@ void SDLApp::on_limpiar()
     plataformas.clear();
     delete ensamble;
     delete player;
+    delete enespawner;
     SDL_Quit();
 };
 

@@ -8,6 +8,7 @@
 #include "motor/camaras/ManejadorCamara.hpp"
 #include "motor/imagen/atlas.hpp"
 #include "utilidad/HUD.hpp"
+#include "utilidad/Spawns/EnemigosSpawner.hpp"
 
 class SDLApp
 {
@@ -49,6 +50,7 @@ class SDLApp
         Enemigo* enemigo2;
         Enemigo* enemigo3;
         ObjetoEstatico* nave;
+        EnemigosSpawner* enespawner;
         std::vector<ObjetoEstatico*> plataformas;
 
         //06_Camaras
