@@ -88,7 +88,8 @@ void Atlas::generar_mapa(SDL_Renderer *r,int idflip,int notidobjfisicos)
                 info.tile_height//height
             };
             //objetos_fisicos.push_back(new Plataformas(j*t_width,i*t_height,t_width,t_height,{0,0,0,255}));
-            bool tiene_colision = true;//(info.mapa_ids[i][j]==notidobjfisicos) ? false : true;
+            //bool tiene_colision = true;//(info.mapa_ids[i][j]==notidobjfisicos) ? false : true;
+            bool tiene_colision = (info.mapa_ids[i][j]==notidobjfisicos) ? true : false;
             objetos_fisicos.push_back(new Plataformas(tile,tiene_colision));
         }
         printf("]\n");
