@@ -132,10 +132,11 @@ bool SDLApp::on_init()
         objetos.push_back(plataformas[i]);
     }
     plataformas.push_back(nave);
-    objetos_ang.push_back(player);
     enemigos_ang.push_back(enemigo);
     enemigos_ang.push_back(enemigo2);
     enemigos_ang.push_back(enemigo3);
+    objetos_ang.push_back(player);
+    
     
     printf("\nSe crearon los objetos exitosamente\n");
     printf("vida player: %d\n", player->get_hp());
@@ -205,14 +206,12 @@ void SDLApp::on_fisicaupdate(double dt)
     player->input_handle(KeyOyente::get(),MouseOyente::get());
     player->update(dt);
 
-    enemigo->input_handle(KeyOyente::get(),MouseOyente::get());
-    enemigo->update(dt);
-    //fondo->update(dt);
-    enemigo2->input_handle(KeyOyente::get(),MouseOyente::get());
-    enemigo2->update(dt);
-
-    enemigo3->input_handle(KeyOyente::get(),MouseOyente::get());
-    enemigo3->update(dt);
+    for(auto &e:enemigos_ang)
+    {
+        e->update(dt);
+        Enemigo* eDinamico = dynamic_cast<Enemigo*>(e);
+        eDinamico->input_handle(KeyOyente::get(),MouseOyente::get());
+    }
 
     for(auto &b:player->getListaBalas()){
         get().ensamble->cargar_texturas(b->get_sprite());
@@ -294,7 +293,6 @@ void SDLApp::on_frameupdate(double dt)
     for(int i = 0; i < objetos.size(); i++){
         if(objetos[i]->get_eliminarme() == true){
             //printf("bala eliminada\n");
-            //delete objetos[i];
             objetos.erase(objetos.begin()+i);
             i--;
         }
@@ -303,6 +301,7 @@ void SDLApp::on_frameupdate(double dt)
     for(int i = 0; i < enemigos_ang.size(); i++){
         if(enemigos_ang[i]->get_eliminarme() == true){
             //printf("enemigo eliminado\n");
+            delete enemigos_ang[i];
             enemigos_ang.erase(enemigos_ang.begin()+i);
             i--;
         }
@@ -387,9 +386,14 @@ void SDLApp::colision_enemigos_player(std::vector<Objeto*> enemigos_ang, Jugador
 
         if(e->get_colbox())
         {
-            MotorFisico2D::get().diag_overlap(*player,*e);
-            bool pc = MotorFisico2D::get().aabb_colision(*player->get_colbox(),*e->get_colbox());
-            player->en_colision |= pc;
+            if(e->estaMuerto == false){
+                MotorFisico2D::get().diag_overlap(*player,*e);
+                bool colision = MotorFisico2D::get().aabb_colision(*player->get_colbox(),*e->get_colbox());
+                player->en_colision |= colision;
+                player->en_colision_enemigo_jugador |= colision;
+
+                
+            }
         }
     }
 }

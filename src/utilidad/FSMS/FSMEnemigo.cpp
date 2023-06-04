@@ -81,11 +81,11 @@ void EstadoEnemigoMOVER::update(Enemigo& enemigo,double dt)
     e.y += velocidad * sin(angle);
     */
     if(enemigo.en_colision_bala_enemigo){
-        int dmg = 10;
+        int dano = 10;
         int hp = enemigo.get_hp();
-        enemigo.set_hp(hp - dmg);
+        enemigo.set_hp(hp - dano);
         enemigo.en_colision_bala_enemigo = false;
-        printf("VIDA ENEMIGO: %d\n", enemigo.get_hp());
+        //printf("VIDA ENEMIGO: %d\n", enemigo.get_hp());
     }
 
     if(enemigo.get_hp() <= 0){
@@ -167,7 +167,7 @@ void EstadoEnemigoMORIR::update(Enemigo& enemigo, double dt)
 {
     if(contador >= 5)
         enemigo.set_eliminarme(true);
-    
+
     if(frames_actual_ani == frames_maxim_ani){
         enemigo.get_sprite()->play_frame(1, 4);
     }else{
@@ -181,8 +181,9 @@ void EstadoEnemigoMORIR::update(Enemigo& enemigo, double dt)
         frame_dt++;
     }
 
+    timer += Tiempo::get_tiempo() - timer;
     if((int)timer%delay ==0 && (int)timer!=0 && (int)timer > past_time){
-        printf("contador: %d\n", contador);
+        //printf("contador: %d\n", contador);
         contador++;
         past_time = timer;
     }
@@ -192,7 +193,7 @@ void EstadoEnemigoMORIR::salir(Enemigo& enemigo)
 {
     frames_actual_ani = 0;
     frames_maxim_ani = 5;
-    //timer = 0;
+    timer = 0;
 }
 
 

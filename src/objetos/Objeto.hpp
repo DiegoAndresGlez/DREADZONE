@@ -21,6 +21,7 @@ class Objeto
     public:
         bool en_colision;
         bool en_colision_bala_enemigo;
+        bool en_colision_enemigo_jugador;
         bool render_colbox;
         int velocidad_camara{1};
         bool eliminarme{false};

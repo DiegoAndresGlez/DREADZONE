@@ -75,7 +75,6 @@ void EstadoBalaMOVER::update(Bala& bala,double dt)
     }
     bala.set_posicion_camara(b);
 
-
     bala.get_sprite()->play_frame(0,frames_actual_ani%frames_maxim_ani);
     if(frame_dt>7)
     {
