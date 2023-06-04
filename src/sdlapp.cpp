@@ -104,8 +104,7 @@ bool SDLApp::on_init()
                         100,1000,2400,32,32,120,120,player,{255,0,0,255});
     enemigo3->set_ref_player(player);
 
-    
-
+    hud = new HUD(player, get().render);
 
     nave = new Nave(1500,1300,128,128,"assets/sprites/mundo/nave.png");
     //new Jugador(100,500,50,{255,0,255,255});
@@ -298,11 +297,13 @@ void SDLApp::on_frameupdate(double dt)
     RenderTexto::get().render_texto(get().render,815,580,cmm,100,30,SDL_Color{0,0,0,255});
     RenderTexto::get().render_texto(get().render,815,530,cm,100,30,SDL_Color{0,0,0,255});
     //fps
-    RenderTexto::get().render_texto(get().render,get().WIDTH-200,30,
+    RenderTexto::get().render_texto(get().render,get().WIDTH-115,15,
         std::to_string((int)(dt/get().msfrecuencia))+" fps",
-        100,30,SDL_Color{0,135,62});
+        64,30,SDL_Color{0,135,62});
     
     RenderTexto::get().render_texto(get().render,50,630,player->get_strEstado(),120,30,SDL_Color{0,0,0,255});
+
+    hud->update_vida_jugador();
 
     //Eliminar objetos
     /*

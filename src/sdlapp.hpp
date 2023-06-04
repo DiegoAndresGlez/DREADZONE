@@ -7,6 +7,7 @@
 #include "objetos_estaticos/ObjetoEstatico.hpp"
 #include "motor/camaras/ManejadorCamara.hpp"
 #include "motor/imagen/atlas.hpp"
+#include "utilidad/HUD.hpp"
 
 class SDLApp
 {
@@ -62,6 +63,8 @@ class SDLApp
         
         //09_Fondo
         Fondo *fondo;
+
+        HUD *hud;
     
     public:
         SDL_Color bg_color;
