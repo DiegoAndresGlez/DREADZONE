@@ -206,7 +206,7 @@ void SDLApp::on_fisicaupdate(double dt)
     player->input_handle(KeyOyente::get(),MouseOyente::get());
     player->update(dt);
 
-    update_enemigos();
+    update_enemigos(dt);
 
     for(auto &b:player->getListaBalas()){
         get().ensamble->cargar_texturas(b->get_sprite());
@@ -302,7 +302,7 @@ void SDLApp::on_frameupdate(double dt)
         }
     }
     */
-
+   
     //Elimina las balas tanto de la lista de objetos como de la lista de balas del player
     eliminarBalas();
     eliminarEnemigos();
@@ -501,7 +501,7 @@ void SDLApp::eliminarBalas()
 
 }
 
-void SDLApp::update_enemigos()
+void SDLApp::update_enemigos(double dt)
 {
     for(auto &e:enemigos_ang)
     {
