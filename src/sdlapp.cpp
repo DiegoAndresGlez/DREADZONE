@@ -141,6 +141,8 @@ bool SDLApp::on_init()
     printf("\nSe crearon los objetos exitosamente\n");
     printf("vida player: %d\n", player->get_hp());
 
+    timer = Tiempo::get_tiempo();
+
     //agregamos el color del background del frame
     SDL_SetRenderDrawColor(
         get().render,       // canvas
@@ -229,7 +231,7 @@ void SDLApp::on_fisicaupdate(double dt)
     //IMPLEMENTAR: lastimar enemigo
     colision_bala_a_enemigos(enemigos_ang, player);
 
-
+    update_player_hp();
     // MotorFisico2D::get().gravedad({player});
     // MotorFisico2D::get().aabb_colision(*player,plataformas);
     // MotorFisico2D::get().sat_colision(*player,plataformas);
@@ -378,6 +380,23 @@ int SDLApp::on_correr()
     return 0;
 };
 
+void SDLApp::update_player_hp()
+{
+    timer += Tiempo::get_tiempo() - timer;
+    if((int)timer%delay ==0 && (int)timer!=0 && (int)timer > past_time){
+        if(player->en_colision_enemigo_jugador)
+        {
+            int hp = player->get_hp();
+            hp -= 10;
+            player->set_hp(hp);
+            printf("VIDA PLAYER: %d\n");
+            player->en_colision_enemigo_jugador = false;
+        }
+        past_time = timer;
+        contador++;
+    }
+}
+
 void SDLApp::colision_enemigos_player(std::vector<Objeto*> enemigos_ang, Jugador* player)
 {
     for(auto &e:enemigos_ang){
@@ -391,8 +410,6 @@ void SDLApp::colision_enemigos_player(std::vector<Objeto*> enemigos_ang, Jugador
                 bool colision = MotorFisico2D::get().aabb_colision(*player->get_colbox(),*e->get_colbox());
                 player->en_colision |= colision;
                 player->en_colision_enemigo_jugador |= colision;
-
-                
             }
         }
     }

@@ -22,6 +22,11 @@ class SDLApp
         int WIDTH;
         int HEIGHT;
 
+        double timer{0};
+        double past_time{0};
+        int contador{0};
+        int delay{1};
+
         SDL_Window* vnt;
         SDL_Surface* vntsurf;
         SDL_Renderer* render;
@@ -63,6 +68,7 @@ class SDLApp
         static void set_bgcolor(Uint8 rojo,Uint8 verde,Uint8 azul);
         static SDLApp& get();
         static bool estaCorriendo() {return get().esta_corriendo;};
+        void update_player_hp();
         void colision_enemigos_player(std::vector<Objeto*> enemigos_ang, Jugador* player);
         void colision_enemigos_a_enemigos(std::vector<Objeto*> enemigos_ang);
         void colision_bala_a_enemigos(std::vector<Objeto*> enemigos, Jugador* player);
