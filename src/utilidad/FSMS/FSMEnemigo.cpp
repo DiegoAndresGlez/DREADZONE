@@ -183,7 +183,7 @@ void EstadoEnemigoMORIR::update(Enemigo& enemigo, double dt)
 
     timer += Tiempo::get_tiempo() - timer;
     if((int)timer%delay ==0 && (int)timer!=0 && (int)timer > past_time){
-        //printf("contador: %d\n", contador);
+        printf("contador: %d\n", contador);
         contador++;
         past_time = timer;
     }

@@ -55,6 +55,7 @@ class SDLApp
         std::vector<Objeto*> objetos;
         std::vector<Objeto*> objetos_ang;
         std::vector<Objeto*> enemigos_ang;
+        std::vector<Objeto*> enemigos_muertos;
         std::vector<Objeto*> lista_balas;
         //08 tiles
         Atlas *mapa;
@@ -72,4 +73,6 @@ class SDLApp
         void colision_enemigos_player(std::vector<Objeto*> enemigos_ang, Jugador* player);
         void colision_enemigos_a_enemigos(std::vector<Objeto*> enemigos_ang);
         void colision_bala_a_enemigos(std::vector<Objeto*> enemigos, Jugador* player);
+        void eliminarEnemigos();
+        void eliminarBalas();
 };

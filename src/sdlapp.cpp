@@ -216,6 +216,13 @@ void SDLApp::on_fisicaupdate(double dt)
         eDinamico->input_handle(KeyOyente::get(),MouseOyente::get());
     }
 
+    for(auto &e:enemigos_muertos)
+    {
+        e->update(dt);
+        Enemigo* eDinamico = dynamic_cast<Enemigo*>(e);
+        eDinamico->input_handle(KeyOyente::get(),MouseOyente::get());
+    }
+
     for(auto &b:player->getListaBalas()){
         get().ensamble->cargar_texturas(b->get_sprite());
         b->input_handle(KeyOyente::get(),MouseOyente::get(),*camara_principal);
@@ -233,6 +240,7 @@ void SDLApp::on_fisicaupdate(double dt)
     colision_bala_a_enemigos(enemigos_ang, player);
 
     update_player_hp();
+
     // MotorFisico2D::get().gravedad({player});
     // MotorFisico2D::get().aabb_colision(*player,plataformas);
     // MotorFisico2D::get().sat_colision(*player,plataformas);
@@ -246,6 +254,7 @@ void SDLApp::on_fisicaupdate(double dt)
     ManejadorCamaras::get().update(objetos); //tambien hace proyectar objetos
     camara_principal->proyectar(objetos_ang); //si se comenta la camara nunca podra lockear a jugador
     camara_principal->proyectar(enemigos_ang); //si se comenta los enemigos nunca saldran de camara
+    camara_principal->proyectar(enemigos_muertos);
     //printf("Update Fisica\n");
 };
 
@@ -257,6 +266,19 @@ void SDLApp::on_frameupdate(double dt)
     //camara_principal->renderizar(objetos);
     ManejadorCamaras::get().renderizar(objetos);
     //ManejadorCamaras::get().renderizar(lista_balas);
+    for(auto &e : enemigos_ang){
+        if(e->estaMuerto){
+            enemigos_muertos.push_back(e);
+            for(auto i = enemigos_ang.begin(); i != enemigos_ang.end(); i++){
+                if(*i == e){
+                    enemigos_ang.erase(i);
+                    break;
+                }
+            }
+        }
+    }
+
+    ManejadorCamaras::get().renderizar(enemigos_muertos);
     ManejadorCamaras::get().renderizar_ang(objetos_ang, {MouseOyente::get().getX(), MouseOyente::get().getY()});
     ManejadorCamaras::get().renderizar_ang(enemigos_ang, {player->get_posx(), player->get_posy()});
     camara_principal->render_cross();
@@ -292,23 +314,8 @@ void SDLApp::on_frameupdate(double dt)
     */
 
     //Elimina las balas tanto de la lista de objetos como de la lista de balas del player
-    player->eliminarBalas();
-    for(int i = 0; i < objetos.size(); i++){
-        if(objetos[i]->get_eliminarme() == true){
-            //printf("bala eliminada\n");
-            objetos.erase(objetos.begin()+i);
-            i--;
-        }
-    }
-
-    for(int i = 0; i < enemigos_ang.size(); i++){
-        if(enemigos_ang[i]->get_eliminarme() == true){
-            //printf("enemigo eliminado\n");
-            delete enemigos_ang[i];
-            enemigos_ang.erase(enemigos_ang.begin()+i);
-            i--;
-        }
-    }
+    eliminarBalas();
+    eliminarEnemigos();
 
     //Actualizar
     SDL_RenderPresent(get().render);
@@ -446,4 +453,39 @@ void SDLApp::colision_bala_a_enemigos(std::vector<Objeto*> enemigos, Jugador* pl
             }
         }
     }
+}
+
+void SDLApp::eliminarEnemigos()
+{
+    for(int i = 0; i < enemigos_ang.size(); i++){
+        if(enemigos_ang[i]->estaMuerto == true){
+            //printf("enemigo eliminado\n");
+            delete enemigos_ang[i];
+            enemigos_ang.erase(enemigos_ang.begin()+i);
+            i--;
+        }
+    }
+
+    for(int i = 0; i < enemigos_muertos.size(); i++){
+        if(enemigos_muertos[i]->get_eliminarme() == true){
+            //printf("enemigo eliminado\n");
+            delete enemigos_muertos[i];
+            enemigos_muertos.erase(enemigos_muertos.begin()+i);
+            i--;
+        }
+    }
+
+}
+
+void SDLApp::eliminarBalas()
+{
+    player->eliminarBalas();
+    for(int i = 0; i < objetos.size(); i++){
+        if(objetos[i]->get_eliminarme() == true){
+            //printf("bala eliminada\n");
+            objetos.erase(objetos.begin()+i);
+            i--;
+        }
+    }
+
 }

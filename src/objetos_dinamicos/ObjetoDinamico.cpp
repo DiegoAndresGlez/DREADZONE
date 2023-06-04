@@ -128,7 +128,7 @@ void Jugador::eliminarBalas()
 {
     for(int i = 0; i < lista_balas.size(); i++){
         if(lista_balas[i]->get_eliminarme() == true){
-            //delete lista_balas[i];
+            delete lista_balas[i];
             lista_balas.erase(lista_balas.begin() + i);
         }
     }
