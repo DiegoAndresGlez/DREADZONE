@@ -48,7 +48,6 @@ class SDLApp
         Enemigo* enemigo;
         Enemigo* enemigo2;
         Enemigo* enemigo3;
-        ObjetoEstatico* nave;
         std::vector<ObjetoEstatico*> plataformas;
 
         //06_Camaras
@@ -58,6 +57,7 @@ class SDLApp
         std::vector<Objeto*> enemigos_ang;
         std::vector<Objeto*> enemigos_muertos;
         std::vector<Objeto*> lista_balas;
+        std::vector<Objeto*> vector_nave;
         //08 tiles
         Atlas *mapa;
         
@@ -77,6 +77,7 @@ class SDLApp
         void colision_enemigos_a_enemigos(std::vector<Objeto*> enemigos_ang);
         void colision_bala_a_enemigos(std::vector<Objeto*> enemigos, Jugador* player);
         void colision_plataformas_player(std::vector<ObjetoEstatico*> plataformas, Jugador* player);
+        void update_enemigos();
         void eliminarEnemigos();
         void eliminarBalas();
 };

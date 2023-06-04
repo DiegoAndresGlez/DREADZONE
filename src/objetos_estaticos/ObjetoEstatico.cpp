@@ -74,7 +74,7 @@ void Fondo::update(double dt)
     }
 };
 
-Nave::Nave(int x, int y, int w, int h, std::string path_sprite)
+Nave::Nave(int x, int y, int w, int h, std::string path_sprite) : ObjetoEstatico{} //llamar constructor padre
 {
     posicion_mundo.x=x;
     posicion_mundo.y=y;

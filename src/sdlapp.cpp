@@ -106,13 +106,11 @@ bool SDLApp::on_init()
 
     hud = new HUD(player, get().render);
 
-    nave = new Nave(1500,1300,128,128,"assets/sprites/mundo/nave.png");
     //new Jugador(100,500,50,{255,0,255,255});
     get().ensamble->cargar_texturas(player->get_sprite());
     get().ensamble->cargar_texturas(enemigo->get_sprite());
     get().ensamble->cargar_texturas(enemigo2->get_sprite());
     get().ensamble->cargar_texturas(enemigo3->get_sprite());
-    get().ensamble->cargar_texturas(nave->get_sprite());
     //get().ensamble->cargar_texturas(new Sprite("assets/sprites/mundo/atlas/fondoprueba2.jpg",{0,0},get().WIDTH,get().HEIGHT,get().WIDTH,get().HEIGHT));
     printf("Se creo el player\n");
     
@@ -131,7 +129,7 @@ bool SDLApp::on_init()
         //agregar todos los objetos en una lista para la camara
         objetos.push_back(plataformas[i]);
     }
-    plataformas.push_back(nave);
+
     enemigos_ang.push_back(enemigo);
     enemigos_ang.push_back(enemigo2);
     enemigos_ang.push_back(enemigo3);
@@ -208,19 +206,7 @@ void SDLApp::on_fisicaupdate(double dt)
     player->input_handle(KeyOyente::get(),MouseOyente::get());
     player->update(dt);
 
-    for(auto &e:enemigos_ang)
-    {
-        e->update(dt);
-        Enemigo* eDinamico = dynamic_cast<Enemigo*>(e);
-        eDinamico->input_handle(KeyOyente::get(),MouseOyente::get());
-    }
-
-    for(auto &e:enemigos_muertos)
-    {
-        e->update(dt);
-        Enemigo* eDinamico = dynamic_cast<Enemigo*>(e);
-        eDinamico->input_handle(KeyOyente::get(),MouseOyente::get());
-    }
+    update_enemigos();
 
     for(auto &b:player->getListaBalas()){
         get().ensamble->cargar_texturas(b->get_sprite());
@@ -265,7 +251,7 @@ void SDLApp::on_frameupdate(double dt)
     SDL_RenderClear(get().render);
     //Renderizar todo a través de la camara
     //camara_principal->renderizar(objetos);
-    ManejadorCamaras::get().renderizar(objetos);
+    
     //ManejadorCamaras::get().renderizar(lista_balas);
     for(auto &e : enemigos_ang){
         if(e->estaMuerto){
@@ -278,7 +264,8 @@ void SDLApp::on_frameupdate(double dt)
             }
         }
     }
-
+    
+    ManejadorCamaras::get().renderizar(objetos);
     ManejadorCamaras::get().renderizar(enemigos_muertos);
     ManejadorCamaras::get().renderizar_ang(objetos_ang, {MouseOyente::get().getX(), MouseOyente::get().getY()});
     ManejadorCamaras::get().renderizar_ang(enemigos_ang, {player->get_posx(), player->get_posy()});
@@ -512,4 +499,21 @@ void SDLApp::eliminarBalas()
         }
     }
 
+}
+
+void SDLApp::update_enemigos()
+{
+    for(auto &e:enemigos_ang)
+    {
+        e->update(dt);
+        Enemigo* eDinamico = dynamic_cast<Enemigo*>(e);
+        eDinamico->input_handle(KeyOyente::get(),MouseOyente::get());
+    }
+
+    for(auto &e:enemigos_muertos)
+    {
+        e->update(dt);
+        Enemigo* eDinamico = dynamic_cast<Enemigo*>(e);
+        eDinamico->input_handle(KeyOyente::get(),MouseOyente::get());
+    }
 }
