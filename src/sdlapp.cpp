@@ -205,14 +205,7 @@ void SDLApp::on_fisicaupdate(double dt)
     player->input_handle(KeyOyente::get(),MouseOyente::get());
     player->update(dt);
     
-    if(player->estaMuerto())
-    {
-        double tiempo = Tiempo::get_tiempo();
-        hud->game_over();
-        _sleep(2000);
-        printf("GAME OVER\n");
-        get().esta_corriendo = false;
-    }
+    
     
 
     for(auto &sp:enemigos_spawner)
@@ -290,8 +283,24 @@ void SDLApp::on_frameupdate(double dt)
 
     hud->update_vida_jugador();
     hud->update_tiempo();
-
     hud->update_enemigos_muertos(contador_muertos);
+
+    if(player->estaMuerto)
+    {
+        if (time_muerte == 0)
+        {
+            time_muerte = Tiempo::get_tiempo();
+        }
+
+        if(Tiempo::get_tiempo() - time_muerte > 5)
+        {
+            get().esta_corriendo = false;        
+        }
+        
+        hud->game_over();
+        printf("GAME OVER\n");
+        
+    }
 
     //posicion del mouse
     int mx = MouseOyente::get().getX();

@@ -26,6 +26,7 @@ class SDLApp
         int contador_muertos{0};
         double timer{0};
         double past_time{0};
+        double time_muerte{0};
         int contador{0};
         int delay{1};
 

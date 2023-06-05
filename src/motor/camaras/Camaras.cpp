@@ -19,7 +19,7 @@ Camara::Camara(int x, int y, int w, int h, SDL_Renderer &view)
     viewport = &view;
     objensamble = new Pipeline(view);
     velocidad =10.f;
-    estado_actual = new EstadoCamaraMover({0,0});
+    estado_actual = new EstadoCamaraTransicion();
 };
 
 Camara::~Camara()
