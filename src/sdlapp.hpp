@@ -46,11 +46,11 @@ class SDLApp
 
         //05_Colisiones
         Jugador* player;
+        Nave* nave;
         Enemigo* enemigo;
         Enemigo* enemigo2;
         Enemigo* enemigo3;
 
-        ObjetoEstatico* nave;
         std::vector<EnemigosSpawner*> enemigos_spawner;
         EnemigosSpawner* enespawner;
         std::vector<ObjetoEstatico*> plataformas;

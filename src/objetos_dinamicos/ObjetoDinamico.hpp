@@ -6,6 +6,7 @@
 #include "../utilidad/FSMS/FSMJugador.hpp"
 #include "../utilidad/FSMS/FSMEnemigo.hpp"
 #include "../utilidad/FSMS/FSMBala.hpp"
+#include "../utilidad/FSMS/FSMNave.hpp"
 #include<SDL.h>
 #include<string>
 #include<chrono>
@@ -13,6 +14,7 @@
 class FSMJugador;//forward declaration
 class FSMEnemigo;
 class FSMBala;
+class FSMNave;
 class Jugador;
 class Enemigo;
 class ObjetoDinamico : public Objeto
@@ -116,4 +118,25 @@ class Jugador : public ObjetoDinamico
         int fire_rate{3}; //disparos por segundo
         std::chrono::steady_clock::time_point tiempoUltimoDisparo;
         
+};
+
+
+/*NAVE*/
+class Nave : public ObjetoDinamico
+{
+    public:
+        virtual ~Nave(){};
+        Nave(std::string path_sprite, float vida, int x, int y, int w, int h,int sw,int sh, SDL_Color c);
+        void update(double dt);
+        void input_handle(KeyOyente& input,MouseOyente& mouse);
+        std::string get_strEstado();
+        Coordenadas get_piso()const{return piso;};
+        void set_piso(Coordenadas p){piso = p;};
+
+        void set_estado(void* estado);
+        void* get_estado();
+
+    private:
+        FSMNave* estado_actual;
+        Coordenadas piso;
 };
