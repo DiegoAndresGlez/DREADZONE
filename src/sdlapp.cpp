@@ -127,13 +127,13 @@ bool SDLApp::on_init()
     camara_principal->lock_objeto(*player);
 
     enespawner = new EnemigosSpawner("assets/sprites/enemigos/insecto.png",
-                        100,1500,1100,32,32,120,120,player,{255,0,0,255}, *get().ensamble, contador_muertos);
+                        100,1500,1100,32,32,120,120,player,{255,0,0,255}, *get().ensamble);
     enespawner->set_velocidad(7);
 
     enemigos_spawner.push_back(enespawner);
 
     enespawner = new EnemigosSpawner("assets/sprites/enemigos/insecto.png",
-                        100,10,10,32,32,120,120,player,{255,0,0,255}, *get().ensamble, contador_muertos);
+                        100,10,10,32,32,120,120,player,{255,0,0,255}, *get().ensamble);
     enespawner->set_velocidad(5);
 
     enemigos_spawner.push_back(enespawner);
@@ -219,7 +219,7 @@ void SDLApp::on_fisicaupdate(double dt)
     
     player->input_handle(KeyOyente::get(),MouseOyente::get());
     player->update(dt);
-
+    /*
     if(player->get_hp() <= 0)
     {
         double tiempo = Tiempo::get_tiempo();
@@ -228,6 +228,7 @@ void SDLApp::on_fisicaupdate(double dt)
         
         get().esta_corriendo = false;
     }
+    */
 
     for(auto &sp:enemigos_spawner)
     {
@@ -285,6 +286,7 @@ void SDLApp::on_frameupdate(double dt)
     //camara_principal->renderizar(objetos);
     
     //ManejadorCamaras::get().renderizar(lista_balas);
+
     for(auto &e : enemigos_ang){
         if(e->estaMuerto){
             enemigos_muertos.push_back(e);
@@ -302,6 +304,16 @@ void SDLApp::on_frameupdate(double dt)
     ManejadorCamaras::get().renderizar_ang(objetos_ang, {MouseOyente::get().getX(), MouseOyente::get().getY()});
     ManejadorCamaras::get().renderizar_ang(enemigos_ang, {player->get_posx(), player->get_posy()});
     camara_principal->render_cross();
+
+    hud->update_vida_jugador();
+    hud->update_tiempo();
+
+    contador_muertos = 0;
+    for(auto &e : enemigos_muertos){
+        contador_muertos++;
+    }
+
+    hud->update_enemigos_muertos(contador_muertos);
 
     //posicion del mouse
     int mx = MouseOyente::get().getX();
@@ -321,10 +333,6 @@ void SDLApp::on_frameupdate(double dt)
         64,30,SDL_Color{0,135,62});
     
     RenderTexto::get().render_texto(get().render,50,630,player->get_strEstado(),120,30,SDL_Color{0,0,0,255});
-
-    hud->update_vida_jugador();
-    hud->update_tiempo();
-    hud->update_enemigos_muertos(contador_muertos);
 
     //Eliminar objetos
     /*
@@ -449,6 +457,10 @@ void SDLApp::colision_enemigos_player(std::vector<Objeto*> enemigos_ang, Jugador
                 player->en_colision_enemigo_jugador |= colision;
             }
         }
+    }
+
+    if(player->get_hp() <= 0){
+        player->estaMuerto = true;
     }
 }
 

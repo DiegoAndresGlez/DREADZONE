@@ -6,12 +6,15 @@
 class EnemigosSpawner
 {
     public:
-        EnemigosSpawner(std::string path_sprite, float vida, int x, int y, int w, int h, int sw, int sh, Jugador* player, SDL_Color c, Pipeline &p, int& contador_muerte);
+        EnemigosSpawner(std::string path_sprite, float vida, int x, int y, int w, int h, int sw, int sh, Jugador* player, SDL_Color c, Pipeline &p);
 
         void spawn(std::vector<Objeto*>*lista);
         void despawn(std::vector<Objeto*>*lista);
         void update(std::vector<Objeto*>*lista);
         void set_velocidad(int v);
+        void set_contador_muertes(int c){contador_muertes = c;};
+        int get_contador_muertes()const{return contador_muertes;};
+        std::vector<Objeto*> get_lista_enemigos()const{return objetos;};
     private:
         std::vector<Objeto*> objetos;
         std::string sprite_path;
@@ -25,7 +28,7 @@ class EnemigosSpawner
         int sh;// alto mostrar sprite
         int objetos_activos;
         int delay;
-        int *contador_muertes;
+        int contador_muertes;
         Jugador* player;
         double init_tiempo;
         int past_tiempo;

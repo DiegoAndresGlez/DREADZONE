@@ -5,7 +5,7 @@
 #include<iostream>
 #include<cstdlib>
 
-EnemigosSpawner::EnemigosSpawner(std::string path_sprite, float vida, int x, int y, int w, int h, int sw, int sh, Jugador* player, SDL_Color c, Pipeline &p, int& contador_muertes)
+EnemigosSpawner::EnemigosSpawner(std::string path_sprite, float vida, int x, int y, int w, int h, int sw, int sh, Jugador* player, SDL_Color c, Pipeline &p)
 {
     this->sprite_path=path_sprite;
     colordebug=c;
@@ -21,7 +21,7 @@ EnemigosSpawner::EnemigosSpawner(std::string path_sprite, float vida, int x, int
     delay=10; 
     init_tiempo=Tiempo::get_tiempo();
     check=false;
-    this->contador_muertes = &contador_muertes;
+    this->contador_muertes = 0;
     pipeline = &p;
     velocidad=0;
     spawnminimo = 3;
@@ -30,8 +30,7 @@ EnemigosSpawner::EnemigosSpawner(std::string path_sprite, float vida, int x, int
 
 void EnemigosSpawner::spawn(std::vector<Objeto*>*lista)
 {
-    Enemigo * nuevo = new Enemigo(sprite_path,vida,x,y,w,h,sw,sh,player,colordebug, *contador_muertes);
-    contador_muertes++;
+    Enemigo * nuevo = new Enemigo(sprite_path,vida,x,y,w,h,sw,sh,player,colordebug);
     nuevo->set_ref_player(player);
     pipeline->cargar_texturas(nuevo->get_sprite());
     lista->push_back(nuevo);

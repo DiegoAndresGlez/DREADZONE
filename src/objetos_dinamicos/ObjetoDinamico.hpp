@@ -42,7 +42,7 @@ class Enemigo : public ObjetoDinamico
     public:
         virtual ~Enemigo(){};
         Enemigo(float vida, int x, int y,SDL_Color c);
-        Enemigo(std::string path_sprite,float vida, int x, int y, int w, int h,int sw,int sh, Jugador* player, SDL_Color c, int& contador_muerte);
+        Enemigo(std::string path_sprite,float vida, int x, int y, int w, int h,int sw,int sh, Jugador* player, SDL_Color c);
         void update(double dt);
         void input_handle(KeyOyente& input,MouseOyente& mouse);
         std::string get_strEstado();
@@ -52,7 +52,6 @@ class Enemigo : public ObjetoDinamico
         void set_estado(void* estado);
         void* get_estado();
         
-        int *contador_muertes;
         void set_ref_player(Jugador* player){ref_player = player;};
         Jugador* get_ref_player()const{return ref_player;};
 
