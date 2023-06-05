@@ -179,7 +179,6 @@ void SDLApp::on_fisicaupdate(double dt)
     //camara_principal->lock_objeto(*player);
     
     //Camara Lock UnLock
-    printf("x: %d - y: %d\n", player->get_posicion_camara().x, player->get_posicion_camara().y);
     
     if(KeyOyente::get().estaPresionado(SDL_SCANCODE_L))
     {
