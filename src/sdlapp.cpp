@@ -127,13 +127,13 @@ bool SDLApp::on_init()
     camara_principal->lock_objeto(*player);
 
     enespawner = new EnemigosSpawner("assets/sprites/enemigos/insecto.png",
-                        100,1500,1100,32,32,120,120,player,{255,0,0,255}, *get().ensamble, contador_muertos);
+                        100,1500,1100,32,32,120,120,player,{255,0,0,255}, *get().ensamble);
     enespawner->set_velocidad(7);
 
     enemigos_spawner.push_back(enespawner);
 
     enespawner = new EnemigosSpawner("assets/sprites/enemigos/insecto.png",
-                        100,10,10,32,32,120,120,player,{255,0,0,255}, *get().ensamble, contador_muertos);
+                        100,10,10,32,32,120,120,player,{255,0,0,255}, *get().ensamble);
     enespawner->set_velocidad(5);
 
     enemigos_spawner.push_back(enespawner);
@@ -288,6 +288,7 @@ void SDLApp::on_frameupdate(double dt)
     for(auto &e : enemigos_ang){
         if(e->estaMuerto){
             enemigos_muertos.push_back(e);
+            contador_muertos++;
             for(auto i = enemigos_ang.begin(); i != enemigos_ang.end(); i++){
                 if(*i == e){
                     enemigos_ang.erase(i);

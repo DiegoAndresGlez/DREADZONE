@@ -154,7 +154,7 @@ Enemigo::Enemigo(float vida, int x, int y, SDL_Color c) : ObjetoDinamico{}{
     piso = {500,500}; // definir el piso en general
 }
 
-Enemigo::Enemigo(std::string path_sprite, float vida, int x, int y, int w, int h, int sw, int sh, Jugador* player, SDL_Color c, int& contador_muerte) :ObjetoDinamico{}
+Enemigo::Enemigo(std::string path_sprite, float vida, int x, int y, int w, int h, int sw, int sh, Jugador* player, SDL_Color c) :ObjetoDinamico{}
 {
     hp = vida;
     posicion_mundo.x=x;
@@ -175,7 +175,6 @@ Enemigo::Enemigo(std::string path_sprite, float vida, int x, int y, int w, int h
     en_colision_enemigo_jugador = false;
     estado_actual = new EstadoEnemigoMOVER({0,0});
     piso = {500,500}; // definir el piso en general
-    this->contador_muertes = &contador_muerte;
     sprite = new Sprite(path_sprite, posicion_mundo, w, h, sw, sh);
     tile = nullptr;
 }

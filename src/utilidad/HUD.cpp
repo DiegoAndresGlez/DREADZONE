@@ -21,7 +21,7 @@ void HUD::update_tiempo()
 
 void HUD::update_enemigos_muertos(int enemigos_muertos)
 {
-    RenderTexto::get().render_texto(ren,15,45, "Enemigos muertos: " + std::to_string(enemigos_muertos),200,30, SDL_Color{0, 255, 255});
+    RenderTexto::get().render_texto(ren,15,45, "Puntaje: " + std::to_string(enemigos_muertos*10),130,30, SDL_Color{0, 255, 255});
 }
 
 void HUD::game_over()
