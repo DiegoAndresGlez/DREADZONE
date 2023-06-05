@@ -33,6 +33,7 @@ class EstadoJugadorIDLE : public FSMJugador
         int frames_actual_ani;
         int frames_maxim_ani;
         int frame_dt{0};
+        bool estaMuertoFSM{false};
 
         double timer{0};
         double past_time{0};
@@ -56,6 +57,28 @@ class EstadoJugadorMOVER : public FSMJugador
         int frames_actual_ani;
         int frames_maxim_ani;
         int frame_dt{0};
+        bool estaMuertoFSM{false};
+
+        double timer{0};
+        double past_time{0};
+        int delay{1};
+        int contador{0};
+};
+
+class EstadoJugadorMORIR : public FSMJugador
+{
+    public:
+        EstadoJugadorMORIR();
+        virtual ~EstadoJugadorMORIR(){};
+        FSMJugador* input_handle(KeyOyente& input, MouseOyente& mouse);
+        void entrar(Jugador& player);
+        void salir(Jugador& player);
+        void update(Jugador& player,double dt);
+    private:
+        int frames_actual_ani;
+        int frames_maxim_ani;
+        int frame_dt{0};
+        bool estaMuertoFSM{false};
 
         double timer{0};
         double past_time{0};

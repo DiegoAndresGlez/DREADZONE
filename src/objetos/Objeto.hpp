@@ -50,6 +50,7 @@ class Objeto
         SDL_Color get_color()const{return color;};
         void set_color(SDL_Color c){color=c;};
         bool get_tiene_fisica()const{return tiene_fisica;};
+        void set_tiene_fisica(bool b){tiene_fisica=b;};
         void set_eliminarme(bool b){eliminarme=b;};
         bool get_eliminarme()const{return eliminarme;};
 

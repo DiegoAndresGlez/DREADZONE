@@ -8,6 +8,7 @@ class HUD
     private:
         Jugador* player;
         SDL_Renderer *ren;
+        int contador_muertos;
     public:
         HUD(Jugador* player, SDL_Renderer* ren);
         ~HUD();

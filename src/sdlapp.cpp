@@ -96,26 +96,11 @@ bool SDLApp::on_init()
     
     nave = new Nave("assets/sprites/mundo/nave.png", 0, 400, 600, 128, 128, 256, 256, {255, 0, 255, 255});
 
-    // enemigo = new Enemigo("assets/sprites/enemigos/insecto.png",
-    //                     100,1500,1100,32,32,120,120,player,{255,0,0,255});
-    // enemigo->set_ref_player(player);
-    // enemigo2 = new Enemigo("assets/sprites/enemigos/insecto.png",
-    //                     100,2500,2400,32,32,120,120,player,{255,0,0,255});
-    // enemigo2->set_ref_player(player);
-
-    // enemigo3 = new Enemigo("assets/sprites/enemigos/insecto.png",
-    //                     100,1000,2400,32,32,120,120,player,{255,0,0,255});
-    // enemigo3->set_ref_player(player);
-
     hud = new HUD(player, get().render);
 
     //new Jugador(100,500,50,{255,0,255,255});
     get().ensamble->cargar_texturas(player->get_sprite());
     get().ensamble->cargar_texturas(nave->get_sprite());
-    // get().ensamble->cargar_texturas(enemigo->get_sprite());
-    // get().ensamble->cargar_texturas(enemigo2->get_sprite());
-    // get().ensamble->cargar_texturas(enemigo3->get_sprite());
-    //get().ensamble->cargar_texturas(new Sprite("assets/sprites/mundo/atlas/fondoprueba2.jpg",{0,0},get().WIDTH,get().HEIGHT,get().WIDTH,get().HEIGHT));
     printf("Se creo el player\n");
     
     
@@ -219,7 +204,7 @@ void SDLApp::on_fisicaupdate(double dt)
     
     player->input_handle(KeyOyente::get(),MouseOyente::get());
     player->update(dt);
-
+    /*
     if(player->get_hp() <= 0)
     {
         double tiempo = Tiempo::get_tiempo();
@@ -228,6 +213,7 @@ void SDLApp::on_fisicaupdate(double dt)
         
         get().esta_corriendo = false;
     }
+    */
 
     for(auto &sp:enemigos_spawner)
     {
@@ -249,13 +235,10 @@ void SDLApp::on_fisicaupdate(double dt)
     
     colision_plataformas_player(plataformas, player);
 
-    //IMPLEMENTAR: colision por segundo y lastimar player
     colision_enemigos_player(enemigos_ang, player); 
 
-    //ya hay colision de enemigo con enemigo
     colision_enemigos_a_enemigos(enemigos_ang);
 
-    //IMPLEMENTAR: lastimar enemigo
     colision_bala_a_enemigos(enemigos_ang, player);
 
     update_player_hp();
@@ -285,6 +268,7 @@ void SDLApp::on_frameupdate(double dt)
     //camara_principal->renderizar(objetos);
     
     //ManejadorCamaras::get().renderizar(lista_balas);
+
     for(auto &e : enemigos_ang){
         if(e->estaMuerto){
             enemigos_muertos.push_back(e);
@@ -303,6 +287,16 @@ void SDLApp::on_frameupdate(double dt)
     ManejadorCamaras::get().renderizar_ang(objetos_ang, {MouseOyente::get().getX(), MouseOyente::get().getY()});
     ManejadorCamaras::get().renderizar_ang(enemigos_ang, {player->get_posx(), player->get_posy()});
     camara_principal->render_cross();
+
+    hud->update_vida_jugador();
+    hud->update_tiempo();
+
+    contador_muertos = 0;
+    for(auto &e : enemigos_muertos){
+        contador_muertos++;
+    }
+
+    hud->update_enemigos_muertos(contador_muertos);
 
     //posicion del mouse
     int mx = MouseOyente::get().getX();
@@ -323,20 +317,6 @@ void SDLApp::on_frameupdate(double dt)
     
     RenderTexto::get().render_texto(get().render,50,630,player->get_strEstado(),120,30,SDL_Color{0,0,0,255});
 
-    hud->update_vida_jugador();
-    hud->update_tiempo();
-    hud->update_enemigos_muertos(contador_muertos);
-
-    //Eliminar objetos
-    /*
-    for(int i = 0; i < player->getListaBalas().size(); i++){
-        if(player->getListaBalas()[i]->get_eliminarme() == true){
-            delete player->getListaBalas()[i];
-            player->getListaBalas().erase(player->getListaBalas().begin()+i);
-            i--;
-        }
-    }
-    */
    
     //Elimina las balas tanto de la lista de objetos como de la lista de balas del player
     eliminarBalas();
@@ -444,12 +424,15 @@ void SDLApp::colision_enemigos_player(std::vector<Objeto*> enemigos_ang, Jugador
         if(e->get_colbox())
         {
             if(e->estaMuerto == false){
-                MotorFisico2D::get().diag_overlap(*player,*e);
                 bool colision = MotorFisico2D::get().aabb_colision(*e->get_colbox(),*player->get_colbox());
                 player->en_colision |= colision;
                 player->en_colision_enemigo_jugador |= colision;
             }
         }
+    }
+
+    if(player->get_hp() <= 0){
+        player->estaMuerto = true;
     }
 }
 

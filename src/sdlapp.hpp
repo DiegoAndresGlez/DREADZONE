@@ -23,7 +23,7 @@ class SDLApp
         bool esta_corriendo;
         int WIDTH;
         int HEIGHT;
-        int contador_muertos;
+        int contador_muertos{0};
         double timer{0};
         double past_time{0};
         int contador{0};
