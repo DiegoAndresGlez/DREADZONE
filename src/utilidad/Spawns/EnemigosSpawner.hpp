@@ -12,8 +12,6 @@ class EnemigosSpawner
         void despawn(std::vector<Objeto*>*lista);
         void update(std::vector<Objeto*>*lista);
         void set_velocidad(int v);
-        void set_contador_muertes(int c){contador_muertes = c;};
-        int get_contador_muertes()const{return contador_muertes;};
         std::vector<Objeto*> get_lista_enemigos()const{return objetos;};
     private:
         std::vector<Objeto*> objetos;

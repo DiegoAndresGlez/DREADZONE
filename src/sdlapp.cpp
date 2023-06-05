@@ -291,11 +291,6 @@ void SDLApp::on_frameupdate(double dt)
     hud->update_vida_jugador();
     hud->update_tiempo();
 
-    contador_muertos = 0;
-    for(auto &e : enemigos_muertos){
-        contador_muertos++;
-    }
-
     hud->update_enemigos_muertos(contador_muertos);
 
     //posicion del mouse
@@ -494,6 +489,7 @@ void SDLApp::eliminarEnemigos()
     for(int i = 0; i < enemigos_ang.size(); i++){
         if(enemigos_ang[i]->estaMuerto == true){
             //printf("enemigo eliminado\n");
+            contador_muertos++;
             delete enemigos_ang[i];
             enemigos_ang.erase(enemigos_ang.begin()+i);
             i--;
