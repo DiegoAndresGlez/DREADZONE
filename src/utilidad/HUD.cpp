@@ -31,5 +31,5 @@ void HUD::update_enemigos_muertos(int enemigos_muertos)
 
 void HUD::game_over()
 {
-    RenderTexto::get().render_texto(ren,330,330, "GAME OVER",390,90, SDL_Color{255, 255, 255});
+    RenderTexto::get().render_texto(ren,300,300, "GAME OVER",390,90, SDL_Color{255, 0, 0});
 }
