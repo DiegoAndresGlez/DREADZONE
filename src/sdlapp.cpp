@@ -204,16 +204,16 @@ void SDLApp::on_fisicaupdate(double dt)
     
     player->input_handle(KeyOyente::get(),MouseOyente::get());
     player->update(dt);
-    /*
-    if(player->get_hp() <= 0)
+    
+    if(player->estaMuerto())
     {
         double tiempo = Tiempo::get_tiempo();
         hud->game_over();
+        _sleep(2000);
         printf("GAME OVER\n");
-        
         get().esta_corriendo = false;
     }
-    */
+    
 
     for(auto &sp:enemigos_spawner)
     {
