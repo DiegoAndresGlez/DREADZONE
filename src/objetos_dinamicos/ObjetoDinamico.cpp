@@ -120,7 +120,7 @@ void Jugador::shoot()
         
         temp_bala = new Bala("assets/sprites/projectiles/ball.png",25,get_posicion_mundo().x+offset_x,get_posicion_mundo().y+offset_y,32,32,32,32,get_posicion_mundo(),{mouse_x, mouse_y},{255,0,0,255});
         lista_balas.push_back(temp_bala);
-        printf("shoot\n");
+        // printf("shoot\n");
     }
 }
 
@@ -154,7 +154,7 @@ Enemigo::Enemigo(float vida, int x, int y, SDL_Color c) : ObjetoDinamico{}{
     piso = {500,500}; // definir el piso en general
 }
 
-Enemigo::Enemigo(std::string path_sprite, float vida, int x, int y, int w, int h, int sw, int sh, Jugador* player, SDL_Color c) :ObjetoDinamico{}
+Enemigo::Enemigo(std::string path_sprite, float vida, int x, int y, int w, int h, int sw, int sh, Jugador* player, SDL_Color c, int& contador_muerte) :ObjetoDinamico{}
 {
     hp = vida;
     posicion_mundo.x=x;
@@ -175,7 +175,7 @@ Enemigo::Enemigo(std::string path_sprite, float vida, int x, int y, int w, int h
     en_colision_enemigo_jugador = false;
     estado_actual = new EstadoEnemigoMOVER({0,0});
     piso = {500,500}; // definir el piso en general
-
+    this->contador_muertes = &contador_muerte;
     sprite = new Sprite(path_sprite, posicion_mundo, w, h, sw, sh);
     tile = nullptr;
 }
@@ -275,7 +275,7 @@ Bala::Bala(std::string path_sprite, int dano, int x, int y, int w, int h, int sw
 
     sprite = new Sprite(path_sprite, posicion_mundo, w, h, sw, sh);
     tile = nullptr;
-    printf("nueva bala creada\n");
+    // printf("nueva bala creada\n");
 }
 
 void Bala::update(double dt){

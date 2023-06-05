@@ -25,6 +25,7 @@ SDLApp::SDLApp()
     bg_color.b = 255; //azul
     bg_color.a = 255; //alpha
 
+    contador_muertos = 0;
     esta_corriendo = true;
     WIDTH=1024;
     HEIGHT=720;
@@ -124,8 +125,16 @@ bool SDLApp::on_init()
     camara_principal->lock_objeto(*player);
 
     enespawner = new EnemigosSpawner("assets/sprites/enemigos/insecto.png",
-                        100,1500,1100,32,32,120,120,player,{255,0,0,255}, *get().ensamble);
+                        100,1500,1100,32,32,120,120,player,{255,0,0,255}, *get().ensamble, contador_muertos);
+    enespawner->set_velocidad(7);
+
+    enemigos_spawner.push_back(enespawner);
+
+    enespawner = new EnemigosSpawner("assets/sprites/enemigos/insecto.png",
+                        100,10,10,32,32,120,120,player,{255,0,0,255}, *get().ensamble, contador_muertos);
     enespawner->set_velocidad(5);
+
+    enemigos_spawner.push_back(enespawner);
 
  
     
@@ -207,7 +216,21 @@ void SDLApp::on_fisicaupdate(double dt)
     
     player->input_handle(KeyOyente::get(),MouseOyente::get());
     player->update(dt);
-    enespawner->update(&enemigos_ang);
+
+    if(player->get_hp() <= 0)
+    {
+        double tiempo = Tiempo::get_tiempo();
+        hud->game_over();
+        printf("GAME OVER\n");
+        
+        get().esta_corriendo = false;
+    }
+
+    for(auto &sp:enemigos_spawner)
+    {
+        sp->update(&enemigos_ang);
+    }
+    // enespawner->update(&enemigos_ang);
 
     update_enemigos(dt);
 
@@ -294,6 +317,8 @@ void SDLApp::on_frameupdate(double dt)
     RenderTexto::get().render_texto(get().render,50,630,player->get_strEstado(),120,30,SDL_Color{0,0,0,255});
 
     hud->update_vida_jugador();
+    hud->update_tiempo();
+    hud->update_enemigos_muertos(contador_muertos);
 
     //Eliminar objetos
     /*
@@ -335,7 +360,11 @@ void SDLApp::on_limpiar()
     plataformas.clear();
     delete ensamble;
     delete player;
-    delete enespawner;
+    for(auto &e:enemigos_spawner)
+    {
+        delete e;
+    }
+    // delete enespawner;
     SDL_Quit();
 };
 

@@ -23,7 +23,7 @@ class SDLApp
         bool esta_corriendo;
         int WIDTH;
         int HEIGHT;
-
+        int contador_muertos;
         double timer{0};
         double past_time{0};
         int contador{0};
@@ -51,6 +51,7 @@ class SDLApp
         Enemigo* enemigo3;
 
         ObjetoEstatico* nave;
+        std::vector<EnemigosSpawner*> enemigos_spawner;
         EnemigosSpawner* enespawner;
         std::vector<ObjetoEstatico*> plataformas;
 

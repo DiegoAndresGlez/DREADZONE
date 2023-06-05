@@ -6,7 +6,7 @@
 class EnemigosSpawner
 {
     public:
-        EnemigosSpawner(std::string path_sprite, float vida, int x, int y, int w, int h, int sw, int sh, Jugador* player, SDL_Color c, Pipeline &p);
+        EnemigosSpawner(std::string path_sprite, float vida, int x, int y, int w, int h, int sw, int sh, Jugador* player, SDL_Color c, Pipeline &p, int& contador_muerte);
 
         void spawn(std::vector<Objeto*>*lista);
         void despawn(std::vector<Objeto*>*lista);
@@ -25,11 +25,14 @@ class EnemigosSpawner
         int sh;// alto mostrar sprite
         int objetos_activos;
         int delay;
+        int *contador_muertes;
         Jugador* player;
         double init_tiempo;
         int past_tiempo;
         bool check;
         Pipeline *pipeline;
         int velocidad;
+        int spawnminimo;
+        int velocidad_decremento;
 
 };

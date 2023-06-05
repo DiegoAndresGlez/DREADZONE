@@ -158,6 +158,8 @@ FSMEnemigo* EstadoEnemigoMORIR::input_handle(KeyOyente& input, MouseOyente& mous
 
 void EstadoEnemigoMORIR::entrar(Enemigo& enemigo)
 {
+    *enemigo.contador_muertes = *enemigo.contador_muertes + 1;
+    printf("MUERTES: %d\n", *enemigo.contador_muertes);
     frames_actual_ani = 0;
     frames_maxim_ani = 5;
     timer = Tiempo::get_tiempo();
@@ -183,7 +185,7 @@ void EstadoEnemigoMORIR::update(Enemigo& enemigo, double dt)
 
     timer += Tiempo::get_tiempo() - timer;
     if((int)timer%delay ==0 && (int)timer!=0 && (int)timer > past_time){
-        printf("contador: %d\n", contador);
+        // printf("contador: %d\n", contador);
         contador++;
         past_time = timer;
     }
