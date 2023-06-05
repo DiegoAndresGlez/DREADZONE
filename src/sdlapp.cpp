@@ -92,6 +92,8 @@ bool SDLApp::on_init()
     player = new Jugador("assets/sprites/heroe/soldado.png",
                 //      hp , x , y, sW,sH , vW,vH ,color
                         100,1500,1500,32,32,86,86,{255,0,255,255});
+    
+    nave = new Nave("assets/sprites/mundo/nave.png", 0, 400, 600, 128, 128, 256, 256, {255, 0, 255, 255});
 
     // enemigo = new Enemigo("assets/sprites/enemigos/insecto.png",
     //                     100,1500,1100,32,32,120,120,player,{255,0,0,255});
@@ -108,10 +110,10 @@ bool SDLApp::on_init()
 
     //new Jugador(100,500,50,{255,0,255,255});
     get().ensamble->cargar_texturas(player->get_sprite());
+    get().ensamble->cargar_texturas(nave->get_sprite());
     // get().ensamble->cargar_texturas(enemigo->get_sprite());
     // get().ensamble->cargar_texturas(enemigo2->get_sprite());
     // get().ensamble->cargar_texturas(enemigo3->get_sprite());
-    // get().ensamble->cargar_texturas(nave->get_sprite());
     //get().ensamble->cargar_texturas(new Sprite("assets/sprites/mundo/atlas/fondoprueba2.jpg",{0,0},get().WIDTH,get().HEIGHT,get().WIDTH,get().HEIGHT));
     printf("Se creo el player\n");
     
@@ -135,6 +137,8 @@ bool SDLApp::on_init()
         objetos.push_back(plataformas[i]);
     }
     // plataformas.push_back(nave);
+
+    objetos.push_back(nave);
     objetos_ang.push_back(player);
     
     
@@ -175,6 +179,7 @@ void SDLApp::on_fisicaupdate(double dt)
     //camara_principal->lock_objeto(*player);
     
     //Camara Lock UnLock
+    printf("x: %d - y: %d\n", player->get_posicion_camara().x, player->get_posicion_camara().y);
     
     if(KeyOyente::get().estaPresionado(SDL_SCANCODE_L))
     {
@@ -195,7 +200,6 @@ void SDLApp::on_fisicaupdate(double dt)
     if(KeyOyente::get().estaPresionado(SDL_SCANCODE_C))
     {
         player->render_colbox = (player->render_colbox)?false:true;
-        enemigo->render_colbox = (enemigo->render_colbox)?false:true;
     }
     
 
@@ -208,6 +212,9 @@ void SDLApp::on_fisicaupdate(double dt)
     player->input_handle(KeyOyente::get(),MouseOyente::get());
     player->update(dt);
     enespawner->update(&enemigos_ang);
+
+    nave->input_handle(KeyOyente::get(),MouseOyente::get());
+    nave->update(dt);
 
     update_enemigos(dt);
 

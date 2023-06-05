@@ -340,3 +340,76 @@ void Bala::input_handle(KeyOyente& input,MouseOyente& mouse,Camara& cam)
         set_estado(estado);
     }
 };
+
+/*NAVE*/
+Nave::Nave(std::string path_sprite, float vida, int x, int y, int w, int h,int sw,int sh, SDL_Color c)
+{
+    hp = vida;
+    posicion_mundo.x=x;
+    posicion_mundo.y=y;
+    posicion_camara.x=x;
+    posicion_camara.y=y;
+    avatar = new Rectangulo(x,y,75,75,c);
+    c.a=150;
+    color = c;
+    avatar->set_rellenocolor(c);
+    avatar->set_serellena(true);
+    col_box = new Rectangulo(x,y,75+10,75+10,c);
+    col_box->set_serellena(false);
+    tiene_fisica = false;
+    en_colision_bala_enemigo = false;
+    en_colision = false;
+    en_colision_enemigo_jugador = false;
+    estado_actual = new EstadoNavePLAY();
+    piso = {500,500}; // definir el piso en general
+
+    sprite = new Sprite(path_sprite, posicion_mundo, w, h, sw, sh);
+    tile = nullptr;
+}
+
+void Nave::update(double dt)
+{
+    if(!estado_actual) //nulo
+        return;
+    //printf("pos: %d", get_avatar()->get_posicion().x);
+    
+    if(en_colision)
+        avatar->set_rellenocolor({255,0,0,255});
+    else
+        avatar->set_rellenocolor(color);
+    
+    
+
+
+    estado_actual->update(*this,dt);
+    
+    //reset
+    en_colision=false;
+}
+
+void* Nave::get_estado()
+{
+    return nullptr;
+};
+
+void Nave::set_estado(void* estado)
+{
+    estado_actual->salir(*this);
+    delete estado_actual;
+    estado_actual = (FSMNave*)estado;
+    estado_actual->entrar(*this);
+};
+
+void Nave::input_handle(KeyOyente& input,MouseOyente& mouse)
+{
+    if(!estado_actual){
+        return;
+    } //nulo
+        
+
+    FSMNave* estado = estado_actual->input_handle(input,mouse);
+    if(estado){
+        set_estado(estado);
+    }
+};
+
