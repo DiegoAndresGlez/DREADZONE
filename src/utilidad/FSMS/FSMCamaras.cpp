@@ -11,7 +11,6 @@ EstadoCamaraMover::EstadoCamaraMover(Coordenadas dir)
 
 FSMCamara* EstadoCamaraMover::input_handle(Camara &cam, KeyOyente &keys, MouseOyente& mouse)
 {
-    //return new EstadoCamaraLock(*cam.get_obj_lock());
 
     if(keys.estaPresionado(SDL_SCANCODE_RIGHT) && keys.estaPresionado(SDL_SCANCODE_UP))
     {
@@ -85,6 +84,8 @@ EstadoCamaraTransicion::EstadoCamaraTransicion()
 
 FSMCamara* EstadoCamaraTransicion::input_handle(Camara &cam, KeyOyente &keys, MouseOyente& mouse)
 {
+    return new EstadoCamaraLock(*cam.get_obj_lock());
+
     if(frames_actual>frames_maximo)
     {
         if(distancia<30)

@@ -35,7 +35,7 @@ Jugador::Jugador(std::string path_sprite,float vida, int x, int y, int w, int h,
     color = c;
     avatar->set_rellenocolor(c);
     avatar->set_serellena(true);
-    col_box = new Rectangulo(x,y,sw+10,sh+10,c);
+    col_box = new Rectangulo(x,y,sw,sh,c);
     col_box->set_serellena(false);
     tiene_fisica = true;
     en_colision = false;

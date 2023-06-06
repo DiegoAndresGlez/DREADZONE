@@ -170,29 +170,16 @@ void SDLApp::on_evento(SDL_Event* evento)
 void SDLApp::on_fisicaupdate(double dt)
 {
     
-    //camara_principal->lock_objeto(*player);
-    
-    //Camara Lock UnLock
-    
-    if(KeyOyente::get().estaPresionado(SDL_SCANCODE_L))
-    {
-        camara_principal->lock_objeto(*player);
-    }
-    else if(KeyOyente::get().estaPresionado(SDL_SCANCODE_U) && !camara_principal->en_transicion)
-    {
-        camara_principal->unluck_objeto();
-    }
-    
-
-    if (KeyOyente::get().estaPresionado(SDL_SCANCODE_SPACE))
-    {
-        std::cout << player->get_posicion_mundo().y << std::endl;
-    }
+    camara_principal->lock_objeto(*player);
 
     //render cuadro colisión player
     if(KeyOyente::get().estaPresionado(SDL_SCANCODE_C))
     {
         player->render_colbox = (player->render_colbox)?false:true;
+        for(auto &e:enemigos_ang)
+        {
+            e->render_colbox = (e->render_colbox)?false:true;
+        }
     }
     
 
@@ -204,8 +191,6 @@ void SDLApp::on_fisicaupdate(double dt)
     
     player->input_handle(KeyOyente::get(),MouseOyente::get());
     player->update(dt);
-    
-    
     
 
     for(auto &sp:enemigos_spawner)
@@ -279,7 +264,7 @@ void SDLApp::on_frameupdate(double dt)
     ManejadorCamaras::get().renderizar(enemigos_muertos);
     ManejadorCamaras::get().renderizar_ang(objetos_ang, {MouseOyente::get().getX(), MouseOyente::get().getY()});
     ManejadorCamaras::get().renderizar_ang(enemigos_ang, {player->get_posx(), player->get_posy()});
-    camara_principal->render_cross();
+    //camara_principal->render_cross();
 
     hud->update_vida_jugador();
     hud->update_tiempo();
@@ -305,6 +290,7 @@ void SDLApp::on_frameupdate(double dt)
     //posicion del mouse
     int mx = MouseOyente::get().getX();
     int my = MouseOyente::get().getY();
+    /*
     std::string pm = "mouse("+std::to_string(mx)+","+std::to_string(my)+")";
     Coordenadas cp = camara_principal->get_posicion_centro();
     Coordenadas mcp = camara_principal->get_posicion_mundo();
@@ -320,6 +306,7 @@ void SDLApp::on_frameupdate(double dt)
         64,30,SDL_Color{0,135,62});
     
     RenderTexto::get().render_texto(get().render,50,630,player->get_strEstado(),120,30,SDL_Color{0,0,0,255});
+    */
 
    
     //Elimina las balas tanto de la lista de objetos como de la lista de balas del player
@@ -422,9 +409,10 @@ void SDLApp::update_player_hp()
 void SDLApp::colision_enemigos_player(std::vector<Objeto*> enemigos_ang, Jugador* player)
 {
     for(auto &e:enemigos_ang){
+        /*
         if(!e->render_colbox && e->get_colbox())
             e->render_colbox=true;
-
+        */
         if(e->get_colbox())
         {
             if(e->estaMuerto == false){
@@ -458,9 +446,10 @@ void SDLApp::colision_enemigos_a_enemigos(std::vector<Objeto*> enemigos_ang)
 void SDLApp::colision_bala_a_enemigos(std::vector<Objeto*> enemigos, Jugador* player)
 {
     for(auto &b : player->getListaBalas()){
+        /*
         if(!b->render_colbox && b->get_colbox())
             b->render_colbox=true;
-
+        */
         if(b->get_colbox())
         {
             for(auto &e : enemigos_ang){
