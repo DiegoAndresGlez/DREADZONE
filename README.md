@@ -7,7 +7,7 @@ A top-down shooter pixel art game in C++ using the SDL2 library for Introduction
 
 You are a space marine who crashed on Mars that is fighting for survival, get points by defeating enemies with your plasma gun. There is no health pickups so move around the map strategically!
 
-![](https://imgur.com/yVxJDIy)
+![alt text](/assets/DREADZONE-gameplay.gif)
 
 Game is inspired by games such as Vampire Survivors and Hotline Miami.
 
@@ -22,4 +22,4 @@ Made by:
 * DiegoAndresGlez (https://github.com/DiegoAndresGlez)
 * egrojtorrez (https://github.com/egrojtorrez)
 
-* DREADZONE was only tested for Windows 10 and 11.
+DREADZONE was only tested for Windows 10 and 11.
